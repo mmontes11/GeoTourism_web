@@ -1,0 +1,18 @@
+{
+  "name": "GeoTourism",
+  "version": "1.0",
+  "dependencies": {
+    "angular": "latest",
+    "angular-route": "latest",
+    "angular-cookies": "latest",
+    "angular-resource": "latest",
+    "angular-bootstrap": "latest",
+    "jquery": "latest",
+    "bootstrap": "latest",
+    "underscore": "latest",
+    "requirejs": "latest",
+    "requirejs-domready": "latest",
+    "angular-base64": "latest",
+    "material-design-lite": "latest"
+  }
+}
