@@ -1,0 +1,13 @@
+{
+  "name": "MEAN",
+  "repository": "https://github.com/mmontes11/MEAN",
+  "version": "0.0.1",
+  "devDependencies": {
+    "http-server": "^0.6.1",
+    "bower": "^1.3.1"
+  },
+  "scripts": {
+    "install": "bower install",
+    "start": "http-server -a localhost -p 8000"
+  }
+}
