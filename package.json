@@ -1,6 +1,6 @@
 {
-  "name": "MEAN",
-  "repository": "https://github.com/mmontes11/MEAN",
+  "name": "GeoTourism",
+  "repository": "https://github.com/mmontes11/GeoTourism_Web",
   "version": "0.0.1",
   "devDependencies": {
     "http-server": "^0.6.1",
