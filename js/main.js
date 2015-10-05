@@ -4,11 +4,15 @@ require.config({
     paths: {
         jquery: '../bower_components/jquery/dist/jquery',
         underscore: '../bower_components/underscore/underscore-min',
-        material: '../bower_components/material-design-lite/material.min',
         angular: '../bower_components/angular/angular',
         angularRoute: '../bower_components/angular-route/angular-route.min',
         angularCookies: '../bower_components/angular-cookies/angular-cookies.min',
         angularResource: '../bower_components/angular-resource/angular-resource.min',
+        angularAria: '../bower_components/angular-aria/angular-aria.min',
+        angularAnimate: '../bower_components/angular-animate/angular-animate.min',
+        angularMaterial: '../bower_components/angular-material/angular-material.min',
+        angularUiRouter: '../bower_components/angular-ui-router/release/angular-ui-router.min',
+        material: '../bower_components/material-design-lite/material.min',
         require: '../bower_components/requirejs/require',
         domReady: '../bower_components/requirejs-domready/domReady',
         base64: '../bower_components/angular-base64/angular-base64'
@@ -19,9 +23,6 @@ require.config({
         },
         underscore: {
             exports: '_'
-        },
-        material: {
-            exports: 'material'
         },
         angular: {
             deps: ['jquery'],
@@ -34,6 +35,18 @@ require.config({
             deps: ['angular']
         },
         angularResource: {
+            deps: ['angular']
+        },
+        angularAria: {
+            deps: ['angular']
+        },
+        angularAnimate: {
+            deps: ['angular']
+        },
+        angularMaterial: {
+            deps: ['angular','angularAnimate','angularAria']
+        },
+        angularUiRouter: {
             deps: ['angular']
         }
     },

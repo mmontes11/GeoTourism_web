@@ -3,6 +3,6 @@
 define([
     'angular',
     'angularCookies'
-], function(){
+], function(angular){
     return angular.module('app.common',[]);
 });

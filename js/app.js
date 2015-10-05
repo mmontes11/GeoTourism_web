@@ -2,9 +2,10 @@
 
 define([
     'angular',
-    'angularRoute',
-    './modules/common/index'
+    'angularMaterial',
+    './modules/common/index',
+    './modules/admin/index'
 ], function(angular){
-    return  angular.module('app', ['ngRoute','app.common']);
+    return  angular.module('app', ['app.common','app.admin','ngMaterial','ui.router']);
 });
 
