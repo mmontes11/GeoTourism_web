@@ -4,13 +4,12 @@ define([
    '../module'
 ], function(module){
 
-    module.controller('LogInAdminCtrl',['$scope','$state','$mdToast','LogInAdminService','BrowserService','AuthAdminService','Config',
-        function($scope,$state,$mdToast,LogInAdminService,BrowserService,AuthAdminService,Config){
+    module.controller('LogInAdminCtrl',['$scope','$state','$mdToast','BrowserService','AuthAdminService','Config',
+        function($scope,$state,$mdToast,BrowserService,AuthAdminService,Config){
 
         $scope.logIn = function() {
-            LogInAdminService.login($scope.username,$scope.password)
+            AuthAdminService.login($scope.username,$scope.password)
                 .then(function(response){
-                    AuthAdminService.isAuthenticated = true;
                     BrowserService.setSession("token",response.data.token);
                     $state.go('adminPlaces');
                     $mdToast.show(
@@ -20,7 +19,6 @@ define([
                             .hideDelay(Config.TOAST_TIMEOUT)
                     );
                 }, function(response){
-                    AuthAdminService.isAuthenticated = true;
                     $mdToast.show(
                         $mdToast.simple()
                             .content('Invalid Credentials!')
