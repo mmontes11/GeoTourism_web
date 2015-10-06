@@ -3,5 +3,6 @@
 define([
    'angular'
 ], function(angular){
-    return angular.module('app.admin',[]);
+
+    return angular.module('app.admin',['app.common']);
 });

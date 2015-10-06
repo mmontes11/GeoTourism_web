@@ -2,7 +2,9 @@
 
 define([
     'angular',
-    'angularCookies'
+    'md5',
+    'base64'
 ], function(angular){
-    return angular.module('app.common',[]);
+
+    return angular.module('app.common',['angular-md5','base64']);
 });

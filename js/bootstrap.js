@@ -3,7 +3,6 @@
 define([
     'require',
     'angular',
-    'material',
     'app',
     './config/constants',
     './config/interceptors',

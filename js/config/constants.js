@@ -3,7 +3,9 @@
 define([
     '../app'
 ], function(app){
-    return app.constant('Config', {
-            'apiUrl': 'http://server:9090/GeoTourism'
-        });1
-});1
+
+    app.constant('Config', {
+        'API_ROOT_URL': 'http://server:9090/GeoTourism',
+        'TOAST_TIMEOUT': 2000
+    });
+});

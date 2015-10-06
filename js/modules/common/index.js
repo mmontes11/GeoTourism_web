@@ -1,5 +1,7 @@
 'use strict';
 
 define([
-    './services/BrowserService'
+    './services/BrowserService',
+    './services/PasswordEncrypter',
+    './controllers/MainLayoutCtrl'
 ], function(){});

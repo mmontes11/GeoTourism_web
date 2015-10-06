@@ -1,13 +1,13 @@
-<div layout layout-sm="column">
-    <md-input-container flex>
-        <label>First name</label>
-        <input ng-model="user.firstName">
-    </md-input-container>
-    <md-input-container flex>
-        <label>Last Name</label>
-        <input ng-model="theMax">
-    </md-input-container>
-</div>
-<md-button class="md-primary md-raised" ng-click="showAlert($event)" flex flex-md="100">
-    Alert Dialog
-</md-button>
+<form ng-submit="logIn()">
+    <div layout="column" layout-align="center center">
+        <md-input-container>
+            <label>Username</label>
+            <input ng-model="username">
+        </md-input-container>
+        <md-input-container>
+            <label>Password</label>
+            <input type="password" ng-model="password">
+        </md-input-container>
+        <md-button type="submit" class="md-raised md-primary">Log In</md-button>
+    </div>
+</form>

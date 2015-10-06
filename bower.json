@@ -13,6 +13,7 @@
     "angular-base64": "latest",
     "material-design-lite": "latest",
     "angular-ui-router": "~0.2.15",
-    "angular-material": "~0.11.2"
+    "angular-material": "~0.11.2",
+    "angular-md5": "~0.1.8"
   }
 }

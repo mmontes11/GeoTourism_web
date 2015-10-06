@@ -3,18 +3,17 @@
 define([
     '../module'
 ], function(module){
-    module
-        .factory('BrowserService', function ($window, $cookies) {
-            return {
-                getSession: function (key) {
-                    return $window.localStorage[key];
-                },
-                setSession: function (key, value) {
-                    $window.localStorage[key] = value;
-                },
-                deleteSession: function (key) {
-                    delete $window.localStorage[key];
-                }
-            }
-        });
+
+    module.service('BrowserService', function ($window) {
+
+        this.getSession =  function(key) {
+            return $window.localStorage[key];
+        };
+        this.setSession = function(key, value) {
+            $window.localStorage[key] = value;
+        };
+        this.deleteSession = function(key) {
+            delete $window.localStorage[key];
+        };
+    });
 });

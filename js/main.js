@@ -6,7 +6,6 @@ require.config({
         underscore: '../bower_components/underscore/underscore-min',
         angular: '../bower_components/angular/angular',
         angularRoute: '../bower_components/angular-route/angular-route.min',
-        angularCookies: '../bower_components/angular-cookies/angular-cookies.min',
         angularResource: '../bower_components/angular-resource/angular-resource.min',
         angularAria: '../bower_components/angular-aria/angular-aria.min',
         angularAnimate: '../bower_components/angular-animate/angular-animate.min',
@@ -15,6 +14,7 @@ require.config({
         material: '../bower_components/material-design-lite/material.min',
         require: '../bower_components/requirejs/require',
         domReady: '../bower_components/requirejs-domready/domReady',
+        md5: '../bower_components/angular-md5/angular-md5.min',
         base64: '../bower_components/angular-base64/angular-base64'
     },
     shim: {
@@ -31,9 +31,6 @@ require.config({
         angularRoute: {
             deps: ['angular']
         },
-        angularCookies: {
-            deps: ['angular']
-        },
         angularResource: {
             deps: ['angular']
         },
@@ -47,6 +44,12 @@ require.config({
             deps: ['angular','angularAnimate','angularAria']
         },
         angularUiRouter: {
+            deps: ['angular']
+        },
+        md5: {
+            deps: ['angular']
+        },
+        base64: {
             deps: ['angular']
         }
     },
