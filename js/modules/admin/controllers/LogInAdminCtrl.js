@@ -10,6 +10,7 @@ define([
         $scope.logIn = function() {
             AuthAdminService.login($scope.username,$scope.password)
                 .then(function(response){
+                    AuthAdminService.isAuthenticated = true;
                     BrowserService.setSession("token",response.data.token);
                     $state.go('adminPlaces');
                     $mdToast.show(

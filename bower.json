@@ -2,7 +2,7 @@
   "name": "GeoTourism",
   "version": "1.0",
   "dependencies": {
-    "angular": "1.4.6",
+    "angular": "1.4.7",
     "angular-cookies": "1.4.6",
     "angular-resource": "1.4.6",
     "jquery": "latest",
@@ -14,6 +14,8 @@
     "material-design-lite": "latest",
     "angular-ui-router": "~0.2.15",
     "angular-material": "~0.11.2",
-    "angular-md5": "~0.1.8"
+    "angular-md5": "~0.1.8",
+    "leaflet": "~0.7.5",
+    "angular-geolocation": "*"
   }
 }

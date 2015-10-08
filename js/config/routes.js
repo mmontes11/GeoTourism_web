@@ -17,6 +17,10 @@ define([
                 url: '/login',
                 templateUrl: 'partials/admin/logInAdmin.html',
                 controller: 'LogInAdminCtrl'
+            })
+            .state('about', {
+                url: '/about',
+                templateUrk: 'partials/about'
             });
             $urlRouterProvider.otherwise('/login');
     }]);
