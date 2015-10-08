@@ -18,13 +18,12 @@ define([
             };
 
             this.logout = function () {
+                console.log("logout");
+                this.isAuthenticated = false;
                 BrowserService.deleteSession("token");
                 $state.go('logInAdmin');
             };
 
-            this.isAuthenticated = function(){
-                return (!_.isUndefined(BrowserService.getSession("token")));
-            };
-
+            this.isAuthenticated = (!_.isUndefined(BrowserService.getSession("token")));
         }]);
 });

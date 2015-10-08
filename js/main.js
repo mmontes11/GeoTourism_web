@@ -5,17 +5,18 @@ require.config({
         jquery: '../bower_components/jquery/dist/jquery',
         underscore: '../bower_components/underscore/underscore-min',
         angular: '../bower_components/angular/angular',
-        angularRoute: '../bower_components/angular-route/angular-route.min',
         angularResource: '../bower_components/angular-resource/angular-resource.min',
         angularAria: '../bower_components/angular-aria/angular-aria.min',
         angularAnimate: '../bower_components/angular-animate/angular-animate.min',
         angularMaterial: '../bower_components/angular-material/angular-material.min',
         angularUiRouter: '../bower_components/angular-ui-router/release/angular-ui-router.min',
+        angularGeolocation: '../bower_components/angular-geolocation/geolocation',
         material: '../bower_components/material-design-lite/material.min',
         require: '../bower_components/requirejs/require',
         domReady: '../bower_components/requirejs-domready/domReady',
         md5: '../bower_components/angular-md5/angular-md5.min',
-        base64: '../bower_components/angular-base64/angular-base64'
+        base64: '../bower_components/angular-base64/angular-base64',
+        leaflet: '../bower_components/leaflet/dist/leaflet'
     },
     shim: {
         jquery: {
@@ -44,6 +45,9 @@ require.config({
             deps: ['angular','angularAnimate','angularAria']
         },
         angularUiRouter: {
+            deps: ['angular']
+        },
+        angularGeolocation: {
             deps: ['angular']
         },
         md5: {
