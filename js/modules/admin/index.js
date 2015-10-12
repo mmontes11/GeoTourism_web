@@ -2,6 +2,6 @@
 
 define([
     './controllers/LogInAdminCtrl',
-    './controllers/PlacesAdminCtrl',
-    './services/AuthAdminService'
+    './services/AuthAdminService',
+    './services/LogInAdminService'
 ], function(){});

@@ -8,28 +8,27 @@ define([
     app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlRouterProvider){
 
         $stateProvider
-            .state('adminPlaces', {
+            .state('places', {
                 url: '/places',
                 templateUrl: 'partials/places/places.html',
-                controller: 'PlacesAdminCtrl'
+                controller: 'PlacesCtrl'
             })
-            .state('logInAdmin',{
-                url: '/logIn',
+            .state('admin',{
+                url: '/admin',
                 templateUrl: 'partials/admin/logInAdmin.html',
                 controller: 'LogInAdminCtrl'
             })
             .state('about', {
                 url: '/about',
-                templateUrk: 'partials/about'
+                templateUrl: 'partials/about'
             });
-            $urlRouterProvider.otherwise('/logIn');
+            $urlRouterProvider.otherwise('/places');
     }]);
 
-    app.run(function($rootScope,$state){
+    app.run(['$rootScope','$state','AuthAdminService', function($rootScope,$state,AuthAdminService){
         $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
 
-
         });
-    });
+    }]);
 
 });
