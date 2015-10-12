@@ -22,7 +22,7 @@
                 <div class="mdl-layout__header-row">
                     <span class="mdl-layout-title">GeoTourism</span>
                     <div class="mdl-layout-spacer"></div>
-
+                    <md-button class="md-raised md-warn" ng-if="isAuthenticated()" ng-click="logOut()">Log Out</md-button>
                     <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
                         <i class="material-icons">more_vert</i>
                     </button>

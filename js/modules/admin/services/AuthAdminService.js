@@ -5,10 +5,10 @@ define([
     'underscore'
 ], function (module, _) {
 
-    module.service('AuthAdminService', ['$http', '$state', 'Config', 'PasswordEncrypter', 'BrowserService',
-        function ($http, $state, Config, PasswordEncrypter, BrowserService) {
+    module.service('AuthAdminService', ['$http', '$state', '$mdToast', 'Config', 'PasswordEncrypter', 'BrowserService',
+        function ($http, $state, $mdToast, Config, PasswordEncrypter, BrowserService) {
 
-            this.login = function (username, clearPassword) {
+            this.logIn = function (username, clearPassword) {
                 var url = Config.API_ROOT_URL + "/logIn";
                 var payload = {
                     username: username,
@@ -17,11 +17,16 @@ define([
                 return $http.post(url, payload);
             };
 
-            this.logout = function () {
-                console.log("logout");
+            this.logOut = function () {
                 this.isAuthenticated = false;
                 BrowserService.deleteSession("token");
                 $state.go('logInAdmin');
+                $mdToast.show(
+                    $mdToast.simple()
+                        .content('Logged Out!')
+                        .position('top right')
+                        .hideDelay(Config.TOAST_TIMEOUT)
+                );
             };
 
             this.isAuthenticated = (!_.isUndefined(BrowserService.getSession("token")));

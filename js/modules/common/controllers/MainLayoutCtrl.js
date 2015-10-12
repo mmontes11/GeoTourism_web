@@ -3,6 +3,13 @@ define([
 ], function(module){
 
     module.controller('MainLayoutCtrl', ['$scope','AuthAdminService', function($scope,AuthAdminService){
-        console.log(AuthAdminService.isAuthenticated);
+
+        $scope.isAuthenticated = function(){
+            return AuthAdminService.isAuthenticated;
+        };
+
+        $scope.logOut = function(){
+            AuthAdminService.logOut();
+        };
     }]);
 });

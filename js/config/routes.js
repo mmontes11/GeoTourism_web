@@ -14,7 +14,7 @@ define([
                 controller: 'PlacesAdminCtrl'
             })
             .state('logInAdmin',{
-                url: '/login',
+                url: '/logIn',
                 templateUrl: 'partials/admin/logInAdmin.html',
                 controller: 'LogInAdminCtrl'
             })
@@ -22,7 +22,7 @@ define([
                 url: '/about',
                 templateUrk: 'partials/about'
             });
-            $urlRouterProvider.otherwise('/login');
+            $urlRouterProvider.otherwise('/logIn');
     }]);
 
     app.run(function($rootScope,$state){
