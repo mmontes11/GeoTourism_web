@@ -1,9 +1,8 @@
 'use strict';
 
 define([
-    '../module',
-    'underscore'
-], function (module, _) {
+    '../module'
+], function (module) {
     module.service('LogInAdminService', ['$http', 'Config', 'AuthAdminService', 'PasswordEncrypter', 'BrowserService', 'NotificationService',
         function ($http, Config, AuthAdminService, PasswordEncrypter, BrowserService, NotificationService) {
 
@@ -17,8 +16,8 @@ define([
             };
 
             this.logOut = function () {
-                AuthAdminService.isAuthenticated = false;
                 BrowserService.deleteSession("token");
+                AuthAdminService.isAuthenticated = false;
                 NotificationService.displayMessage("Logged Out!");
             };
         }]);

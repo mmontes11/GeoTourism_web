@@ -2,5 +2,5 @@
 
 define([
     './controllers/PlacesCtrl',
-    './services/PlacesService'
+    './services/TIPsService'
 ], function(){});

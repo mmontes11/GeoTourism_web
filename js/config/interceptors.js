@@ -1,9 +1,8 @@
 'use strict';
 
 define([
-    '../app',
-    'underscore'
-], function(app,_){
+    '../app'
+], function(app){
     app.factory('TokenInterceptor', ['$q','BrowserService','AuthAdminService',
         function($q,BrowserService,AuthAdminService){
         return {
@@ -18,15 +17,13 @@ define([
                 return $q.reject(rejection);
             },
             response: function(response){
-                if (response != null && response.status == 200 &&
-                        _.isUndefined(BrowserService.getSession('token') && !AuthAdminService.isAuthenticated)){
+                if (response != null && response.status == 200 && BrowserService.getSession('token') && !AuthAdminService.isAuthenticated){
                     AuthAdminService.isAuthenticated = true;
                 }
                 return response || $q.when(response);
             },
             responseError: function(rejection){
-                if (rejection != null && rejection.status === 401 &&
-                        (_.isUndefined(BrowserService.getSession('token') || AuthenticationService.isAuthenticated))) {
+                if (rejection != null && rejection.status === 401 && (BrowserService.getSession('token') || AuthenticationService.isAuthenticated)) {
                     BrowserService.deleteSession('token');
                     AuthenticationService.isAuthenticated = false;
                 }

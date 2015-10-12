@@ -27,7 +27,13 @@ define([
 
     app.run(['$rootScope','$state','AuthAdminService', function($rootScope,$state,AuthAdminService){
         $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
-
+            if (AuthAdminService.isAuthenticated){
+                if (toState.url == '/admin'){
+                    event.preventDefault();
+                    $state.go(toState);
+                    return;
+                }
+            }
         });
     }]);
 

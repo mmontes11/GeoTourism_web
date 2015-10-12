@@ -10,8 +10,8 @@ define([
         $scope.logIn = function() {
             LogInAdminService.logIn($scope.username,$scope.password)
                 .then(function(response){
-                    AuthAdminService.isAuthenticated = true;
                     BrowserService.setSession("token",response.data.token);
+                    AuthAdminService.isAuthenticated = true;
                     $state.go('places');
                     NotificationService.displayMessage('Logged as Admin!');
                 }, function(response){

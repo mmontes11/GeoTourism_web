@@ -15,7 +15,8 @@ require.config({
         domReady: '../bower_components/requirejs-domready/domReady',
         md5: '../bower_components/angular-md5/angular-md5.min',
         base64: '../bower_components/angular-base64/angular-base64',
-        leaflet: '../bower_components/leaflet/dist/leaflet'
+        leaflet: '../bower_components/leaflet/dist/leaflet',
+        'leaflet-omnivore': '../bower_components/leaflet-omnivore/leaflet-omnivore.min'
     },
     shim: {
         jquery: {
@@ -51,6 +52,10 @@ require.config({
         },
         base64: {
             deps: ['angular']
+        },
+        'leaflet-omnivore': {
+            deps: ['leaflet'],
+            exports: 'omnivore'
         }
     },
     deps: ['bootstrap']

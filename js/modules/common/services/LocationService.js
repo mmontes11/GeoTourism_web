@@ -14,5 +14,9 @@ define([
             });
             return deferred.promise;
         };
+
+        this.getLocationString = function(longitude,latitude){
+            return longitude + "," + latitude;
+        };
     }]);
 });
