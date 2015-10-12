@@ -4,9 +4,9 @@ define([
     '../module',
     'leaflet'
 ], function (module, L) {
-    module.controller('PlacesAdminCtrl', ['$scope', '$mdDialog', 'geolocation', 'Config', function ($scope, $mdDialog, geolocation, Config) {
+    module.controller('PlacesAdminCtrl', ['$scope', '$mdDialog', 'LocationService', 'Config', function ($scope, $mdDialog, LocationService, Config) {
 
-        geolocation.position()
+        LocationService.getCurrentLocation()
             .then(function (location) {
 
                 var map = L.map('map').setView([location.coords.latitude, location.coords.longitude], 13);

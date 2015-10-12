@@ -10,7 +10,6 @@ require.config({
         angularAnimate: '../bower_components/angular-animate/angular-animate.min',
         angularMaterial: '../bower_components/angular-material/angular-material.min',
         angularUiRouter: '../bower_components/angular-ui-router/release/angular-ui-router.min',
-        angularGeolocation: '../bower_components/angular-geolocation/geolocation',
         material: '../bower_components/material-design-lite/material.min',
         require: '../bower_components/requirejs/require',
         domReady: '../bower_components/requirejs-domready/domReady',
@@ -45,9 +44,6 @@ require.config({
             deps: ['angular','angularAnimate','angularAria']
         },
         angularUiRouter: {
-            deps: ['angular']
-        },
-        angularGeolocation: {
             deps: ['angular']
         },
         md5: {
