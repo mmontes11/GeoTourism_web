@@ -20,7 +20,7 @@ define([
             })
             .state('about', {
                 url: '/about',
-                templateUrl: 'partials/about'
+                templateUrl: 'partials/common/about.html'
             });
             $urlRouterProvider.otherwise('/places');
     }]);

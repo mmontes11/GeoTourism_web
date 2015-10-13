@@ -27,7 +27,6 @@ define([
                     BrowserService.deleteSession('token');
                     AuthenticationService.isAuthenticated = false;
                 }
-                NotificationService.displayMessage("Your session as Admin has expired");
                 return $q.reject(rejection);
             }
         };
