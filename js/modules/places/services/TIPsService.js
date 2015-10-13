@@ -9,7 +9,7 @@ define([
             Config.API_ROOT_URL + '/tips',
             //Default Parameters
             {
-                radius: Config.SEARCH_RADIUS_IN_METRES
+                radius: Config.SEARCH_RADIUS_METRES
             },
             //Actions
             {}

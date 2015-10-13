@@ -6,40 +6,70 @@ define([
     'leaflet',
     'leaflet-omnivore'
 ], function(module,_,L,omnivore){
-    module.directive('map',['$timeout','Config', function($timeout,Config){
+    module.directive('map',['Config', function(Config){
         return {
             restrict: 'E',
             replace: true,
             templateUrl: 'partials/map/map.html',
             scope: {
-                location: "=",
-                data: "="
+                features: "=",
+                changed: "="
             },
             link: function(scope,element,attrs){
 
-                var map = L.map('map').setView([-8.5622792,42.8802351],18);
+                var map = L.map('map');
 
                 L.tileLayer(Config.BASE_LAYER_URL, {
+                    minZoom: 4,
                     maxZoom: 18,
                     id: Config.MAPBOX_PROJECT_ID,
                     accessToken: Config.MAPBOX_PROJECT_ID
                 }).addTo(map);
 
-                var processed = [];
-                scope.$watch('data', function(data,oldVal){
-                    if (angular.isDefined(data)){
-                        if (angular.isDefined(data.userLocation)){
-                            map.setView([data.userLocation.latitude,data.userLocation.longitude],13);
-                        }
+                map.locate({
+                    watch: true,
+                    locate: true,
+                    setView: true,
+                    enableHighAccuracy: true
+                });
 
-                        angular.forEach(data.features, function(feature, key){
-                            if (angular.isDefined(feature) && !_.contains(processed,feature)){
+                map.on('locationfound', function(location){
+                    scope.$apply(function(){
+                        scope.location = location.latlng;
+                        scope.changed = location.latlng;
+                    });
+                });
+
+                map.on('dragend',function(){
+                    var center = map.getCenter();
+                    scope.$apply(function(){
+                        scope.location = center;
+                    });
+                });
+
+                var acumulatedDistance = 0;
+                scope.$watch('location',function(newValue,oldValue){
+                    if (angular.isDefined(newValue) && angular.isDefined(oldValue)){
+                        acumulatedDistance += newValue.distanceTo(oldValue);
+                        if (acumulatedDistance > Config.SEARCH_THRESHOLD_METRES){
+                            scope.changed = newValue;
+                            acumulatedDistance = 0;
+                        }
+                    }
+                },true);
+
+                var processedFeatures = [];
+                scope.$watch('features', function(features,oldVal){
+                    if (angular.isDefined(features)){
+                        angular.forEach(features, function(feature, key){
+                            if (angular.isDefined(feature) && !_.contains(processedFeatures,feature)){
                                 omnivore.wkt.parse(feature.geom).addTo(map);
-                                processed.push(feature);
+                                processedFeatures.push(feature);
                             }
                         });
                     }
                 }, true);
+
             }
         };
     }]);

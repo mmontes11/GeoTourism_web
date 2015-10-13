@@ -1,5 +1,6 @@
 'use strict';
 
 define([
-    './directives/MapDirective'
+    './directives/MapDirective',
+    './services/LocationService'
 ], function(){});
