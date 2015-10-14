@@ -1,1 +1,34 @@
-<map features='features' changed='changed'></map>
+<div layout="column">
+    <div layout="row" layout-align="center center" ng-show="!allowAddTIPs">
+        <md-input-container>
+            <label>Type</label>
+            <md-select ng-model="type">
+                <md-option ng-repeat="type in types" value="{{type.id}}">
+                    {{type.name}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+        <md-input-container>
+            <label>City</label>
+            <md-select ng-model="city">
+                <md-option ng-repeat="city in cities" value="{{city.id}}">
+                    {{city.name}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+    </div>
+    <div layout="row" layout-align="center center" ng-show="allowAddTIPs">
+        <h3 class="md-headline">Click to add Places</h3>
+        <md-button class="md-raised md-warn" ng-click="finishAddTIPs()">
+            Cancel
+        </md-button>
+    </div>
+    <div>
+        <map features='features' changed='changed'>
+            <md-button class="md-fab md-primary" ng-if="isAuthenticated()" ng-click="addTIP()">
+                <i class="material-icons" role="presentation">room</i>
+            </md-button>
+        </map>
+    </div>
+</div>
+

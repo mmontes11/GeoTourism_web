@@ -10,6 +10,7 @@ define([
         return {
             restrict: 'E',
             replace: true,
+            transclude: true,
             templateUrl: 'partials/map/map.html',
             scope: {
                 features: "=",
@@ -45,6 +46,10 @@ define([
                     scope.$apply(function(){
                         scope.location = center;
                     });
+                });
+
+                map.on('click',function(location){
+                    console.log(location)
                 });
 
                 var acumulatedDistance = 0;
