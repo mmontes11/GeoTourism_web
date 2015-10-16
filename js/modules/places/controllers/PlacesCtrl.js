@@ -3,8 +3,8 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('PlacesCtrl', ['$scope', '$mdDialog', 'LocationService', 'TIPsService', 'AuthAdminService',
-        function ($scope, $mdDialog, LocationService, TIPsService, AuthAdminService) {
+    module.controller('PlacesCtrl', ['$scope', '$mdDialog', 'LocationService', 'TIPsService', 'AuthAdminService', 'NotificationService',
+        function ($scope, $mdDialog, LocationService, TIPsService, AuthAdminService, NotificationService) {
 
 
             $scope.types = [
@@ -18,6 +18,7 @@ define([
             $scope.allowAddTIPs = false;
 
             $scope.addTIP = function(){
+                NotificationService.displayMessage("Click to add Places");
                 $scope.allowAddTIPs = true;
             };
 
