@@ -5,6 +5,8 @@
 #map-fab {
     position:absolute;
     bottom:0;
+    margin-left: 82%;
+    margin-bottom: 1%;
 }
 
 .map-overlay {

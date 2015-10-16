@@ -20,6 +20,13 @@ define([
 
                 var map = L.map('map');
 
+                map.locate({
+                    watch: true,
+                    locate: true,
+                    setView: true,
+                    enableHighAccuracy: true
+                });
+
                 L.tileLayer(Config.BASE_LAYER_URL, {
                     minZoom: 4,
                     maxZoom: 18,
@@ -27,12 +34,6 @@ define([
                     accessToken: Config.MAPBOX_PROJECT_ID
                 }).addTo(map);
 
-                map.locate({
-                    watch: true,
-                    locate: true,
-                    setView: true,
-                    enableHighAccuracy: true
-                });
 
                 map.on('locationfound', function(location){
                     scope.$apply(function(){
