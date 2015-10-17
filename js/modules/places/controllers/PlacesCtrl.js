@@ -3,8 +3,12 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('PlacesCtrl', ['$scope', '$mdDialog', 'LocationService', 'TIPsService', 'AuthAdminService', 'NotificationService',
-        function ($scope, $mdDialog, LocationService, TIPsService, AuthAdminService, NotificationService) {
+    module.controller('PlacesCtrl', ['$scope', '$mdDialog', 'LocationService', 'CityService', 'TIPsService', 'AuthAdminService', 'NotificationService',
+        function ($scope, $mdDialog, LocationService, CityService, TIPsService, AuthAdminService, NotificationService) {
+
+            $scope.isAuthenticated = function(){
+                return AuthAdminService.isAuthenticated;
+            };
 
             $scope.types = [
                 {id:1,name:"Monument"}
@@ -25,14 +29,24 @@ define([
                 $scope.allowAddTIPs = false;
             };
 
-            $scope.isAuthenticated = function(){
-                return AuthAdminService.isAuthenticated;
-            };
-
             $scope.$watch('locationchanged',function(locationNew,locationOld){
                 if (angular.isDefined(locationNew)){
                     var locationStr = LocationService.getLocationString(locationNew.lng, locationNew.lat);
                     $scope.features = TIPsService.query({location: locationStr});
+                }
+            });
+
+            $scope.$watch('locationclicked',function(location){
+                if ($scope.isAuthenticated && $scope.allowAddTIPs && angular.isDefined(location)){
+                    console.log(location);
+                    var locationStr = LocationService.getLocationString(location.lng, location.lat);
+                    CityService.get({location: locationStr}).$promise
+                        .then(function(){
+
+                        }, function(){
+                            NotificationService.displayMessage("The place should be located in a existing city");
+                        });
+
                 }
             });
 

@@ -13,9 +13,9 @@ define([
                     BrowserService.setSession("token",response.data.token);
                     AuthAdminService.isAuthenticated = true;
                     $state.go('places');
-                    NotificationService.displayMessage('Logged as Admin!');
+                    NotificationService.displayMessage('You are now Admin!');
                 }, function(response){
-                    NotificationService.displayMessage('Invalid Credentials!');
+                    NotificationService.displayMessage('Invalid Credentials');
                 });
         };
     }]);

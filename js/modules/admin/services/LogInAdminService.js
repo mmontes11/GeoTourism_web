@@ -18,7 +18,7 @@ define([
             this.logOut = function () {
                 BrowserService.deleteSession("token");
                 AuthAdminService.isAuthenticated = false;
-                NotificationService.displayMessage("Logged Out!");
+                NotificationService.displayMessage("Logged Out from Admin");
             };
         }]);
 });

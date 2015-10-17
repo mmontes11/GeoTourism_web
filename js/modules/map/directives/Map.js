@@ -14,7 +14,8 @@ define([
             templateUrl: 'partials/map/map.html',
             scope: {
                 features: "=",
-                locationchanged: "="
+                locationchanged: "=",
+                locationclicked: "="
             },
             link: function(scope,element,attrs){
 
@@ -50,7 +51,9 @@ define([
                 });
 
                 map.on('click',function(location){
-
+                    scope.$apply(function(){
+                        scope.locationclicked = location.latlng;
+                    });
                 });
 
                 var acumulatedDistance = 0;
