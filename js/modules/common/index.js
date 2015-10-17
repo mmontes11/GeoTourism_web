@@ -4,5 +4,6 @@ define([
     './services/BrowserService',
     './services/PasswordEncrypter',
     './services/NotificationService',
-    './controllers/MainLayoutCtrl'
+    './controllers/MainLayoutCtrl',
+    './directives/FAB'
 ], function(){});

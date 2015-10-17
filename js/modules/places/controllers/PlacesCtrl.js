@@ -6,7 +6,6 @@ define([
     module.controller('PlacesCtrl', ['$scope', '$mdDialog', 'LocationService', 'TIPsService', 'AuthAdminService', 'NotificationService',
         function ($scope, $mdDialog, LocationService, TIPsService, AuthAdminService, NotificationService) {
 
-
             $scope.types = [
                 {id:1,name:"Monument"}
             ];
@@ -30,7 +29,7 @@ define([
                 return AuthAdminService.isAuthenticated;
             };
 
-            $scope.$watch('changed',function(locationNew,locationOld){
+            $scope.$watch('locationchanged',function(locationNew,locationOld){
                 if (angular.isDefined(locationNew)){
                     var locationStr = LocationService.getLocationString(locationNew.lng, locationNew.lat);
                     $scope.features = TIPsService.query({location: locationStr});

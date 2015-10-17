@@ -8,6 +8,7 @@
   },
   "scripts": {
     "install": "bower install",
-    "start": "http-server -a localhost -p 8000"
+    "start": "http-server -a localhost -p 8000",
+    "dev": "npm install && npm start"
   }
 }

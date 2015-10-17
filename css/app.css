@@ -1,12 +1,5 @@
 #map {
-    height: 93.2%;
-}
-
-#map-fab {
-    position:absolute;
-    bottom:0;
-    margin-left: 82%;
-    margin-bottom: 1%;
+    height: 95%;
 }
 
 .map-overlay {

@@ -14,14 +14,13 @@ define([
             templateUrl: 'partials/map/map.html',
             scope: {
                 features: "=",
-                changed: "="
+                locationchanged: "="
             },
             link: function(scope,element,attrs){
 
                 var map = L.map('map');
 
                 map.locate({
-                    watch: true,
                     locate: true,
                     setView: true,
                     enableHighAccuracy: true
@@ -38,9 +37,10 @@ define([
                 map.on('locationfound', function(location){
                     scope.$apply(function(){
                         scope.location = location.latlng;
-                        scope.changed = location.latlng;
+                        scope.locationchanged = location.latlng;
                     });
                 });
+
 
                 map.on('dragend',function(){
                     var center = map.getCenter();
@@ -50,7 +50,7 @@ define([
                 });
 
                 map.on('click',function(location){
-                    console.log(location)
+
                 });
 
                 var acumulatedDistance = 0;
@@ -58,7 +58,7 @@ define([
                     if (angular.isDefined(newValue) && angular.isDefined(oldValue)){
                         acumulatedDistance += newValue.distanceTo(oldValue);
                         if (acumulatedDistance > Config.SEARCH_THRESHOLD_METRES){
-                            scope.changed = newValue;
+                            scope.locationchanged = newValue;
                             acumulatedDistance = 0;
                         }
                     }
