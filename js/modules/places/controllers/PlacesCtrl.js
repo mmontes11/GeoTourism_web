@@ -3,9 +3,9 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('PlacesCtrl', ['$scope', 'LocationService', 'CityService', 'TIPs', 'TIP',
+    module.controller('PlacesCtrl', ['$scope', '$q', 'LocationService', 'CityService', 'TIPs', 'TIP',
         'AuthAdminService', 'NotificationService', 'DialogService',
-        function ($scope, LocationService, CityService, TIPs, TIP,
+        function ($scope, $q, LocationService, CityService, TIPs, TIP,
                   AuthAdminService, NotificationService, DialogService) {
 
             $scope.isAuthenticated = function () {
@@ -48,6 +48,7 @@ define([
                 if ($scope.isAuthenticated() && $scope.allowAddTIPs && angular.isDefined(location)) {
 
                     var locationStr = LocationService.getLocationString(location.lng, location.lat);
+
                     CityService.get({location: locationStr}).$promise
                         .then(function () {
 
