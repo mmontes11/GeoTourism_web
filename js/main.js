@@ -10,6 +10,7 @@ require.config({
         angularAnimate: '../bower_components/angular-animate/angular-animate.min',
         angularMaterial: '../bower_components/angular-material/angular-material.min',
         angularUiRouter: '../bower_components/angular-ui-router/release/angular-ui-router.min',
+        angularMessages: '../bower_components/angular-messages/angular-messages.min',
         material: '../bower_components/material-design-lite/material.min',
         require: '../bower_components/requirejs/require',
         domReady: '../bower_components/requirejs-domready/domReady',
@@ -45,6 +46,9 @@ require.config({
             deps: ['angular','angularAnimate','angularAria']
         },
         angularUiRouter: {
+            deps: ['angular']
+        },
+        angularMessages: {
             deps: ['angular']
         },
         md5: {

@@ -1,42 +1,85 @@
-<md-dialog aria-label="Mango (Fruit)"  ng-cloak>
-    <form>
-        <md-toolbar>
-            <div class="md-toolbar-tools">
-                <h2>Mango (Fruit)</h2>
-                <span flex></span>
-                <md-button class="md-icon-button" ng-click="cancel()">
-                    <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
-                </md-button>
-            </div>
-        </md-toolbar>
-        <md-dialog-content style="max-width:800px;max-height:810px; ">
-            <div class="md-dialog-content">
-                <h2>Using .md-dialog-content class that sets the padding as the spec</h2>
-                <p>
-                    The mango is a juicy stone fruit belonging to the genus Mangifera, consisting of numerous tropical fruiting trees, cultivated mostly for edible fruit. The majority of these species are found in nature as wild mangoes. They all belong to the flowering plant family Anacardiaceae. The mango is native to South and Southeast Asia, from where it has been distributed worldwide to become one of the most cultivated fruits in the tropics.
-                </p>
-
-                <img style="margin: auto; max-width: 100%;" alt="Lush mango tree" src="img/mangues.jpg">
-
-                <p>
-                    The highest concentration of Mangifera genus is in the western part of Malesia (Sumatra, Java and Borneo) and in Burma and India. While other Mangifera species (e.g. horse mango, M. foetida) are also grown on a more localized basis, Mangifera indica&mdash;the "common mango" or "Indian mango"&mdash;is the only mango tree commonly cultivated in many tropical and subtropical regions.
-                </p>
-                <p>
-                    It originated in Indian subcontinent (present day India and Pakistan) and Burma. It is the national fruit of India, Pakistan, and the Philippines, and the national tree of Bangladesh. In several cultures, its fruit and leaves are ritually used as floral decorations at weddings, public celebrations, and religious ceremonies.
-                </p>
+<md-dialog ng-cloak>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>New Place</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="close()">
+                <i class="material-icons">close</i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <form name="formDialog" novalidate>
+        <md-dialog-content>
+            <div class="md-dialog-content addPlacesContent">
+                <div layout="row">
+                    <md-input-container flex="50">
+                        <label>Type</label>
+                        <md-select name="type" ng-model="place.type" required>
+                            <md-option ng-repeat="type in types" value="{{type.id}}">
+                                {{type.name}}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="formDialog.type.$error" role="alert">
+                            <div ng-message="required" class="my-message">Mandatory field</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex="50">
+                        <label>Name</label>
+                        <input name="name" ng-model="place.name" required>
+                        <div ng-messages="formDialog.name.$error" role="alert">
+                            <div ng-message="required" class="my-message">Mandatory field</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex>
+                        <label>Description</label>
+                        <textarea ng-model="place.description" columns="1" md-maxlength="150"></textarea>
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex="50">
+                        <md-tooltip>
+                            Leave blank if you upload a photo
+                        </md-tooltip>
+                        <label>Photo URL</label>
+                        <input name="photoUrl" type="url" ng-model="place.photoUrl">
+                        <div ng-messages="formDialog.photoUrl.$error" role="alert">
+                            <div ng-message="url">
+                                Invalid URL
+                            </div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container flex="50">
+                        <label>Upload <i class="material-icons">file_upload</i></label>
+                        <input ng-model="place.photoContent">
+                    </md-input-container>
+                </div>
+                <div layout="row">
+                    <md-input-container flex="50">
+                        <md-tooltip>
+                            Leave blank if you want to obtain Wikipedia URL using name field
+                        </md-tooltip>
+                        <label>Information URL</label>
+                        <input name="infoUrl" type="url" ng-model="place.infoUrl"/>
+                        <div ng-messages="formDialog.infoUrl.$error" role="alert">
+                            <div ng-message="url">
+                                Invalid URL
+                            </div>
+                        </div>
+                    </md-input-container>
+                </div>
             </div>
         </md-dialog-content>
-
-        <div class="md-actions" layout="row">
-            <md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank" md-autofocus>
-                More on Wikipedia
-            </md-button>
+        <div class="md-actions" layout="row" layout-align="start center">
             <span flex></span>
-            <md-button ng-click="answer('not useful')" >
-                Not Useful
+            <md-button ng-click="close()">
+                Cancel
             </md-button>
-            <md-button ng-click="answer('useful')" style="margin-right:20px;" >
-                Useful
+            <md-button ng-disabled="formDialog.$invalid" ng-click="save()">
+                Save
             </md-button>
         </div>
     </form>

@@ -8,10 +8,10 @@ define([
         return {
             request: function(config){
                 config.headers = config.headers || {};
-                if (!_.isUndefined(BrowserService.getSession('token'))){
+                if (BrowserService.getSession('token')){
                     config.headers.Authorization = 'Bearer ' + BrowserService.getSession('token');
                 }
-                return config;
+                return config || $q.when(config);
             },
             requestError: function(rejection){
                 return $q.reject(rejection);

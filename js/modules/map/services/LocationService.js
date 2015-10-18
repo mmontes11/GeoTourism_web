@@ -18,5 +18,9 @@ define([
             });
             return deferred.promise;
         };
+
+        this.latLng2WKT = function(latLng){
+            return "POINT(" + latLng.lng + " " + latLng.lat + ")";
+        };
     }]);
 });

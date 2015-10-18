@@ -13,7 +13,7 @@ define([
                 element.css({
                     'position':'absolute',
                     'bottom':'0',
-                    'margin-left': '85%',
+                    'margin-left': '80%',
                     'margin-bottom': '2%'
                 });
             }

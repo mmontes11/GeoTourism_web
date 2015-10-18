@@ -3,6 +3,7 @@
 define([
     './controllers/PlacesCtrl',
     './services/CityService',
-    './services/TIPsService',
+    './services/TIP',
+    './services/TIPs',
     './controllers/DialogAddPlaceCtrl'
 ], function(){});

@@ -1,28 +1,26 @@
 <map features='features' locationchanged='locationchanged' locationclicked="locationclicked">
-    <div layout="column">
-        <div layout="row" layout-align="center center" ng-show="!allowAddTIPs">
-            <md-input-container class="map-overlay">
-                <label>Type</label>
-                <md-select ng-model="type">
-                    <md-option ng-repeat="type in types" value="{{type.id}}">
-                        {{type.name}}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-            <md-input-container class="map-overlay">
-                <label>City</label>
-                <md-select ng-model="city">
-                    <md-option ng-repeat="city in cities" value="{{city.id}}">
-                        {{city.name}}
-                    </md-option>
-                </md-select>
-            </md-input-container>
-        </div>
-        <div layout="row" layout-align="center center" ng-show="allowAddTIPs">
-            <md-button class="md-raised md-warn map-overlay" ng-click="finishAddTIPs()">
-                Done
-            </md-button>
-        </div>
+    <div layout="row" layout-align="center center" ng-if="!allowAddTIPs">
+        <md-input-container class="map-overlay">
+            <label>Type</label>
+            <md-select ng-model="type">
+                <md-option ng-repeat="type in types" value="{{type.id}}">
+                    {{type.name}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+        <md-input-container class="map-overlay">
+            <label>City</label>
+            <md-select ng-model="city">
+                <md-option ng-repeat="city in cities" value="{{city.id}}">
+                    {{city.name}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+    </div>
+    <div layout="row" layout-align="center center" ng-if="allowAddTIPs">
+        <md-button class="md-raised md-warn map-overlay" ng-click="finishAddTIPs()">
+            Done
+        </md-button>
     </div>
 </map>
 <fab>

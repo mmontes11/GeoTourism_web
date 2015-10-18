@@ -4,16 +4,17 @@ define([
     '../module'
 ], function(module){
    module.controller('DialogAddPlaceCtrl',['$scope','$mdDialog',function($scope,$mdDialog){
-       $scope.hide = function() {
-           $mdDialog.hide();
-       };
 
-       $scope.cancel = function() {
+       $scope.types = [
+           {id: "M", name: "Monument"}
+       ];
+
+       $scope.close = function() {
            $mdDialog.cancel();
        };
 
-       $scope.answer = function(answer) {
-           $mdDialog.hide(answer);
+       $scope.save = function() {
+           $mdDialog.hide($scope.place);
        };
    }]);
 });

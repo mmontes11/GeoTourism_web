@@ -3,19 +3,21 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('PlacesCtrl', ['$scope', '$mdDialog', 'LocationService', 'CityService', 'TIPsService', 'AuthAdminService', 'NotificationService',
-        function ($scope, $mdDialog, LocationService, CityService, TIPsService, AuthAdminService, NotificationService) {
+    module.controller('PlacesCtrl', ['$scope', 'LocationService', 'CityService', 'TIPs', 'TIP',
+        'AuthAdminService', 'NotificationService', 'DialogService',
+        function ($scope, LocationService, CityService, TIPs, TIP,
+                  AuthAdminService, NotificationService, DialogService) {
 
             $scope.isAuthenticated = function () {
                 return AuthAdminService.isAuthenticated;
             };
 
             $scope.types = [
-                {id: 1, name: "Monument"}
+                {id: "M", name: "Monument"}
             ];
 
             $scope.cities = [
-                {id: 1, name: "Santiago de Compostela"}
+                {id: 2, name: "Santiago de Compostela"}
             ];
 
             $scope.allowAddTIPs = false;
@@ -25,12 +27,12 @@ define([
                 $scope.allowAddTIPs = true;
             };
 
-            $scope.finishAddTIPs = function () {
+            $scope.finishAddTIPs= function () {
                 $scope.allowAddTIPs = false;
             };
 
-            $scope.$watch('isAuthenticated()',function(newVal,oldVal){
-                if (angular.isDefined(newVal) && !newVal){
+            $scope.$watch('isAuthenticated()', function (newVal, oldVal) {
+                if (angular.isDefined(newVal) && !newVal) {
                     $scope.allowAddTIPs = false;
                 }
             });
@@ -38,7 +40,7 @@ define([
             $scope.$watch('locationchanged', function (locationNew, locationOld) {
                 if (angular.isDefined(locationNew)) {
                     var locationStr = LocationService.getLocationString(locationNew.lng, locationNew.lat);
-                    $scope.features = TIPsService.query({location: locationStr});
+                    $scope.features = TIPs.query({location: locationStr});
                 }
             });
 
@@ -48,19 +50,21 @@ define([
                     var locationStr = LocationService.getLocationString(location.lng, location.lat);
                     CityService.get({location: locationStr}).$promise
                         .then(function () {
-                            $mdDialog.show({
-                                controller: 'DialogAddPlaceCtrl',
-                                templateUrl: 'partials/places/dialogAddPlace.html',
-                                parent: angular.element(document.body),
-                                clickOutsideToClose: true
-                            })
-                            .then(function (answer) {
-                                $scope.status = 'You said the information was "' + answer + '".';
-                            });
+
+                            DialogService.showAddPlaceDialog()
+                                .then(function (place) {
+
+                                    place["geometry"] = LocationService.latLng2WKT(location);
+                                    TIP.save(place).$promise
+                                        .then(function(createdTIP){
+                                            $scope.features = [createdTIP];
+                                        }, function(){
+                                            NotificationService.displayMessage("Error creating Place");
+                                        });
+                                });
                         }, function () {
                             NotificationService.displayMessage("The place should be located in a existing city");
                         });
-
                 }
             });
 
