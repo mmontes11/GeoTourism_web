@@ -1,4 +1,12 @@
 .addPlacesContent {
-    max-width:800px;
-    max-height:810px;
+    max-width:1024px;
+    max-height:800px;
+}
+
+.thumb {
+    width: 48px;
+    height: 48px;
+    float: none;
+    position: relative;
+    top: 7px;
 }

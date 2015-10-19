@@ -58,6 +58,7 @@ define([
                                     place["geometry"] = LocationService.latLng2WKT(location);
                                     TIP.save(place).$promise
                                         .then(function(createdTIP){
+                                            NotificationService.displayMessage("Place created!");
                                             $scope.features = [createdTIP];
                                         }, function(){
                                             NotificationService.displayMessage("Error creating Place");

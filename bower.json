@@ -17,7 +17,8 @@
     "angular-md5": "~0.1.8",
     "leaflet": "~0.7.5",
     "leaflet-omnivore": "~0.3.2",
-    "angular-messages": "~1.4.7"
+    "angular-messages": "~1.4.7",
+    "ng-file-upload": "~9.0.14"
   },
   "resolutions": {
     "angular": "1.4.7"

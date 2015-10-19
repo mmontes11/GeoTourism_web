@@ -53,8 +53,19 @@
                         </div>
                     </md-input-container>
                     <md-input-container flex="50">
-                        <label>Upload <i class="material-icons">file_upload</i></label>
-                        <input ng-model="place.photoContent">
+                        <br>Photo:
+                        <input type="file" name="photo" accept="image/*"
+                               ngf-select ng-model="photo" ngf-max-size="2MB">
+                        <i ng-show="formDialog.photo.$error.maxSize">
+                            Photo too large: max 2M
+                        </i>
+                        <div layout="row">
+                            <img ng-show="formDialog.photo.$valid" ngf-thumbnail="photo" class="thumb" flex="30">
+                            <md-button class="md-warn" ng-click="photo = null" ng-show="photo" flex="30">
+                                <i class="material-icons">close</i>
+                            </md-button>
+                        </div>
+                        <br/>
                     </md-input-container>
                 </div>
                 <div layout="row">

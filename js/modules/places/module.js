@@ -1,8 +1,9 @@
 'use strict';
 
 define([
-    'angular'
+    'angular',
+    'ngFileUpload'
 ], function(angular){
 
-    return angular.module('app.places',['app.map']);
+    return angular.module('app.places',['ngFileUpload','app.map']);
 });

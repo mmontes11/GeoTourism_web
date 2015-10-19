@@ -14,6 +14,10 @@ define([
        };
 
        $scope.save = function() {
+           if (angular.isDefined($scope.photo)){
+               $scope.place.photoContent = $scope.photo.$ngfDataUrl;
+               $scope.place.photoName = $scope.photo.name;
+           }
            $mdDialog.hide($scope.place);
        };
    }]);
