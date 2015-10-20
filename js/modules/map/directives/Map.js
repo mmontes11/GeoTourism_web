@@ -13,9 +13,10 @@ define([
             transclude: true,
             templateUrl: 'partials/map/map.html',
             scope: {
-                features: "=",
                 locationchanged: "=",
-                locationclicked: "="
+                locationclicked: "=",
+                features: "=",
+                featureclicked: "="
             },
             link: function(scope,element,attrs){
 
@@ -33,6 +34,8 @@ define([
                     id: Config.MAPBOX_PROJECT_ID,
                     accessToken: Config.MAPBOX_PROJECT_ID
                 }).addTo(map);
+
+                var markers = L.featureGroup([])
 
 
                 map.on('locationfound', function(location){
@@ -70,7 +73,16 @@ define([
                     if (angular.isDefined(features)){
                         angular.forEach(features, function(feature, key){
                             if (angular.isDefined(feature)){
-                                omnivore.wkt.parse(feature.geom).addTo(map);
+                                var layer = omnivore.wkt.parse(feature.geom).addTo(map);
+
+                                layer.customFeature = feature;
+
+                                layer.on('click',function(e){
+                                    var featureClicked = e.target.customFeature;
+                                    scope.$apply(function(){
+                                        scope.featureclicked = featureClicked;
+                                    });
+                                });
                             }
                         });
                     }

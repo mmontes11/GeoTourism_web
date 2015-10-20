@@ -79,5 +79,9 @@ define([
                 }
             });
 
+            $scope.$watch('featureclicked', function(feature){
+                console.log(feature);
+            });
+
         }]);
 });
