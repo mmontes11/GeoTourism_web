@@ -37,10 +37,19 @@ define([
                 }
             });
 
+            var processedFeatures = [];
             $scope.$watch('locationchanged', function (locationNew, locationOld) {
                 if (angular.isDefined(locationNew)) {
                     var locationStr = LocationService.getLocationString(locationNew.lng, locationNew.lat);
-                    $scope.features = TIPs.query({location: locationStr});
+
+                    TIPs.query({location: locationStr}).$promise
+                        .then(function(resultFeatures){
+                            var newFeatures = _.difference(resultFeatures,processedFeatures);
+                            $scope.features = newFeatures;
+                            processedFeatures = _.union(processedFeatures,newFeatures);
+                        }, function(){
+                            NotificationService.displayMessage("Error retrieving TIPS")
+                        });
                 }
             });
 
@@ -58,8 +67,8 @@ define([
                                     place["geometry"] = LocationService.latLng2WKT(location);
                                     TIP.save(place).$promise
                                         .then(function(createdTIP){
-                                            NotificationService.displayMessage("Place created!");
                                             $scope.features = [createdTIP];
+                                            NotificationService.displayMessage("Place created!");
                                         }, function(){
                                             NotificationService.displayMessage("Error creating Place");
                                         });

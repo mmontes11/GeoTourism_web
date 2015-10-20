@@ -9,6 +9,10 @@ define([
             return longitude + "," + latitude;
         };
 
+        this.latLng2WKT = function(latLng){
+            return "POINT(" + latLng.lng + " " + latLng.lat + ")";
+        };
+
         this.getCurrentLocation = function(){
             var deferred = $q.defer();
             navigator.geolocation.getCurrentPosition(function (pos) {
@@ -17,10 +21,6 @@ define([
                 deferred.reject(error)
             });
             return deferred.promise;
-        };
-
-        this.latLng2WKT = function(latLng){
-            return "POINT(" + latLng.lng + " " + latLng.lat + ")";
         };
     }]);
 });

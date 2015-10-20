@@ -42,7 +42,6 @@ define([
                     });
                 });
 
-
                 map.on('dragend',function(){
                     var center = map.getCenter();
                     scope.$apply(function(){
@@ -67,13 +66,11 @@ define([
                     }
                 },true);
 
-                var processedFeatures = [];
                 scope.$watch('features', function(features,oldVal){
                     if (angular.isDefined(features)){
                         angular.forEach(features, function(feature, key){
-                            if (angular.isDefined(feature) && !_.contains(processedFeatures,feature)){
+                            if (angular.isDefined(feature)){
                                 omnivore.wkt.parse(feature.geom).addTo(map);
-                                processedFeatures.push(feature);
                             }
                         });
                     }
