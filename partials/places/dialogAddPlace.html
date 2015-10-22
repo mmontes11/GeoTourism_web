@@ -10,7 +10,7 @@
     </md-toolbar>
     <form name="formDialog" novalidate>
         <md-dialog-content>
-            <div class="md-dialog-content addPlacesContent">
+            <div class="md-dialog-content dialogContent">
                 <div layout="row">
                     <md-input-container flex="50">
                         <label>Type</label>
@@ -41,7 +41,7 @@
                 </div>
                 <div layout="row">
                     <md-input-container flex="50">
-                        <md-tooltip>
+                        <md-tooltip md-direction="top">
                             Leave blank if you upload a photo
                         </md-tooltip>
                         <label>Photo URL</label>
@@ -53,7 +53,7 @@
                         </div>
                     </md-input-container>
                     <md-input-container flex="50">
-                        <br>Photo:
+                        Photo:
                         <input type="file" name="photo" accept="image/*"
                                ngf-select ng-model="photo" ngf-max-size="2MB">
                         <i ng-show="formDialog.photo.$error.maxSize">
@@ -65,12 +65,11 @@
                                 <i class="material-icons">close</i>
                             </md-button>
                         </div>
-                        <br/>
                     </md-input-container>
                 </div>
                 <div layout="row">
                     <md-input-container flex="50">
-                        <md-tooltip>
+                        <md-tooltip md-direction="top">
                             Leave blank if you want to obtain Wikipedia URL using name field
                         </md-tooltip>
                         <label>Information URL</label>

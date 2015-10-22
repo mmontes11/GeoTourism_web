@@ -13,5 +13,17 @@ define([
                clickOutsideToClose: false
            });
        };
+
+       this.showPlaceDetailsDialog = function(feature){
+           return $mdDialog.show({
+               controller: 'DialogPlaceDetailsCtrl',
+               templateUrl: 'partials/places/dialogPlaceDetails.html',
+               parent: angular.element(document.body),
+               clickOutsideToClose: false,
+               locals: {
+                   feature: feature
+               }
+           });
+       };
    }]);
 });

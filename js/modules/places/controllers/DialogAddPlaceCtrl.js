@@ -6,7 +6,10 @@ define([
    module.controller('DialogAddPlaceCtrl',['$scope','$mdDialog',function($scope,$mdDialog){
 
        $scope.types = [
-           {id: "M", name: "Monument"}
+           {id: "M", name: "Monument"},
+           {id: "NS", name: "Natural Space"},
+           {id: "H", name: "Hotel"},
+           {id: "R", name: "Restaurant"}
        ];
 
        $scope.close = function() {

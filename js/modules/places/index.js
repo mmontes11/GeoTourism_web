@@ -5,5 +5,7 @@ define([
     './services/CityService',
     './services/TIP',
     './services/TIPs',
-    './controllers/DialogAddPlaceCtrl'
+    './controllers/DialogAddPlaceCtrl',
+    './controllers/DialogPlaceDetailsCtrl',
+    './filters/PlaceTypeFilter'
 ], function(){});

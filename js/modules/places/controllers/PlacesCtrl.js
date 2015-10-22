@@ -13,7 +13,10 @@ define([
             };
 
             $scope.types = [
-                {id: "M", name: "Monument"}
+                {id: "M", name: "Monument"},
+                {id: "NS", name: "Natural Space"},
+                {id: "H", name: "Hotel"},
+                {id: "R", name: "Restaurant"}
             ];
 
             $scope.cities = [
@@ -80,7 +83,16 @@ define([
             });
 
             $scope.$watch('featureclicked', function(feature){
-                console.log(feature);
+
+                if (angular.isDefined(feature)){
+                    DialogService.showPlaceDetailsDialog(feature)
+                        .then(function(){
+
+                        }, function(){
+
+                        });
+                    $scope.featureclicked = undefined;
+                }
             });
 
         }]);
