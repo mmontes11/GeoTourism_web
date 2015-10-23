@@ -1,4 +1,6 @@
-<map locationchanged='locationchanged' locationclicked="locationclicked" features='features' featureclicked='featureclicked'>
+<map locationchanged='locationchanged' locationclicked="locationclicked"
+     features='features' layerclicked='layerclicked' layerdelete="layerdelete">
+
     <div layout="row" layout-align="center center" ng-if="!allowAddTIPs">
         <md-input-container class="map-overlay">
             <label>Type</label>
@@ -25,7 +27,7 @@
 </map>
 <fab>
     <md-fab-actions>
-        <md-button class="md-fab md-raised md-mini" ng-if="isAuthenticated()" ng-click="addTIP()">
+        <md-button class="md-fab md-raised md-mini" ng-click="addTIP()">
             <i class="material-icons">place</i>
         </md-button>
         <md-button class="md-fab md-raised md-mini">

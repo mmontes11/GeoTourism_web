@@ -25,5 +25,14 @@ define([
                }
            });
        };
+
+       this.showConfirmDialog = function(title,content,ok,cancel){
+           var confirm = $mdDialog.confirm()
+               .title(title)
+               .content(content)
+               .ok(ok)
+               .cancel(cancel);
+           return $mdDialog.show(confirm);
+       };
    }]);
 });

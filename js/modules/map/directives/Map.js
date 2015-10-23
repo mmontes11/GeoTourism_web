@@ -16,7 +16,8 @@ define([
                 locationchanged: "=",
                 locationclicked: "=",
                 features: "=",
-                featureclicked: "="
+                layerclicked: "=",
+                layerdelete: "="
             },
             link: function(scope,element,attrs){
 
@@ -34,9 +35,6 @@ define([
                     id: Config.MAPBOX_PROJECT_ID,
                     accessToken: Config.MAPBOX_PROJECT_ID
                 }).addTo(map);
-
-                var markers = L.featureGroup([])
-
 
                 map.on('locationfound', function(location){
                     scope.$apply(function(){
@@ -74,13 +72,10 @@ define([
                         angular.forEach(features, function(feature, key){
                             if (angular.isDefined(feature)){
                                 var layer = omnivore.wkt.parse(feature.geom).addTo(map);
-
                                 layer.customFeature = feature;
-
                                 layer.on('click',function(e){
-                                    var featureClicked = e.target.customFeature;
                                     scope.$apply(function(){
-                                        scope.featureclicked = featureClicked;
+                                        scope.layerclicked = e.target;
                                     });
                                 });
                             }
@@ -88,6 +83,11 @@ define([
                     }
                 }, true);
 
+                scope.$watch('layerdelete', function(layer){
+                    if (angular.isDefined(layer)){
+                        map.removeLayer(layer)
+                    }
+                });
             }
         };
     }]);

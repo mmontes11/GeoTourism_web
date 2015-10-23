@@ -41,15 +41,21 @@ define([
             });
 
             var processedFeatures = [];
+            var addNewFeatures = function(newFeatures){
+                var newDifferentFeatures = _.difference(newFeatures,processedFeatures);
+                if (_.size(newDifferentFeatures)>0){
+                    $scope.features = newDifferentFeatures;
+                    processedFeatures = _.union(processedFeatures,newDifferentFeatures);
+                }
+            };
+
             $scope.$watch('locationchanged', function (locationNew, locationOld) {
                 if (angular.isDefined(locationNew)) {
                     var locationStr = LocationService.getLocationString(locationNew.lng, locationNew.lat);
 
                     TIPs.query({location: locationStr}).$promise
                         .then(function(resultFeatures){
-                            var newFeatures = _.difference(resultFeatures,processedFeatures);
-                            $scope.features = newFeatures;
-                            processedFeatures = _.union(processedFeatures,newFeatures);
+                            addNewFeatures(resultFeatures);
                         }, function(){
                             NotificationService.displayMessage("Error retrieving TIPS")
                         });
@@ -63,14 +69,12 @@ define([
 
                     CityService.get({location: locationStr}).$promise
                         .then(function () {
-
                             DialogService.showAddPlaceDialog()
                                 .then(function (place) {
-
                                     place["geometry"] = LocationService.latLng2WKT(location);
                                     TIP.save(place).$promise
                                         .then(function(createdTIP){
-                                            $scope.features = [createdTIP];
+                                            addNewFeatures([createdTIP]);
                                             NotificationService.displayMessage("Place created!");
                                         }, function(){
                                             NotificationService.displayMessage("Error creating Place");
@@ -82,16 +86,33 @@ define([
                 }
             });
 
-            $scope.$watch('featureclicked', function(feature){
+            $scope.showPlaceDetailsDialog = function(layer){
+                var feature = layer.customFeature;
 
-                if (angular.isDefined(feature)){
-                    DialogService.showPlaceDetailsDialog(feature)
-                        .then(function(){
+                DialogService.showPlaceDetailsDialog(feature)
+                    .then(function(operation){
+                        if (operation === "Delete"){
+                            DialogService.showConfirmDialog("Delete Place","Are you sure?","Yes","Cancel")
+                                .then(function(){
+                                    TIP.delete({id:feature.id}).$promise
+                                        .then(function(){
+                                            $scope.layerdelete = layer;
+                                            NotificationService.displayMessage("Place deleted!")
+                                        }, function(){
+                                            NotificationService.displayMessage("Error deleting Place")
+                                        });
+                                }, function(){
+                                    $scope.showPlaceDetailsDialog(feature);
+                                });
+                        }
+                    });
+            };
 
-                        }, function(){
+            $scope.$watch('layerclicked', function(layer){
 
-                        });
-                    $scope.featureclicked = undefined;
+                if (angular.isDefined(layer)) {
+                    $scope.showPlaceDetailsDialog(layer);
+                    $scope.layerclicked = undefined;
                 }
             });
 

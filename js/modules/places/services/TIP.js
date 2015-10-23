@@ -6,7 +6,9 @@ define([
     module.service('TIP',['$resource','Config', function($resource,Config){
         return $resource(
             //Resource URL
-            Config.API_ROOT_URL + '/admin/tip'
+            Config.API_ROOT_URL + '/admin/tip/:id',
+            //Default params
+            {id:'@id'}
         );
     }]);
 });

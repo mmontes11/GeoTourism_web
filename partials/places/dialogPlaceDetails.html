@@ -43,13 +43,16 @@
                         </div>
                     </md-content>
                 </md-tab>
-                <md-tab label="Social">
+                <md-tab label="Social" ng-if="isAuthenticated()">
                     <md-content class="md-padding">
                     </md-content>
                 </md-tab>
             </md-tabs>
         </md-dialog-content>
         <div class="md-actions" layout="row" layout-align="start center">
+            <md-button class="md-raised md-warn" ng-if="isAuthenticated()" ng-click="delete()">
+                Delete
+            </md-button>
             <md-button ng-click="close()">
                 Close
             </md-button>

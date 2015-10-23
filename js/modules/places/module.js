@@ -5,5 +5,5 @@ define([
     'ngFileUpload'
 ], function(angular){
 
-    return angular.module('app.places',['ngFileUpload','app.map']);
+    return angular.module('app.places',['app.common','ngFileUpload','app.map']);
 });
