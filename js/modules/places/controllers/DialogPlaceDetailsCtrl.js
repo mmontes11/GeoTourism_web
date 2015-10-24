@@ -2,24 +2,39 @@
 
 define([
     '../module'
-], function(module){
-    module.controller('DialogPlaceDetailsCtrl',['$scope','$mdDialog','AuthAdminService','DialogService','feature',
-        function($scope,$mdDialog,AuthAdminService,DialogService,feature){
+], function (module) {
+    module.controller('DialogPlaceDetailsCtrl', ['$scope', '$mdDialog', 'AuthAdminService', 'DialogService', 'feature',
+        function ($scope, $mdDialog, AuthAdminService, DialogService, feature) {
 
-        $scope.isAuthenticated = function(){
-            return AuthAdminService.isAuthenticated;
-        };
+            $scope.isAuthenticated = function () {
+                return AuthAdminService.isAuthenticated;
+            };
 
-        $scope.feature = feature;
-            
+            $scope.types = [
+                {id: "M", name: "Monument"},
+                {id: "NS", name: "Natural Space"},
+                {id: "H", name: "Hotel"},
+                {id: "R", name: "Restaurant"}
+            ];
 
-        $scope.delete = function(){
-            $mdDialog.hide("Delete");
-        };
+            $scope.feature = feature;
 
-        $scope.close = function() {
-            $mdDialog.cancel();
-        };
+            $scope.edit = false;
+            $scope.enableEdit = function () {
+                $scope.edit = true;
+            };
 
-    }]);
+            $scope.disableEdit = function () {
+                $scope.edit = false;
+            };
+
+            $scope.delete = function () {
+                $mdDialog.hide("Delete");
+            };
+
+            $scope.close = function () {
+                $mdDialog.cancel();
+            };
+
+        }]);
 });

@@ -84,6 +84,7 @@ define([
                 }, true);
 
                 scope.$watch('layerdelete', function(layer){
+
                     if (angular.isDefined(layer)){
                         map.removeLayer(layer)
                     }

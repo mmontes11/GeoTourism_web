@@ -7,7 +7,7 @@ define([
     './config/constants',
     './config/interceptors',
     './config/routes',
-    './config/material'
+    './config/libraries'
 ], function(require,angular){
     require(['domReady!'], function(document) {
         angular.bootstrap(document, ['app']);

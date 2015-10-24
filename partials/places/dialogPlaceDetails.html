@@ -13,18 +13,18 @@
             <md-tabs md-dynamic-height md-border-bottom>
                 <md-tab label="Details">
                     <md-content class="md-padding" layout="row">
-                        <div layout="column" layout-align="center center" flex="50" layout-wrap>
-                            <h3 class="md-title">
+                        <div ng-if="!edit" layout="column" layout-align="center center" flex flex-order="1">
+                            <h3 class="md-title" ng-if="!allowEdit">
                                 {{feature.type | placetype}}
                             </h3>
-                            <md-content layout-padding>
+                            <md-content layout-padding ng-if="!allowEdit">
                                 <p>{{feature.description}}</p>
                             </md-content>
-                            <md-button class="md-primary" ng-href="{{feature.infoUrl}}" target="_blank">
+                            <md-button class="md-primary" ng-href="{{feature.infoUrl}}" target="_blank"
+                                       ng-if="!allowEdit">
                                 + info <i class="mdl-color-text--blue-grey-400 material-icons"
                                           role="presentation">info</i>
                             </md-button>
-                            <hr/>
                             <h3 class="md-title">
                                 Address
                             </h3>
@@ -32,11 +32,37 @@
                                 <p>{{feature.address}}</p>
                             </md-content>
                             <md-button class="md-primary" ng-href="{{feature.googleMapsUrl}}" target="_blank">
-                                Open in Google Maps <i class="mdl-color-text--blue-grey-400 material-icons"
-                                                       role="presentation">map</i>
+                                Google Maps <i class="mdl-color-text--blue-grey-400 material-icons"
+                                               role="presentation">map</i>
                             </md-button>
                         </div>
-                        <div flex="50">
+                        <div ng-if="edit" layout="column" layout-align="center center" flex flex-order="1">
+                            <md-input-container>
+                                <label>Type</label>
+                                <md-select name="type" ng-model="feature.type" required>
+                                    <md-option ng-repeat="type in types" value="{{type.id}}">
+                                        {{type.name}}
+                                    </md-option>
+                                </md-select>
+                                <div ng-messages="formDialog.type.$error" role="alert">
+                                    <div ng-message="required" class="my-message">Mandatory field</div>
+                                </div>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Description</label>
+                                <textarea ng-model="feature.description" columns="1" md-maxlength="150"></textarea>
+                            </md-input-container>
+                            <md-input-container>
+                                <label>Photo URL</label>
+                                <input name="infoUrl" type="url" ng-model="feature.infoUrl">
+                                <div ng-messages="formDialog.infoUrl.$error" role="alert">
+                                    <div ng-message="url">
+                                        Invalid URL
+                                    </div>
+                                </div>
+                            </md-input-container>
+                        </div>
+                        <div flex="50" flex-order="2">
                             <md-card>
                                 <img ng-src="{{feature.photoUrl}}" class="img-dialog">
                             </md-card>
@@ -50,6 +76,12 @@
             </md-tabs>
         </md-dialog-content>
         <div class="md-actions" layout="row" layout-align="start center">
+            <md-button class="md-raised md-primary" ng-if="isAuthenticated() && !edit" ng-click="enableEdit()">
+                Edit
+            </md-button>
+            <md-button class="md-raised md-primary" ng-if="isAuthenticated() && edit" ng-click="disableEdit()">
+                Save Changes
+            </md-button>
             <md-button class="md-raised md-warn" ng-if="isAuthenticated()" ng-click="delete()">
                 Delete
             </md-button>
