@@ -24,6 +24,10 @@ define([
                 $scope.edit = true;
             };
 
+            $scope.saveChanges = function(){
+                $scope.disableEdit();
+            };
+
             $scope.disableEdit = function () {
                 $scope.edit = false;
             };
@@ -33,6 +37,7 @@ define([
             };
 
             $scope.close = function () {
+                $scope.disableEdit();
                 $mdDialog.cancel();
             };
 

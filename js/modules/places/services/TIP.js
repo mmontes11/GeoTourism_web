@@ -8,7 +8,15 @@ define([
             //Resource URL
             Config.API_ROOT_URL + '/admin/tip/:id',
             //Default params
-            {id:'@id'}
+            {
+                id:'@id'
+            },
+            //Custom methods
+            {
+                'update': {
+                    method: 'PATCH'
+                }
+            }
         );
     }]);
 });

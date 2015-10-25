@@ -102,7 +102,7 @@ define([
                                             NotificationService.displayMessage("Error deleting Place")
                                         });
                                 }, function(){
-                                    $scope.showPlaceDetailsDialog(feature);
+                                    $scope.showPlaceDetailsDialog(layer);
                                 });
                         }
                     });

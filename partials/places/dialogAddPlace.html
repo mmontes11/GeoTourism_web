@@ -9,10 +9,10 @@
         </div>
     </md-toolbar>
     <form name="formDialog" novalidate>
-        <md-dialog-content>
-            <div class="md-dialog-content dialogContent">
+        <md-dialog-content class="md-dialog-content dialogContent">
+            <div layout="column">
                 <div layout="row">
-                    <md-input-container flex="50">
+                    <md-input-container flex="75">
                         <label>Type</label>
                         <md-select name="type" ng-model="place.type" required>
                             <md-option ng-repeat="type in types" value="{{type.id}}">
@@ -25,9 +25,10 @@
                     </md-input-container>
                 </div>
                 <div layout="row">
-                    <md-input-container flex="50">
+                    <md-input-container flex="75">
                         <label>Name</label>
                         <input name="name" ng-model="place.name" required>
+
                         <div ng-messages="formDialog.name.$error" role="alert">
                             <div ng-message="required" class="my-message">Mandatory field</div>
                         </div>
@@ -40,25 +41,29 @@
                     </md-input-container>
                 </div>
                 <div layout="row">
-                    <md-input-container flex="50">
+                    <md-input-container flex="75">
                         <md-tooltip md-direction="top">
                             Leave blank if you upload a photo
                         </md-tooltip>
                         <label>Photo URL</label>
                         <input name="photoUrl" type="url" ng-model="place.photoUrl">
+
                         <div ng-messages="formDialog.photoUrl.$error" role="alert">
                             <div ng-message="url">
                                 Invalid URL
                             </div>
                         </div>
                     </md-input-container>
-                    <md-input-container flex="50">
-                        Photo:
+                </div>
+                <div layout="row">
+                    <md-input-container flex>
+                        <label>Photo:</label>
                         <input type="file" name="photo" accept="image/*"
                                ngf-select ng-model="photo" ngf-max-size="2MB">
                         <i ng-show="formDialog.photo.$error.maxSize">
                             Photo too large: max 2M
                         </i>
+
                         <div layout="row">
                             <img ng-show="formDialog.photo.$valid" ngf-thumbnail="photo" class="thumb" flex="30">
                             <md-button class="md-warn" ng-click="photo = null" ng-show="photo" flex="30">
@@ -68,7 +73,7 @@
                     </md-input-container>
                 </div>
                 <div layout="row">
-                    <md-input-container flex="50">
+                    <md-input-container flex="75">
                         <md-tooltip md-direction="top">
                             Leave blank if you want to obtain Wikipedia URL using name field
                         </md-tooltip>
