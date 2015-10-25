@@ -5,3 +5,8 @@
 .map-overlay {
     z-index: 20;
 }
+
+.formLogLogIn {
+    height: 75%;
+    width: 100%;
+}
