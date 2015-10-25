@@ -28,7 +28,6 @@
                     <md-input-container flex="75">
                         <label>Name</label>
                         <input name="name" ng-model="place.name" required>
-
                         <div ng-messages="formDialog.name.$error" role="alert">
                             <div ng-message="required" class="my-message">Mandatory field</div>
                         </div>
@@ -63,10 +62,9 @@
                         <i ng-show="formDialog.photo.$error.maxSize">
                             Photo too large: max 2M
                         </i>
-
                         <div layout="row">
                             <img ng-show="formDialog.photo.$valid" ngf-thumbnail="photo" class="thumb" flex="30">
-                            <md-button class="md-warn" ng-click="photo = null" ng-show="photo" flex="30">
+                            <md-button class="md-warn" ng-click="photo = null" ng-show="photo" flex="10">
                                 <i class="material-icons">close</i>
                             </md-button>
                         </div>
@@ -90,11 +88,11 @@
         </md-dialog-content>
         <div class="md-actions" layout="row" layout-align="start center">
             <span flex></span>
-            <md-button ng-click="close()">
-                Cancel
+            <md-button class="md-warn" ng-click="close()">
+                <i class="material-icons">cancel</i>
             </md-button>
-            <md-button ng-disabled="formDialog.$invalid" ng-click="save()">
-                Save
+            <md-button class="md-primary" ng-disabled="formDialog.$invalid" ng-click="save()">
+                <i class="material-icons">save</i>
             </md-button>
         </div>
     </form>

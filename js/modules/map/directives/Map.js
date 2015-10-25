@@ -72,7 +72,7 @@ define([
                         angular.forEach(features, function(feature, key){
                             if (angular.isDefined(feature)){
                                 var layer = omnivore.wkt.parse(feature.geom).addTo(map);
-                                layer.customFeature = feature;
+                                layer.customFeature = feature.toJSON();
                                 layer.on('click',function(e){
                                     scope.$apply(function(){
                                         scope.layerclicked = e.target;

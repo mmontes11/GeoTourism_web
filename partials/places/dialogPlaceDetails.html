@@ -40,7 +40,7 @@
                             <div layout="row">
                                 <md-input-container flex="75">
                                     <label>Type</label>
-                                    <md-select name="type" ng-model="feature.type" required>
+                                    <md-select name="type" ng-model="updatedFeature.type" required>
                                         <md-option ng-repeat="type in types" value="{{type.id}}">
                                             {{type.name}}
                                         </md-option>
@@ -51,15 +51,24 @@
                                 </md-input-container>
                             </div>
                             <div layout="row">
+                                <md-input-container flex="75">
+                                    <label>Name</label>
+                                    <input name="name" ng-model="updatedFeature.name" required>
+                                    <div ng-messages="formDialog.name.$error" role="alert">
+                                        <div ng-message="required" class="my-message">Mandatory field</div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+                            <div layout="row">
                                 <md-input-container flex>
                                     <label>Description</label>
-                                    <textarea ng-model="feature.description" columns="1" md-maxlength="150"></textarea>
+                                    <textarea ng-model="updatedFeature.description" columns="1" md-maxlength="150"></textarea>
                                 </md-input-container>
                             </div>
                             <div layout="row">
                                 <md-input-container flex="75">
                                     <label>Info URL</label>
-                                    <input name="infoUrl" type="url" ng-model="feature.infoUrl">
+                                    <input name="infoUrl" type="url" ng-model="updatedFeature.infoUrl">
 
                                     <div ng-messages="formDialog.infoUrl.$error" role="alert">
                                         <div ng-message="url">
@@ -71,13 +80,13 @@
                             <div layout="row">
                                 <md-input-container flex="75">
                                     <label>Address</label>
-                                    <input name="address" type="url" ng-model="feature.address">
+                                    <input name="address" ng-model="updatedFeature.address">
                                 </md-input-container>
                             </div>
                             <div layout="row">
                                 <md-input-container flex="75">
                                     <label>Photo URL</label>
-                                    <input name="photoUrl" type="url" ng-model="feature.photoUrl">
+                                    <input name="photoUrl" type="url" ng-model="updatedFeature.photoUrl">
                                     <div ng-messages="formDialog.photoUrl.$error" role="alert">
                                         <div ng-message="url">
                                             Invalid URL
@@ -96,7 +105,7 @@
                                     <div layout="row">
                                         <img ng-show="formDialog.photo.$valid" ngf-thumbnail="photo" class="thumb"
                                              flex="30">
-                                        <md-button class="md-warn" ng-click="photo = null" ng-show="photo" flex="30">
+                                        <md-button class="md-warn" ng-click="photo = null" ng-show="photo" flex="10">
                                             <i class="material-icons">close</i>
                                         </md-button>
                                     </div>
@@ -116,22 +125,19 @@
                 </md-tab>
             </md-tabs>
         </md-dialog-content>
-        <div class="md-actions" layout="row" layout-align="start center">
-            <md-button class="md-raised md-primary" ng-if="isAuthenticated() && !edit" ng-click="enableEdit()">
-                Edit
+        <div class="md-actions" layout="row">
+            <md-button class="md-primary" ng-if="isAuthenticated() && !edit" ng-click="enableEdit()">
+                <i class="material-icons">edit</i>
             </md-button>
-            <md-button class="md-raised md-primary" ng-if="isAuthenticated() && edit && formDialog.$touched"
-                       ng-click="disableEdit()">
-                Save Changes
+            <md-button class="md-primary" ng-if="isAuthenticated() && edit && formValidAndDirty(formDialog)"
+                       ng-click="saveChanges()">
+                <i class="material-icons">save</i>
             </md-button>
-            <md-button class="md-raised md-primary" ng-if="isAuthenticated() && edit" ng-click="disableEdit()">
-                Cancel Edit
+            <md-button class="md-warn" ng-if="isAuthenticated() && edit" ng-click="disableEdit()">
+                <i class="material-icons">cancel</i>
             </md-button>
-            <md-button class="md-raised md-warn" ng-if="isAuthenticated()" ng-click="delete()">
-                Delete
-            </md-button>
-            <md-button ng-click="close()">
-                Close
+            <md-button class="md-warn" ng-if="isAuthenticated()" ng-click="delete()">
+                <i class="material-icons">delete</i>
             </md-button>
         </div>
     </form>

@@ -13,7 +13,7 @@ define([
             },
             //Custom methods
             {
-                'update': {
+                patch: {
                     method: 'PATCH'
                 }
             }
