@@ -6,7 +6,7 @@ define([
     module.controller('DialogPlaceDetailsCtrl',
         ['$scope', '$mdDialog', 'AuthAdminService', 'DialogService', 'NotificationService', 'feature', 'TIP',
         function ($scope, $mdDialog, AuthAdminService, DialogService, NotificationService, feature, TIP) {
-            console.log(feature);
+
             $scope.isAuthenticated = function () {
                 return AuthAdminService.isAuthenticated;
             };
@@ -18,16 +18,21 @@ define([
                 {id: "R", name: "Restaurant"}
             ];
 
-            $scope.feature = TIP.get({id:feature.id});
-            $scope.updatedFeature = angular.copy(feature);
+            TIP.get({id:feature.id}).$promise
+                .then(function(feature){
+                    $scope.feature = feature;
+                    $scope.copy = angular.copy(feature);
+                });
 
             $scope.edit = false;
             $scope.enableEdit = function () {
                 $scope.edit = true;
             };
 
-            $scope.disableEdit = function () {
-                $scope.updatedFeature = angular.copy($scope.feature);
+            $scope.disableEdit = function (reset) {
+                if (reset){
+                    $scope.feature = angular.copy($scope.copy);
+                }
                 $scope.edit = false;
             };
 
@@ -36,18 +41,20 @@ define([
             };
 
             $scope.saveChanges = function () {
-                console.log($scope);
-                //$scope.updatedFeature.photoContent = $scope.photo.$ngfDataUrl;
-                //$scope.updatedFeature.photoName = $scope.photo.name;
-                var parameters = {id:$scope.updatedFeature.id},
-                    patchPayload = _.pick($scope.updatedFeature,'type','name','description','infoUrl','address',
-                                                                'photoUrl','photoContent','photoName');
+
+                if (angular.isDefined($scope.feature.photo)){
+                    $scope.feature.photoContent = $scope.feature.photo.$ngfDataUrl;
+                    $scope.feature.photoName = $scope.feature.photo.name;
+                }
+
+                var parameters = {id:$scope.feature.id},
+                    patchPayload = _.pick($scope.feature,'type','name','description','infoUrl','address',
+                                                        'photoUrl','photoContent','photoName');
                 TIP.patch(parameters,patchPayload).$promise
-                    .then(function(){
-                        var updated = angular.copy($scope.updatedFeature);
-                        $scope.feature = updated;
-                        feature = updated;
-                        $scope.disableEdit();
+                    .then(function(feature){
+                        $scope.feature = feature;
+                        $scope.copy = angular.copy(feature);
+                        $scope.disableEdit(false);
                         NotificationService.displayMessage("Place updated!");
                     }, function(){
                         NotificationService.displayMessage("Error updating place");

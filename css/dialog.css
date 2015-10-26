@@ -10,8 +10,8 @@ md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused 
 }
 
 .thumb {
-    width: 3%
-    height: 3%;
+    width: 40px;
+    height: 40px;
     float: none;
     position: relative;
     top: 7px;

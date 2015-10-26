@@ -11,7 +11,7 @@ define([
             {
                 id:'@id'
             },
-            //Custom methods
+            //Actions
             {
                 patch: {
                     method: 'PATCH'

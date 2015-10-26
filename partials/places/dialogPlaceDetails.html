@@ -40,7 +40,7 @@
                             <div layout="row">
                                 <md-input-container flex="75">
                                     <label>Type</label>
-                                    <md-select name="type" ng-model="updatedFeature.type" required>
+                                    <md-select name="type" ng-model="feature.type" required>
                                         <md-option ng-repeat="type in types" value="{{type.id}}">
                                             {{type.name}}
                                         </md-option>
@@ -53,7 +53,7 @@
                             <div layout="row">
                                 <md-input-container flex="75">
                                     <label>Name</label>
-                                    <input name="name" ng-model="updatedFeature.name" required>
+                                    <input name="name" ng-model="feature.name" required>
                                     <div ng-messages="formDialog.name.$error" role="alert">
                                         <div ng-message="required" class="my-message">Mandatory field</div>
                                     </div>
@@ -62,13 +62,13 @@
                             <div layout="row">
                                 <md-input-container flex>
                                     <label>Description</label>
-                                    <textarea ng-model="updatedFeature.description" columns="1" md-maxlength="150"></textarea>
+                                    <textarea ng-model="feature.description" columns="1" md-maxlength="150"></textarea>
                                 </md-input-container>
                             </div>
                             <div layout="row">
                                 <md-input-container flex="75">
                                     <label>Info URL</label>
-                                    <input name="infoUrl" type="url" ng-model="updatedFeature.infoUrl">
+                                    <input name="infoUrl" type="url" ng-model="feature.infoUrl">
 
                                     <div ng-messages="formDialog.infoUrl.$error" role="alert">
                                         <div ng-message="url">
@@ -80,13 +80,13 @@
                             <div layout="row">
                                 <md-input-container flex="75">
                                     <label>Address</label>
-                                    <input name="address" ng-model="updatedFeature.address">
+                                    <input name="address" ng-model="feature.address">
                                 </md-input-container>
                             </div>
                             <div layout="row">
                                 <md-input-container flex="75">
                                     <label>Photo URL</label>
-                                    <input name="photoUrl" type="url" ng-model="updatedFeature.photoUrl">
+                                    <input name="photoUrl" type="url" ng-model="feature.photoUrl">
                                     <div ng-messages="formDialog.photoUrl.$error" role="alert">
                                         <div ng-message="url">
                                             Invalid URL
@@ -98,14 +98,13 @@
                                 <md-input-container flex>
                                     <label>Photo:</label>
                                     <input type="file" name="photo" accept="image/*"
-                                           ngf-select ng-model="photo" ngf-max-size="2MB">
+                                           ngf-select ng-model="feature.photo" ngf-max-size="2MB">
                                     <i ng-show="formDialog.photo.$error.maxSize">
                                         Photo too large: max 2M
                                     </i>
                                     <div layout="row">
-                                        <img ng-show="formDialog.photo.$valid" ngf-thumbnail="photo" class="thumb"
-                                             flex="30">
-                                        <md-button class="md-warn" ng-click="photo = null" ng-show="photo" flex="10">
+                                        <img ng-show="formDialog.photo.$valid" ngf-thumbnail="feature.photo" class="thumb" flex="30">
+                                        <md-button class="md-warn" ng-click="feature.photo = null" ng-show="feature.photo" flex="10">
                                             <i class="material-icons">close</i>
                                         </md-button>
                                     </div>
@@ -133,7 +132,7 @@
                        ng-click="saveChanges()">
                 <i class="material-icons">save</i>
             </md-button>
-            <md-button class="md-warn" ng-if="isAuthenticated() && edit" ng-click="disableEdit()">
+            <md-button class="md-warn" ng-if="isAuthenticated() && edit" ng-click="disableEdit(true)">
                 <i class="material-icons">cancel</i>
             </md-button>
             <md-button class="md-warn" ng-if="isAuthenticated()" ng-click="delete()">
