@@ -60,7 +60,7 @@ define([
 
                 map.on('click',function(location){
                     scope.$apply(function(){
-                        scope.locationclicked = location.latlng;
+                        scope.locationclicked = L.marker(location.latlng);
                     });
                 });
 

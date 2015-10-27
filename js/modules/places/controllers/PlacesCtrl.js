@@ -51,18 +51,16 @@ define([
 
             var processedBounds = [];
             $scope.$watch('boundschanged', function (bounds) {
-                if (angular.isDefined(bounds) && !_.contains(bounds)) {
-
+                if (angular.isDefined(bounds) && !_.contains(processedBounds,bounds)) {
                     var bounds = FeatureService.toWKT(bounds);
                     console.log(bounds);
-
+                    console.log(processedBounds);
                     TIPs.query({bounds: bounds}).$promise
                         .then(function(resultFeatures){
                             addNewFeatures(resultFeatures);
                         }, function(){
                             NotificationService.displayMessage("Error retrieving TIPS")
                         });
-
                     processedBounds.push(bounds);
                 }
             });
@@ -70,13 +68,13 @@ define([
             $scope.$watch('locationclicked', function (location) {
                 if ($scope.isAuthenticated() && $scope.allowAddTIPs && angular.isDefined(location)) {
 
-                    var locationStr = LocationService.getLocationString(location.lng, location.lat);
+                    var locationFeature = FeatureService.toWKT(location);
 
-                    CityService.get({location: locationStr}).$promise
+                    CityService.get({location: locationFeature}).$promise
                         .then(function () {
                             DialogService.showAddPlaceDialog()
                                 .then(function (place) {
-                                    place["geometry"] = LocationService.latLng2WKT(location);
+                                    place["geometry"] = locationFeature;
                                     TIP.save(place).$promise
                                         .then(function(createdTIP){
                                             addNewFeatures([createdTIP]);
@@ -114,7 +112,6 @@ define([
             };
 
             $scope.$watch('layerclicked', function(layer){
-
                 if (angular.isDefined(layer)) {
                     $scope.showPlaceDetailsDialog(layer);
                     $scope.layerclicked = undefined;
