@@ -3,9 +3,9 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('PlacesCtrl', ['$scope', '$q', 'LocationService', 'CityService', 'TIPs', 'TIP',
+    module.controller('PlacesCtrl', ['$scope', '$q', 'FeatureService', 'CityService', 'TIPs', 'TIP',
         'AuthAdminService', 'NotificationService', 'DialogService',
-        function ($scope, $q, LocationService, CityService, TIPs, TIP,
+        function ($scope, $q, FeatureService, CityService, TIPs, TIP,
                   AuthAdminService, NotificationService, DialogService) {
 
             $scope.isAuthenticated = function () {
@@ -49,16 +49,21 @@ define([
                 }
             };
 
-            $scope.$watch('locationchanged', function (locationNew, locationOld) {
-                if (angular.isDefined(locationNew)) {
-                    var locationStr = LocationService.getLocationString(locationNew.lng, locationNew.lat);
+            var processedBounds = [];
+            $scope.$watch('boundschanged', function (bounds) {
+                if (angular.isDefined(bounds) && !_.contains(bounds)) {
 
-                    TIPs.query({location: locationStr}).$promise
+                    var bounds = FeatureService.toWKT(bounds);
+                    console.log(bounds);
+
+                    TIPs.query({bounds: bounds}).$promise
                         .then(function(resultFeatures){
                             addNewFeatures(resultFeatures);
                         }, function(){
                             NotificationService.displayMessage("Error retrieving TIPS")
                         });
+
+                    processedBounds.push(bounds);
                 }
             });
 

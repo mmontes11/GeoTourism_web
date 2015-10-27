@@ -23,9 +23,9 @@ define([
                 return response || $q.when(response);
             },
             responseError: function(rejection){
-                if (rejection != null && rejection.status === 401 && (BrowserService.getSession('token') || AuthenticationService.isAuthenticated)) {
+                if (rejection != null && rejection.status === 401 && (BrowserService.getSession('token') || AuthAdminService.isAuthenticated)) {
                     BrowserService.deleteSession('token');
-                    AuthenticationService.isAuthenticated = false;
+                    AuthAdminService.isAuthenticated = false;
                 }
                 return $q.reject(rejection);
             }

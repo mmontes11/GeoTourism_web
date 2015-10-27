@@ -13,7 +13,7 @@ define([
             transclude: true,
             templateUrl: 'partials/map/map.html',
             scope: {
-                locationchanged: "=",
+                boundschanged: "=",
                 locationclicked: "=",
                 features: "=",
                 layerclicked: "=",
@@ -36,17 +36,25 @@ define([
                     accessToken: Config.MAPBOX_PROJECT_ID
                 }).addTo(map);
 
-                map.on('locationfound', function(location){
+                var fireBoundsChanged = function(){
+                    scope.boundschanged = L.rectangle(map.getBounds());
+                };
+
+                map.on('locationfound', function(){
                     scope.$apply(function(){
-                        scope.location = location.latlng;
-                        scope.locationchanged = location.latlng;
+                        fireBoundsChanged();
                     });
                 });
 
                 map.on('dragend',function(){
-                    var center = map.getCenter();
                     scope.$apply(function(){
-                        scope.location = center;
+                        fireBoundsChanged();
+                    });
+                });
+
+                map.on('zoomend',function(){
+                    scope.$apply(function(){
+                        fireBoundsChanged();
                     });
                 });
 
@@ -55,17 +63,6 @@ define([
                         scope.locationclicked = location.latlng;
                     });
                 });
-
-                var acumulatedDistance = 0;
-                scope.$watch('location',function(newValue,oldValue){
-                    if (angular.isDefined(newValue) && angular.isDefined(oldValue)){
-                        acumulatedDistance += newValue.distanceTo(oldValue);
-                        if (acumulatedDistance > Config.SEARCH_THRESHOLD_METRES){
-                            scope.locationchanged = newValue;
-                            acumulatedDistance = 0;
-                        }
-                    }
-                },true);
 
                 scope.$watch('features', function(features,oldVal){
                     if (angular.isDefined(features)){
@@ -84,7 +81,6 @@ define([
                 }, true);
 
                 scope.$watch('layerdelete', function(layer){
-
                     if (angular.isDefined(layer)){
                         map.removeLayer(layer)
                     }

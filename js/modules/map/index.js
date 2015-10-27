@@ -2,5 +2,5 @@
 
 define([
     './directives/Map',
-    './services/LocationService'
+    './services/FeatureService'
 ], function(){});
