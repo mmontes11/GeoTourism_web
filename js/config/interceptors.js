@@ -3,8 +3,8 @@
 define([
     '../app'
 ], function(app){
-    app.factory('TokenInterceptor', ['$q','BrowserService','AuthAdminService',
-        function($q,BrowserService,AuthAdminService){
+    app.factory('TokenInterceptor', ['$q', '$injector', 'BrowserService','AuthAdminService',
+        function($q,$injector,BrowserService,AuthAdminService){
         return {
             request: function(config){
                 config.headers = config.headers || {};
@@ -26,6 +26,8 @@ define([
                 if (rejection != null && rejection.status === 401 && (BrowserService.getSession('token') || AuthAdminService.isAuthenticated)) {
                     BrowserService.deleteSession('token');
                     AuthAdminService.isAuthenticated = false;
+                    $injector.get('$state').transitionTo('admin');
+                    $injector.get('NotificationService').displayMessage("Invalid or expired Admin token");
                 }
                 return $q.reject(rejection);
             }

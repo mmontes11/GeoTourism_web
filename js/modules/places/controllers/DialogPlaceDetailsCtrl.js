@@ -22,6 +22,15 @@ define([
                 .then(function(feature){
                     $scope.feature = feature;
                     $scope.copy = angular.copy(feature);
+                }, function(response){
+                    if (response.status != 401){
+                        if (response.status === 404){
+                            NotificationService.displayMessage("Place not found");
+                        }else{
+                            NotificationService.displayMessage("Error retrieving place");
+                        }
+                    }
+                    $scope.close();
                 });
 
             $scope.edit = false;
@@ -56,8 +65,11 @@ define([
                         $scope.copy = angular.copy(feature);
                         $scope.disableEdit(false);
                         NotificationService.displayMessage("Place updated!");
-                    }, function(){
-                        NotificationService.displayMessage("Error updating place");
+                    }, function(response){
+                        if (response.status != 401){
+                            NotificationService.displayMessage("Error updating place");
+                        }
+                        $scope.close();
                     });
             };
 
@@ -69,6 +81,5 @@ define([
                 $scope.disableEdit();
                 $mdDialog.cancel();
             };
-
         }]);
 });

@@ -68,8 +68,10 @@ define([
                                         .then(function(){
                                             requestFeatures();
                                             NotificationService.displayMessage("Place created!");
-                                        }, function(){
-                                            NotificationService.displayMessage("Error creating Place");
+                                        }, function(response){
+                                            if (response.status != 401){
+                                                NotificationService.displayMessage("Error creating Place");
+                                            }
                                         });
                                 });
                         }, function () {
@@ -90,8 +92,10 @@ define([
                                         .then(function(){
                                             $scope.layerdelete = layer;
                                             NotificationService.displayMessage("Place deleted!")
-                                        }, function(){
-                                            NotificationService.displayMessage("Error deleting Place")
+                                        }, function(response){
+                                            if (response.status != 401){
+                                                NotificationService.displayMessage("Error deleting Place");
+                                            }
                                         });
                                 }, function(){
                                     $scope.showPlaceDetailsDialog(layer);
