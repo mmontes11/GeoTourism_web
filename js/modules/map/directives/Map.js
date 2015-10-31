@@ -21,24 +21,28 @@ define([
             },
             link: function(scope,element,attrs){
 
-                var map = L.map('map');
+                var tileLayer = L.tileLayer(Config.BASE_LAYER_URL, {
+                    minZoom: 4,
+                    maxZoom: 18,
+                    id: Config.MAPBOX_PROJECT_ID,
+                    accessToken: Config.MAPBOX_PROJECT_ID
+                });
+
+                var markers = L.layerGroup([]);
+
+                var map = L.map('map', {
+                    layers: [tileLayer,markers]
+                });
+
+                var fireBoundsChanged = function(){
+                    scope.boundschanged = L.rectangle(map.getBounds());
+                };
 
                 map.locate({
                     locate: true,
                     setView: true,
                     enableHighAccuracy: true
                 });
-
-                L.tileLayer(Config.BASE_LAYER_URL, {
-                    minZoom: 4,
-                    maxZoom: 18,
-                    id: Config.MAPBOX_PROJECT_ID,
-                    accessToken: Config.MAPBOX_PROJECT_ID
-                }).addTo(map);
-
-                var fireBoundsChanged = function(){
-                    scope.boundschanged = L.rectangle(map.getBounds());
-                };
 
                 map.on('locationfound', function(){
                     scope.$apply(function(){
@@ -64,17 +68,19 @@ define([
                     });
                 });
 
-                scope.$watch('features', function(features,oldVal){
+                scope.$watch('features', function(features){
                     if (angular.isDefined(features)){
-                        angular.forEach(features, function(feature, key){
+                        markers.clearLayers();
+                        angular.forEach(features, function(feature){
                             if (angular.isDefined(feature)){
-                                var layer = omnivore.wkt.parse(feature.geom).addTo(map);
+                                var layer = omnivore.wkt.parse(feature.geom);
                                 layer.customFeature = feature.toJSON();
                                 layer.on('click',function(e){
                                     scope.$apply(function(){
                                         scope.layerclicked = e.target;
                                     });
                                 });
+                                markers.addLayer(layer);
                             }
                         });
                     }
@@ -82,7 +88,7 @@ define([
 
                 scope.$watch('layerdelete', function(layer){
                     if (angular.isDefined(layer)){
-                        map.removeLayer(layer)
+                        markers.removeLayer(layer);
                     }
                 });
             }

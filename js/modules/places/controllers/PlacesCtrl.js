@@ -34,50 +34,39 @@ define([
                 $scope.allowAddTIPs = false;
             };
 
-            $scope.$watch('isAuthenticated()', function (newVal, oldVal) {
+            $scope.$watch('isAuthenticated()', function (newVal) {
                 if (angular.isDefined(newVal) && !newVal) {
                     $scope.allowAddTIPs = false;
                 }
             });
 
-            var processedFeatures = [];
-            var addNewFeatures = function(newFeatures){
-                var newDifferentFeatures = _.difference(newFeatures,processedFeatures);
-                if (_.size(newDifferentFeatures)>0){
-                    $scope.features = newDifferentFeatures;
-                    processedFeatures = _.union(processedFeatures,newDifferentFeatures);
-                }
+            var requestFeatures = function(){
+                TIPs.query({bounds: $scope.bounds}).$promise
+                    .then(function(resultFeatures){
+                        $scope.features = resultFeatures;
+                    }, function(){
+                        NotificationService.displayMessage("Error retrieving TIPS")
+                    });
             };
 
-            var processedBounds = [];
             $scope.$watch('boundschanged', function (bounds) {
-                if (angular.isDefined(bounds) && !_.contains(processedBounds,bounds)) {
-                    var bounds = FeatureService.toWKT(bounds);
-                    console.log(bounds);
-                    console.log(processedBounds);
-                    TIPs.query({bounds: bounds}).$promise
-                        .then(function(resultFeatures){
-                            addNewFeatures(resultFeatures);
-                        }, function(){
-                            NotificationService.displayMessage("Error retrieving TIPS")
-                        });
-                    processedBounds.push(bounds);
+                if (angular.isDefined(bounds)) {
+                    $scope.bounds = FeatureService.toWKT(bounds);
+                    requestFeatures();
                 }
             });
 
             $scope.$watch('locationclicked', function (location) {
                 if ($scope.isAuthenticated() && $scope.allowAddTIPs && angular.isDefined(location)) {
-
                     var locationFeature = FeatureService.toWKT(location);
-
                     CityService.get({location: locationFeature}).$promise
                         .then(function () {
                             DialogService.showAddPlaceDialog()
                                 .then(function (place) {
                                     place["geometry"] = locationFeature;
                                     TIP.save(place).$promise
-                                        .then(function(createdTIP){
-                                            addNewFeatures([createdTIP]);
+                                        .then(function(){
+                                            requestFeatures();
                                             NotificationService.displayMessage("Place created!");
                                         }, function(){
                                             NotificationService.displayMessage("Error creating Place");
