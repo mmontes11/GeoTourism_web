@@ -81,5 +81,13 @@ define([
                 $scope.disableEdit();
                 $mdDialog.cancel();
             };
+
+            $scope.$watch('selectedsearchitem', function (item) {
+                if (angular.isDefined(item)){
+                    $scope.feature.infoUrl = item.url;
+                }else{
+                    $scope.feature.infoUrl = angular.copy($scope.copy.infoUrl);
+                }
+            });
         }]);
 });

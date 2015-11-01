@@ -3,7 +3,7 @@
 define([
     '../module'
 ], function(module){
-    module.controller('WikipediaSearchCtrl',['$scope','$q','WikipediaSearchService', function($scope,$q,WikipediaSearchService){
+    module.controller('WikipediaSearchCtrl',['$q','WikipediaSearchService', function($q,WikipediaSearchService){
         var self = this;
         self.noCache = false;
         self.querySearch   = querySearch;

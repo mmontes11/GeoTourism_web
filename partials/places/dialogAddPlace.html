@@ -28,6 +28,7 @@
                     <md-input-container flex="75">
                         <label>Name</label>
                         <input name="name" ng-model="place.name" required>
+
                         <div ng-messages="formDialog.name.$error" role="alert">
                             <div ng-message="required" class="my-message">Mandatory field</div>
                         </div>
@@ -40,13 +41,26 @@
                     </md-input-container>
                 </div>
                 <div layout="row">
-                    <md-input-container flex="75">
+                    <md-input-container flex>
+                        <label>Info URL</label>
+                        <input name="infoUrl" type="url" ng-model="infoUrl"/>
+
+                        <div ng-messages="formDialog.infoUrl.$error" role="alert">
+                            <div ng-message="url">
+                                Invalid URL
+                            </div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <wikipedia-search placeholder="Search Info in Wikipedia" selectedsearchitem="selectedsearchitem">
+                </wikipedia-search>
+                <div layout="row">
+                    <md-input-container flex>
                         <md-tooltip md-direction="top">
                             Leave blank if you upload a photo
                         </md-tooltip>
                         <label>Photo URL</label>
                         <input name="photoUrl" type="url" ng-model="place.photoUrl">
-
                         <div ng-messages="formDialog.photoUrl.$error" role="alert">
                             <div ng-message="url">
                                 Invalid URL
@@ -70,19 +84,6 @@
                         </div>
                     </md-input-container>
                 </div>
-                <div layout="row">
-                    <md-input-container flex="75">
-                        <label>Info URL</label>
-                        <input name="infoUrl" type="url" ng-model="infoUrl"/>
-                        <div ng-messages="formDialog.infoUrl.$error" role="alert">
-                            <div ng-message="url">
-                                Invalid URL
-                            </div>
-                        </div>
-                    </md-input-container>
-                </div>
-                <wikipedia-search placeholder="Search Info in Wikipedia" selectedsearchitem="selectedsearchitem">
-                </wikipedia-search>
             </div>
         </md-dialog-content>
         <div class="md-actions" layout="row" layout-align="start center">
