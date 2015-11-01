@@ -18,7 +18,8 @@
     "leaflet": "~0.7.5",
     "leaflet-omnivore": "~0.3.2",
     "angular-messages": "~1.4.7",
-    "ng-file-upload": "~9.0.14"
+    "ng-file-upload": "~9.0.14",
+    "font-awesome": "~4.4.0"
   },
   "resolutions": {
     "angular": "1.4.7"

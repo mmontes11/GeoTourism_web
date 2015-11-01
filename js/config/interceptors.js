@@ -27,6 +27,7 @@ define([
                     BrowserService.deleteSession('token');
                     AuthAdminService.isAuthenticated = false;
                     $injector.get('$state').transitionTo('admin');
+                    $injector.get('$mdDialog').cancel();
                     $injector.get('NotificationService').displayMessage("Invalid or expired Admin token");
                 }
                 return $q.reject(rejection);

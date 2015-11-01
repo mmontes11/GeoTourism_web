@@ -20,7 +20,7 @@
                             <md-content layout-padding ng-if="!allowEdit">
                                 <p>{{feature.description}}</p>
                             </md-content>
-                            <md-button class="md-primary" ng-href="{{feature.infoUrl}}" target="_blank"
+                            <md-button ng-if="feature.infoUrl" class="md-primary" ng-href="{{feature.infoUrl}}" target="_blank"
                                        ng-if="!allowEdit">
                                 + info <i class="mdl-color-text--blue-grey-400 material-icons"
                                           role="presentation">info</i>
@@ -66,6 +66,12 @@
                                 </md-input-container>
                             </div>
                             <div layout="row">
+                                <md-input-container flex>
+                                    <label>Address</label>
+                                    <input name="address" ng-model="feature.address">
+                                </md-input-container>
+                            </div>
+                            <div layout="row">
                                 <md-input-container flex="75">
                                     <label>Info URL</label>
                                     <input name="infoUrl" type="url" ng-model="feature.infoUrl">
@@ -75,12 +81,6 @@
                                             Invalid URL
                                         </div>
                                     </div>
-                                </md-input-container>
-                            </div>
-                            <div layout="row">
-                                <md-input-container flex="75">
-                                    <label>Address</label>
-                                    <input name="address" ng-model="feature.address">
                                 </md-input-container>
                             </div>
                             <div layout="row">

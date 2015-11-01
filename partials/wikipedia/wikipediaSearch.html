@@ -1,0 +1,20 @@
+<md-content layout="column">
+    <form ng-submit="$event.preventDefault()">
+        <md-autocomplete
+                md-no-cache="ctrl.noCache"
+                md-search-text="ctrl.searchText"
+                md-selected-item-change="ctrl.itemSelected(item)"
+                md-items="item in ctrl.querySearch(ctrl.searchText)"
+                md-item-text="item.title"
+                md-min-length="4"
+                md-menu-class="autocomplete-custom-template"
+                placeholder="{{placeholder}}">
+            <md-item-template>
+                <span class="item-title">
+                    <i class="fa fa-wikipedia-w"></i>
+                    <span> {{item.title}} </span>
+                </span>
+            </md-item-template>
+        </md-autocomplete>
+    </form>
+</md-content>

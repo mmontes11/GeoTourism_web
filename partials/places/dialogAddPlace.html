@@ -72,11 +72,8 @@
                 </div>
                 <div layout="row">
                     <md-input-container flex="75">
-                        <md-tooltip md-direction="top">
-                            Leave blank if you want to obtain Wikipedia URL using name field
-                        </md-tooltip>
-                        <label>Information URL</label>
-                        <input name="infoUrl" type="url" ng-model="place.infoUrl"/>
+                        <label>Info URL</label>
+                        <input name="infoUrl" type="url" ng-model="infoUrl"/>
                         <div ng-messages="formDialog.infoUrl.$error" role="alert">
                             <div ng-message="url">
                                 Invalid URL
@@ -84,6 +81,8 @@
                         </div>
                     </md-input-container>
                 </div>
+                <wikipedia-search placeholder="Search Info in Wikipedia" selectedsearchitem="selectedsearchitem">
+                </wikipedia-search>
             </div>
         </md-dialog-content>
         <div class="md-actions" layout="row" layout-align="start center">
