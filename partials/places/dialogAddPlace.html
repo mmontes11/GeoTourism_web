@@ -1,4 +1,4 @@
-<md-dialog ng-cloak>
+<md-dialog ng-cloak flex="40">
     <md-toolbar>
         <div class="md-toolbar-tools">
             <h2>New Place</h2>
@@ -8,11 +8,11 @@
             </md-button>
         </div>
     </md-toolbar>
-    <form name="formDialog" novalidate>
-        <md-dialog-content class="md-dialog-content dialogContent">
+    <md-dialog-content class="md-dialog-content">
+        <form name="formDialog" novalidate>
             <div layout="column">
                 <div layout="row">
-                    <md-input-container flex="75">
+                    <md-input-container flex="33">
                         <label>Type</label>
                         <md-select name="type" ng-model="place.type" required>
                             <md-option ng-repeat="type in types" value="{{type.id}}">
@@ -25,7 +25,7 @@
                     </md-input-container>
                 </div>
                 <div layout="row">
-                    <md-input-container flex="75">
+                    <md-input-container flex="33">
                         <label>Name</label>
                         <input name="name" ng-model="place.name" required>
 
@@ -41,10 +41,9 @@
                     </md-input-container>
                 </div>
                 <div layout="row">
-                    <md-input-container flex>
+                    <md-input-container flex="50">
                         <label>Info URL</label>
-                        <input name="infoUrl" type="url" ng-model="infoUrl"/>
-
+                        <input name="infoUrl" type="url" ng-model="place.infoUrl"/>
                         <div ng-messages="formDialog.infoUrl.$error" role="alert">
                             <div ng-message="url">
                                 Invalid URL
@@ -52,13 +51,13 @@
                         </div>
                     </md-input-container>
                 </div>
-                <wikipedia-search placeholder="Search Info in Wikipedia" selectedsearchitem="selectedsearchitem">
-                </wikipedia-search>
                 <div layout="row">
-                    <md-input-container flex>
-                        <md-tooltip md-direction="top">
-                            Leave blank if you upload a photo
-                        </md-tooltip>
+                    <wikipedia-search placeholder="Search Info in Wikipedia" selectedsearchitem="selectedsearchitem"
+                                      flex="50">
+                    </wikipedia-search>
+                </div>
+                <div layout="row">
+                    <md-input-container flex="50">
                         <label>Photo URL</label>
                         <input name="photoUrl" type="url" ng-model="place.photoUrl">
                         <div ng-messages="formDialog.photoUrl.$error" role="alert">
@@ -68,18 +67,20 @@
                         </div>
                     </md-input-container>
                 </div>
-                <input name="file" type="file" file />
-                <button ng-click="upload()">Upload</button>
+                <div layout="row">
+                    <upload-s3 uploadedurl="uploadedurl" flex="50">
+                    </upload-s3>
+                </div>
             </div>
-        </md-dialog-content>
-        <div class="md-actions" layout="row" layout-align="start center">
-            <span flex></span>
-            <md-button class="md-warn" ng-click="close()">
-                <i class="material-icons">cancel</i>
-            </md-button>
-            <md-button class="md-primary" ng-disabled="formDialog.$invalid" ng-click="save()">
-                <i class="material-icons">save</i>
-            </md-button>
-        </div>
-    </form>
+        </form>
+    </md-dialog-content>
+    <div class="md-actions" layout="row" layout-align="start center">
+        <span flex></span>
+        <md-button class="md-warn" ng-click="close()">
+            <i class="material-icons">cancel</i>
+        </md-button>
+        <md-button class="md-primary" ng-disabled="formDialog.$invalid" ng-click="save()">
+            <i class="material-icons">save</i>
+        </md-button>
+    </div>
 </md-dialog>

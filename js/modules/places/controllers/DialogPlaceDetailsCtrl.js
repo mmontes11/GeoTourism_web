@@ -91,5 +91,12 @@ define([
                         }
                     }
                 });
+
+                $scope.$watch('uploadedurl', function(uploadedUrl){
+                    if(angular.isDefined(uploadedUrl)){
+                        $scope.feature.photoUrl = uploadedUrl;
+                        $scope.formDialog.$dirty = true;
+                    }
+                });
             }]);
 });

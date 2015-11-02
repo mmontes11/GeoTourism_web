@@ -1,0 +1,11 @@
+<md-button class="md-primary">
+    <label for="file-input">
+        Upload Photo
+    </label>
+</md-button>
+<input id="file-input" type="file" accept="image/*" file-s3/>
+{{file.name}}
+<md-progress-linear md-mode="determinate" value="{{uploadProgress}}"></md-progress-linear>
+<md-button ng-if="file && uploadProgress==0" class="md-primary" ng-click="upload()">
+    <i class="material-icons"><i class="material-icons">cloud_upload</i></i>
+</md-button>

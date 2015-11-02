@@ -10,10 +10,9 @@ define([
     './modules/admin/index',
     './modules/places/index',
     './modules/map/index',
-    './modules/wikipedia/index',
-    './modules/aws/index'
+    './modules/wikipedia/index'
 ], function(angular){
-    return  angular.module('app', ['app.common','app.admin','app.places','app.map','app.wikipedia','app.aws',
+    return  angular.module('app', ['app.common','app.admin','app.places','app.map','app.wikipedia',
                                     'ngMaterial','ngResource','ui.router','ngFileUpload']);
 });
 

@@ -1,25 +1,18 @@
-.dialogContent {
-    max-width: 100%;
-    max-height: 100%;
-}
-
 .md-toolbar.md-warn > md-tabs.md-default-theme, md-tabs > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper >
 md-tab-item:not([disabled]).md-active, md-toolbar.md-warn > md-tabs.md-default-theme, md-tabs > md-tabs-wrapper >
 md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused {
     color: #000000;
 }
 
-.thumb {
-    width: 40px;
-    height: 40px;
-    float: none;
-    position: relative;
-    top: 7px;
-    margin-bottom: 1%;
-}
-
 .img-dialog {
     max-height: 70%;
+    height: auto;
+    display: block;
+    border-radius: 5%;
+}
+
+.img-dialog-small {
+    max-height: 30%;
     height: auto;
     display: block;
     border-radius: 5%;
@@ -45,4 +38,8 @@ md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused 
 .autocompletedemoCustomTemplate .autocomplete-custom-template .item-title md-icon {
     height: 18px;
     width: 18px;
+}
+
+#file-input {
+    display: none;
 }

@@ -6,5 +6,6 @@ define([
     './services/NotificationService',
     './services/DialogService',
     './controllers/MainLayoutCtrl',
-    './directives/FAB'
+    './directives/FAB',
+    './directives/UploadS3'
 ], function(){});

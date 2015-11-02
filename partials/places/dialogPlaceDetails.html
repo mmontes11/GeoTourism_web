@@ -1,4 +1,4 @@
-<md-dialog ng-cloak>
+<md-dialog ng-cloak flex="40">
     <md-toolbar>
         <div class="md-toolbar-tools">
             <h2>{{feature.name}}</h2>
@@ -8,7 +8,7 @@
             </md-button>
         </div>
     </md-toolbar>
-    <md-dialog-content class="md-dialog-content dialogContent">
+    <md-dialog-content class="md-dialog-content">
         <div ng-show="!edit">
             <md-tabs md-dynamic-height md-border-bottom>
                 <md-tab label="Details">
@@ -21,7 +21,7 @@
                                 <p>{{feature.description}}</p>
                             </md-content>
                             <md-button class="md-primary" ng-href="{{feature.infoUrl}}" target="_blank"
-                                       ng-if="!allowEdit">
+                                       ng-if="feature.infoUrl && !allowEdit">
                                 + info <i class="mdl-color-text--blue-grey-400 material-icons"
                                           role="presentation">info</i>
                             </md-button>
@@ -53,7 +53,7 @@
             <form name="formDialog" novalidate>
                 <div layout="column">
                     <div layout="row">
-                        <md-input-container flex="75">
+                        <md-input-container flex="33">
                             <label>Type</label>
                             <md-select name="type" ng-model="feature.type" required>
                                 <md-option ng-repeat="type in types" value="{{type.id}}">
@@ -66,10 +66,9 @@
                         </md-input-container>
                     </div>
                     <div layout="row">
-                        <md-input-container flex="75">
+                        <md-input-container flex="33">
                             <label>Name</label>
                             <input name="name" ng-model="feature.name" required>
-
                             <div ng-messages="formDialog.name.$error" role="alert">
                                 <div ng-message="required" class="my-message">Mandatory field</div>
                             </div>
@@ -82,15 +81,10 @@
                         </md-input-container>
                     </div>
                     <div layout="row">
-                        <md-input-container flex>
-                            <label>Address</label>
-                            <input name="address" ng-model="feature.address">
-                        </md-input-container>
-                    </div>
-                    <div layout="row">
-                        <md-input-container flex>
+                        <md-input-container flex="50">
                             <label>Info URL</label>
-                            <input name="infoUrl" type="url" ng-model="feature.infoUrl">
+                            <input name="infoUrl" type="url" ng-model="feature.infoUrl"/>
+
                             <div ng-messages="formDialog.infoUrl.$error" role="alert">
                                 <div ng-message="url">
                                     Invalid URL
@@ -98,13 +92,15 @@
                             </div>
                         </md-input-container>
                     </div>
-                    <wikipedia-search placeholder="Search Info in Wikipedia" selectedsearchitem="selectedsearchitem">
-                    </wikipedia-search>
                     <div layout="row">
-                        <md-input-container flex>
+                        <wikipedia-search placeholder="Search Info in Wikipedia" selectedsearchitem="selectedsearchitem"
+                                          flex="50">
+                        </wikipedia-search>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex="50">
                             <label>Photo URL</label>
                             <input name="photoUrl" type="url" ng-model="feature.photoUrl">
-
                             <div ng-messages="formDialog.photoUrl.$error" role="alert">
                                 <div ng-message="url">
                                     Invalid URL
@@ -113,23 +109,8 @@
                         </md-input-container>
                     </div>
                     <div layout="row">
-                        <md-input-container flex>
-                            <label>Photo:</label>
-                            <input type="file" name="photo" accept="image/*"
-                                   ngf-select ng-model="feature.photo" ngf-max-size="2MB">
-                            <i ng-show="formDialog.photo.$error.maxSize">
-                                Photo too large: max 2M
-                            </i>
-
-                            <div layout="row">
-                                <img ng-show="formDialog.photo.$valid" ngf-thumbnail="feature.photo" class="thumb"
-                                     flex="30">
-                                <md-button class="md-warn" ng-click="feature.photo = null" ng-show="feature.photo"
-                                           flex="10">
-                                    <i class="material-icons">close</i>
-                                </md-button>
-                            </div>
-                        </md-input-container>
+                        <upload-s3 uploadedurl="uploadedurl" flex="50">
+                        </upload-s3>
                     </div>
                 </div>
             </form>
