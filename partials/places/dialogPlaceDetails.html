@@ -83,6 +83,12 @@
                     </div>
                     <div layout="row">
                         <md-input-container flex>
+                            <label>Address</label>
+                            <input name="address" ng-model="feature.address">
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-input-container flex>
                             <label>Info URL</label>
                             <input name="infoUrl" type="url" ng-model="feature.infoUrl">
                             <div ng-messages="formDialog.infoUrl.$error" role="alert">
@@ -94,12 +100,6 @@
                     </div>
                     <wikipedia-search placeholder="Search Info in Wikipedia" selectedsearchitem="selectedsearchitem">
                     </wikipedia-search>
-                    <div layout="row">
-                        <md-input-container flex>
-                            <label>Address</label>
-                            <input name="address" ng-model="feature.address">
-                        </md-input-container>
-                    </div>
                     <div layout="row">
                         <md-input-container flex>
                             <label>Photo URL</label>
