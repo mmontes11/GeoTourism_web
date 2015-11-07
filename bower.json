@@ -2,7 +2,7 @@
   "name": "GeoTourism",
   "version": "1.0",
   "dependencies": {
-    "angular": "1.4.6",
+    "angular": "1.4.7",
     "angular-cookies": "1.4.6",
     "angular-resource": "1.4.6",
     "jquery": "latest",
@@ -13,7 +13,7 @@
     "angular-base64": "latest",
     "material-design-lite": "latest",
     "angular-ui-router": "~0.2.15",
-    "angular-material": "1.0.0-rc3",
+    "angular-material": "0.11.4",
     "angular-md5": "~0.1.8",
     "leaflet": "~0.7.5",
     "leaflet-omnivore": "~0.3.2",
@@ -23,6 +23,6 @@
     "aws-sdk": "aws-sdk-js#~2.2.13"
   },
   "resolutions": {
-    "angular": "1.4.6"
+    "angular": "1.4.7"
   }
 }

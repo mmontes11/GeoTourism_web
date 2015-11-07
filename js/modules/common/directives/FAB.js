@@ -16,7 +16,6 @@ define([
                     'margin-left': '80%',
                     'margin-bottom': '2%'
                 });
-
                 scope.isOpen = false;
             }
         };
