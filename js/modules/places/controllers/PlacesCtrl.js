@@ -55,7 +55,6 @@ define([
                     types: types,
                     cities: cities
                 };
-                console.log(payload);
                 TIPs.query(payload).$promise
                     .then(function (resultFeatures) {
                         $scope.features = resultFeatures;

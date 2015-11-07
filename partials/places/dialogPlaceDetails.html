@@ -50,70 +50,7 @@
             </md-tabs>
         </div>
         <div ng-show="edit">
-            <form name="formDialog" novalidate>
-                <div layout="column">
-                    <div layout="row">
-                        <md-input-container flex="33">
-                            <label>Type</label>
-                            <md-select name="type" ng-model="feature.type" required>
-                                <md-option ng-repeat="type in types" value="{{type.id}}">
-                                    {{type.name}}
-                                </md-option>
-                            </md-select>
-                            <div ng-messages="formDialog.type.$error" role="alert">
-                                <div ng-message="required" class="my-message">Mandatory field</div>
-                            </div>
-                        </md-input-container>
-                    </div>
-                    <div layout="row">
-                        <md-input-container flex="33">
-                            <label>Name</label>
-                            <input name="name" ng-model="feature.name" required>
-                            <div ng-messages="formDialog.name.$error" role="alert">
-                                <div ng-message="required" class="my-message">Mandatory field</div>
-                            </div>
-                        </md-input-container>
-                    </div>
-                    <div layout="row">
-                        <md-input-container flex>
-                            <label>Description</label>
-                            <textarea ng-model="feature.description" columns="1" md-maxlength="150"></textarea>
-                        </md-input-container>
-                    </div>
-                    <div layout="row">
-                        <md-input-container flex="50">
-                            <label>Info URL</label>
-                            <input name="infoUrl" type="url" ng-model="feature.infoUrl"/>
-
-                            <div ng-messages="formDialog.infoUrl.$error" role="alert">
-                                <div ng-message="url">
-                                    Invalid URL
-                                </div>
-                            </div>
-                        </md-input-container>
-                    </div>
-                    <div layout="row">
-                        <wikipedia-search placeholder="Search Info in Wikipedia" selectedsearchitem="selectedsearchitem"
-                                          flex="50">
-                        </wikipedia-search>
-                    </div>
-                    <div layout="row">
-                        <md-input-container flex="50">
-                            <label>Photo URL</label>
-                            <input name="photoUrl" type="url" ng-model="feature.photoUrl">
-                            <div ng-messages="formDialog.photoUrl.$error" role="alert">
-                                <div ng-message="url">
-                                    Invalid URL
-                                </div>
-                            </div>
-                        </md-input-container>
-                    </div>
-                    <div layout="row">
-                        <upload-s3 uploadedurl="uploadedurl" flex="50">
-                        </upload-s3>
-                    </div>
-                </div>
-            </form>
+            <form-place form="formDialog" place="feature" types="types"></form-place>
         </div>
     </md-dialog-content>
     <div class="md-actions" layout="row">
