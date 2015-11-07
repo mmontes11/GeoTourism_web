@@ -77,6 +77,12 @@ define([
                     $mdDialog.cancel();
                 };
 
+                $scope.$watch('feature.type',function(typeID){
+                    if (angular.isDefined(typeID)){
+                        $scope.type = TIP.getTypeName({type:typeID});
+                    }
+                });
+
                 $scope.$watch('selectedsearchitem', function (item) {
                     if ($scope.feature) {
                         if (angular.isDefined(item)) {

@@ -9,7 +9,8 @@ define([
             Config.API_ROOT_URL + '/admin/tip/:id',
             //Default Parameters
             {
-                id: '@id'
+                id: '@id',
+                type: '@type'
             },
             //Actions
             {
@@ -24,6 +25,10 @@ define([
                     method: 'GET',
                     url: Config.API_ROOT_URL + '/tip/types',
                     isArray: true
+                },
+                getTypeName: {
+                    method: 'GET',
+                    url: Config.API_ROOT_URL + '/tip/type/:type'
                 }
             }
         );
