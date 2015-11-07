@@ -27,10 +27,6 @@ define([
             }
 
             function querySearch(query) {
-                console.log("Query");
-                console.log(query);
-                console.log("Lower Items");
-                console.log(lowerItems);
                 return query ? lowerItems.filter(createFilterFor(query)) : [];
             }
 

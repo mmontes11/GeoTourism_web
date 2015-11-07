@@ -14,10 +14,10 @@
                 <md-tab label="Details">
                     <md-content class="md-padding" layout="row">
                         <div layout="column" layout-align="center center" flex="50" flex-order="1">
-                            <h3 class="md-title" ng-if="!allowEdit">
-                                {{feature.type | placetype}}
+                            <h3 class="md-title">
+                                {{feature.type.name}}
                             </h3>
-                            <md-content layout-padding ng-if="!allowEdit">
+                            <md-content layout-padding>
                                 <p>{{feature.description}}</p>
                             </md-content>
                             <md-button class="md-primary" ng-href="{{feature.infoUrl}}" target="_blank"

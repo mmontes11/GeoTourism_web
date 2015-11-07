@@ -35,16 +35,28 @@ define([
                 }
             });
 
-            $scope.$watchCollection('selectedTypes', function(types){
-                console.log(types);
+            $scope.$watchCollection('selectedTypes', function(){
+                requestFeatures();
             });
 
-            $scope.$watchCollection('selectedCities', function(cities){
-                console.log(cities);
+            $scope.$watchCollection('selectedCities', function(){
+                requestFeatures();
             });
 
             var requestFeatures = function () {
-                TIPs.query({bounds: $scope.bounds}).$promise
+                var types = _.map($scope.selectedTypes, function(type){
+                    return type.id;
+                });
+                var cities = _.map($scope.selectedCities, function(city){
+                    return city.id;
+                });
+                var payload = {
+                    bounds: $scope.bounds,
+                    types: types,
+                    cities: cities
+                };
+                console.log(payload);
+                TIPs.query(payload).$promise
                     .then(function (resultFeatures) {
                         $scope.features = resultFeatures;
                     }, function () {

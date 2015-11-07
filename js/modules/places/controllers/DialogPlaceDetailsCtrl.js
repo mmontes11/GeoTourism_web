@@ -11,12 +11,7 @@ define([
                     return AuthAdminService.isAuthenticated;
                 };
 
-                $scope.types = [
-                    {id: "M", name: "Monument"},
-                    {id: "NS", name: "Natural Space"},
-                    {id: "H", name: "Hotel"},
-                    {id: "R", name: "Restaurant"}
-                ];
+                $scope.types = TIP.getTypes();
 
                 TIP.get({id: feature.id}).$promise
                     .then(function (feature) {

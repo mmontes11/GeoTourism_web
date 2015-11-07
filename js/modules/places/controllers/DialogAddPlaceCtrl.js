@@ -3,16 +3,11 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('DialogAddPlaceCtrl', ['$scope', '$mdDialog', function ($scope, $mdDialog) {
+    module.controller('DialogAddPlaceCtrl', ['$scope', '$mdDialog', 'TIP', function ($scope, $mdDialog, TIP) {
 
         $scope.place = {};
 
-        $scope.types = [
-            {id: "M", name: "Monument"},
-            {id: "NS", name: "Natural Space"},
-            {id: "H", name: "Hotel"},
-            {id: "R", name: "Restaurant"}
-        ];
+        $scope.types = TIP.getTypes();
 
         $scope.close = function () {
             $mdDialog.cancel();

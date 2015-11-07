@@ -22,8 +22,6 @@ define([
             link: function(scope,element,attrs){
 
                 var tileLayer = L.tileLayer(Config.BASE_LAYER_URL, {
-                    minZoom: 4,
-                    maxZoom: 18,
                     id: Config.MAPBOX_PROJECT_ID,
                     accessToken: Config.MAPBOX_PROJECT_ID
                 });
@@ -31,6 +29,7 @@ define([
                 var markers = L.layerGroup([]);
 
                 var map = L.map('map', {
+                    minZoom: 5,
                     layers: [tileLayer,markers]
                 });
 
@@ -74,6 +73,7 @@ define([
                         angular.forEach(features, function(feature){
                             if (angular.isDefined(feature)){
                                 var layer = omnivore.wkt.parse(feature.geom);
+                                console.log(layer);
                                 layer.customFeature = feature.toJSON();
                                 layer.on('click',function(e){
                                     scope.$apply(function(){
