@@ -12,12 +12,11 @@
         <form-place form="formDialog" place="place" types="types"></form-place>
     </md-dialog-content>
     <div class="md-actions" layout="row" layout-align="start center">
-        <span flex></span>
-        <md-button class="md-warn" ng-click="close()">
-            <i class="material-icons">cancel</i>
-        </md-button>
         <md-button class="md-primary" ng-disabled="formDialog.$invalid" ng-click="save()">
             <i class="material-icons">save</i>
+        </md-button>
+        <md-button class="md-warn" ng-click="close()">
+            <i class="material-icons">cancel</i>
         </md-button>
     </div>
 </md-dialog>

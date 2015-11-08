@@ -1,5 +1,11 @@
+body{
+    overflow:hidden;
+}
+
+
 #map {
     height: 95%;
+
 }
 
 .map-overlay {
@@ -9,4 +15,25 @@
 .formLogLogIn {
     height: 75%;
     width: 100%;
+}
+
+.chips ::-webkit-input-placeholder{
+    color:    #000000;
+    font-weight: bold
+}
+
+.chips  ::-moz-placeholder{
+    color:    #000000;
+    opacity:  1;
+    font-weight: bold
+}
+
+.chips ::-webkit-input-placeholder{
+    color:    #000000;
+    opacity:  1;
+    font-weight: bold
+}
+.chips :-ms-input-placeholder{
+    color:    #000000;
+    font-weight: bold
 }

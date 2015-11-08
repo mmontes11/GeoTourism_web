@@ -2,22 +2,22 @@
     <div layout="column">
         <div layout="row">
             <md-input-container flex="33">
-                <label>Type</label>
-                <md-select name="type" ng-model="place.type" required>
-                    <md-option ng-repeat="type in types" value="{{type.id}}">
-                        {{type.name}}
-                    </md-option>
-                </md-select>
-                <div ng-messages="form.type.$error" role="alert">
+                <label>Name</label>
+                <input name="name" ng-model="place.name" required>
+                <div ng-messages="form.name.$error" role="alert">
                     <div ng-message="required" class="my-message">Mandatory field</div>
                 </div>
             </md-input-container>
         </div>
         <div layout="row">
             <md-input-container flex="33">
-                <label>Name</label>
-                <input name="name" ng-model="place.name" required>
-                <div ng-messages="form.name.$error" role="alert">
+                <label>Type</label>
+                <md-select name="type" ng-model="place.type" ng-required="!edit">
+                    <md-option ng-repeat="type in types" value="{{type.id}}">
+                        {{type.name}}
+                    </md-option>
+                </md-select>
+                <div ng-messages="form.type.$error" role="alert">
                     <div ng-message="required" class="my-message">Mandatory field</div>
                 </div>
             </md-input-container>
