@@ -18,7 +18,6 @@ define([
             link: function (scope, element, attrs) {
                 scope.place = scope.place || {};
                 scope.edit = eval(scope.edit);
-                console.log(scope.edit);
 
                 scope.$watch('selectedsearchitem', function (item) {
                     if (angular.isDefined(item)) {
