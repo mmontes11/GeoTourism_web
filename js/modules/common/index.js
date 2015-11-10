@@ -8,6 +8,6 @@ define([
     './controllers/MainLayoutCtrl',
     './controllers/ChipsController',
     './directives/FAB',
-    './directives/UploadS3',
+    './directives/UploadPhoto',
     './directives/Chips'
 ], function(){});

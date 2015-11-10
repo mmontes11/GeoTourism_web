@@ -4,7 +4,8 @@ define([
     '../module',
     'underscore',
     'leaflet',
-    'leaflet-omnivore'
+    'leaflet-omnivore',
+    'leaflet-providers'
 ], function(module,_,L,omnivore){
     module.directive('map',['Config', function(Config){
         return {
@@ -21,10 +22,7 @@ define([
             },
             link: function(scope,element,attrs){
 
-                var tileLayer = L.tileLayer(Config.BASE_LAYER_URL, {
-                    id: Config.MAPBOX_PROJECT_ID,
-                    accessToken: Config.MAPBOX_PROJECT_ID
-                });
+                var tileLayer = L.tileLayer.provider(Config.TILE_LAYER);
 
                 var markers = L.layerGroup([]);
 

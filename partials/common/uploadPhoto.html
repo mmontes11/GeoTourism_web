@@ -1,0 +1,22 @@
+<div layout="row" layout-align="start center">
+    <md-button class="md-primary md-raised">
+        <label for="file-input">
+            Upload Photo
+        </label>
+    </md-button>
+    {{photo.name}}
+    <input type="file" id="file-input" name="photo" ng-model="photo" ngf-select
+           accept="image/*" ngf-max-size="2MB">
+</div>
+<div class="row">
+    <div ngf-drop ng-model="photo" class="drop-box">Drop here your photo</div>
+</div>
+<md-progress-linear md-mode="indeterminate" ng-if="uploading"></md-progress-linear>
+<div layout="row" layout-align="center center" ng-if="photo">
+    <md-button class="md-primary" ng-click="upload()">
+        <i class="material-icons"><i class="material-icons">cloud_upload</i></i>
+    </md-button>
+    <md-button class="md-warn" ng-click="resetUpload()">
+        <i class="material-icons">close</i>
+    </md-button>
+</div>

@@ -82,22 +82,5 @@ define([
                         $scope.type = TIP.getTypeName({type:typeID});
                     }
                 });
-
-                $scope.$watch('selectedsearchitem', function (item) {
-                    if ($scope.feature) {
-                        if (angular.isDefined(item)) {
-                            $scope.feature.infoUrl = item.url;
-                        } else {
-                            $scope.feature.infoUrl = angular.copy($scope.copy.infoUrl);
-                        }
-                    }
-                });
-
-                $scope.$watch('uploadedurl', function(uploadedUrl){
-                    if(angular.isDefined(uploadedUrl)){
-                        $scope.feature.photoUrl = uploadedUrl;
-                        $scope.formDialog.$dirty = true;
-                    }
-                });
             }]);
 });

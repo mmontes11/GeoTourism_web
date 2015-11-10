@@ -16,19 +16,5 @@ define([
         $scope.save = function () {
             $mdDialog.hide($scope.place);
         };
-
-        $scope.$watch('selectedsearchitem', function (item) {
-            if (angular.isDefined(item)) {
-                $scope.place.infoUrl = item.url;
-            } else {
-                $scope.place.infoUrl = undefined;
-            }
-        });
-
-        $scope.$watch('uploadedurl', function(uploadedUrl){
-            if(angular.isDefined(uploadedUrl)){
-                $scope.place.photoUrl = uploadedUrl;
-            }
-        });
     }]);
 });

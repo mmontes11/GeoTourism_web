@@ -11,7 +11,6 @@ require.config({
         angularMaterial: '../bower_components/angular-material/angular-material.min',
         angularUiRouter: '../bower_components/angular-ui-router/release/angular-ui-router.min',
         angularMessages: '../bower_components/angular-messages/angular-messages.min',
-        awsSDK: '../bower_components/aws-sdk/dist/aws-sdk.min',
         ngFileUpload: '../bower_components/ng-file-upload/ng-file-upload.min',
         material: '../bower_components/material-design-lite/material.min',
         require: '../bower_components/requirejs/require',
@@ -19,7 +18,8 @@ require.config({
         md5: '../bower_components/angular-md5/angular-md5.min',
         base64: '../bower_components/angular-base64/angular-base64',
         leaflet: '../bower_components/leaflet/dist/leaflet',
-        'leaflet-omnivore': '../bower_components/leaflet-omnivore/leaflet-omnivore.min'
+        'leaflet-omnivore': '../bower_components/leaflet-omnivore/leaflet-omnivore.min',
+        'leaflet-providers': '../bower_components/leaflet-providers/leaflet-providers'
     },
     shim: {
         jquery: {
@@ -65,6 +65,9 @@ require.config({
         'leaflet-omnivore': {
             deps: ['leaflet'],
             exports: 'omnivore'
+        },
+        'leaflet-providers': {
+            deps: ['leaflet']
         }
     },
     deps: ['bootstrap']
