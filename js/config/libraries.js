@@ -8,4 +8,7 @@ define([
             .primaryPalette('cyan')
             .accentPalette('blue');
     }]);
+    app.config(['FacebookProvider','Config',function(FacebookProvider,Config){
+        FacebookProvider.init(Config.FACEBOOK_APP_ID);
+    }]);
 });

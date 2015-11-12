@@ -20,7 +20,8 @@
     "angular-messages": "~1.4.7",
     "ng-file-upload": "~9.0.14",
     "font-awesome": "~4.4.0",
-    "leaflet-providers": "~1.1.6"
+    "leaflet-providers": "~1.1.6",
+    "angular-facebook": "~0.2.3"
   },
   "resolutions": {
     "angular": "1.4.7"

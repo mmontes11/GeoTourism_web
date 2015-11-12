@@ -11,6 +11,7 @@ require.config({
         angularMaterial: '../bower_components/angular-material/angular-material.min',
         angularUiRouter: '../bower_components/angular-ui-router/release/angular-ui-router.min',
         angularMessages: '../bower_components/angular-messages/angular-messages.min',
+        angularFacebook: '../bower_components/angular-facebook/lib/angular-facebook',
         ngFileUpload: '../bower_components/ng-file-upload/ng-file-upload.min',
         material: '../bower_components/material-design-lite/material.min',
         require: '../bower_components/requirejs/require',
@@ -51,6 +52,9 @@ require.config({
             deps: ['angular']
         },
         angularMessages: {
+            deps: ['angular']
+        },
+        angularFacebook: {
             deps: ['angular']
         },
         ngFileUpload: {

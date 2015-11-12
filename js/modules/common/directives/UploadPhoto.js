@@ -16,7 +16,7 @@ define([
                     scope.uploading = true;
 
                     Upload.upload({
-                        url: Config.API_ROOT_URL + '/admin/upload',
+                        url: Config.API_ROOT_URL + '/admin/photo',
                         file: scope.photo
                     }).then(function (res) {
                         scope.uploadedurl = res.data.url;
@@ -25,9 +25,6 @@ define([
                     }, function () {
                         scope.resetUpload();
                         NotificationService.displayMessage("Error uploading photo");
-                    }, function (evt) {
-                        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                        console.log('progress: ' + progressPercentage + '% ');
                     });
                 };
                 scope.resetUpload = function(){

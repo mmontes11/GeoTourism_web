@@ -31,7 +31,6 @@ define([
 
                     }
                 });
-
                 scope.$watch('uploadedurl', function (uploadedUrl) {
                     if (angular.isDefined(uploadedUrl)) {
                         scope.place.photoUrl = uploadedUrl;
