@@ -43,3 +43,7 @@ md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused 
 #file-input {
     display: none;
 }
+
+.error-message {
+    color: rgb(244,67,54)
+}

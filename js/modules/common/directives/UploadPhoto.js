@@ -8,7 +8,8 @@ define([
             restrict: 'E',
             templateUrl: 'partials/common/uploadPhoto.html',
             scope: {
-                uploadedurl: "="
+                uploadedurl: "=",
+                form: "="
             },
             link: function(scope, el, attrs){
                 scope.uploading = false;
