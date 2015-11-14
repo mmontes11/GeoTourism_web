@@ -6,13 +6,13 @@ define([
 
     module.service('BrowserService', function ($window) {
 
-        this.getSession =  function(key) {
+        this.getStorage =  function(key) {
             return $window.localStorage[key];
         };
-        this.setSession = function(key, value) {
+        this.setStorage = function(key, value) {
             $window.localStorage[key] = value;
         };
-        this.deleteSession = function(key) {
+        this.deleteStorage = function(key) {
             delete $window.localStorage[key];
         };
     });

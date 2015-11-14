@@ -7,6 +7,6 @@ define([
     './services/TIP',
     './services/TIPs',
     './controllers/DialogAddPlaceCtrl',
-    './controllers/DialogPlaceDetailsCtrl',
+    './controllers/DialogPlaceCtrl',
     './directives/FormPlace'
 ], function(){});

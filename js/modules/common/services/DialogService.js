@@ -16,8 +16,8 @@ define([
 
        this.showPlaceDetailsDialog = function(feature){
            return $mdDialog.show({
-               controller: 'DialogPlaceDetailsCtrl',
-               templateUrl: 'partials/places/dialogPlaceDetails.html',
+               controller: 'DialogPlaceCtrl',
+               templateUrl: 'partials/places/dialogPlace.html',
                parent: angular.element(document.body),
                clickOutsideToClose: false,
                locals: {

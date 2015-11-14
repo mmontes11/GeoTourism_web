@@ -6,6 +6,6 @@ define([
 ], function (module, _) {
     module.service('AuthAdminService', ['BrowserService', function (BrowserService) {
 
-        this.isAuthenticated = (!_.isUndefined(BrowserService.getSession("token")));
+        this.isAuthenticated = (!_.isUndefined(BrowserService.getStorage("token")));
     }]);
 });

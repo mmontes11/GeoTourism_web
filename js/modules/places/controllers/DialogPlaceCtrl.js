@@ -3,12 +3,15 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('DialogPlaceDetailsCtrl',
-        ['$scope', '$mdDialog', 'AuthAdminService', 'DialogService', 'NotificationService', 'feature', 'TIP',
-            function ($scope, $mdDialog, AuthAdminService, DialogService, NotificationService, feature, TIP) {
+    module.controller('DialogPlaceCtrl',
+        ['$scope', '$mdDialog', 'AuthAdminService', 'DialogService', 'NotificationService', 'feature', 'TIP', 'AuthFBService',
+            function ($scope, $mdDialog, AuthAdminService, DialogService, NotificationService, feature, TIP, AuthFBService) {
 
                 $scope.isAuthenticated = function () {
                     return AuthAdminService.isAuthenticated;
+                };
+                $scope.isAuthFB = function(){
+                    return AuthFBService.isAuthFB;
                 };
 
                 $scope.types = TIP.getTypes();
