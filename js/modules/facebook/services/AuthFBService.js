@@ -3,7 +3,7 @@
 define([
     '../module'
 ],function(module){
-    module.service('AuthFBService', ['Facebook','BrowserService', function(Facebook,BrowserService){
+    module.service('AuthFBService', ['Facebook','AuthFBStorageService', function(Facebook,AuthFBStorageService){
 
         this.isAuthFB = false;
 
@@ -12,11 +12,12 @@ define([
             that.isAuthFB = (response.status === 'connected');
         });
         Facebook.subscribe('auth.statusChange',function(response){
+            console.log(response);
             if(response.status === 'connected'){
                 that.isAuthFB = true;
             }else{
                 that.isAuthFB = false;
-                BrowserService.deleteStorage('fbUserID');
+                AuthFBStorageService.handleLogOut();
             }
         });
     }]);

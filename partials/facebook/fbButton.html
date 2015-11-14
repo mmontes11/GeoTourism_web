@@ -1,6 +1,12 @@
-<md-button class="md-raised md-primary fb-button" ng-click="ctrl.logInFB()" ng-show="!ctrl.isAuthFB()">
-    <i class="fa fa-facebook-official"></i> Log In
-</md-button>
-<md-button class="md-raised md-primary fb-button" ng-click="ctrl.logOutFB()" ng-show="ctrl.isAuthFB()">
-    <i class="fa fa-facebook-official"></i> Log Out
-</md-button>
+<div layout="column" layout-align="center center" ng-show="ctrl.isFBReady()">
+    <div ng-show="ctrl.isAuthFB()">
+        <img src="img/user.jpg" class="demo-avatar">
+        <span>Fulanito Menganito</span>
+    </div>
+    <md-button class="md-raised md-primary fb-button" ng-click="ctrl.logInFB()" ng-show="!ctrl.isAuthFB()">
+        <i class="fa fa-facebook-official"></i> Log In
+    </md-button>
+    <md-button class="md-raised md-primary fb-button" ng-click="ctrl.logOutFB()" ng-show="ctrl.isAuthFB()">
+        <i class="fa fa-facebook-official"></i> Log Out
+    </md-button>
+</div>

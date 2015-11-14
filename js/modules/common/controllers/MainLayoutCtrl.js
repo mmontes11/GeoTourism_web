@@ -2,8 +2,8 @@ define([
     '../module'
 ], function (module) {
 
-    module.controller('MainLayoutCtrl', ['$scope', 'AuthAdminService', 'LogInAdminService', 'AuthFBService',
-        function ($scope, AuthAdminService, LogInAdminService, AuthFBService) {
+    module.controller('MainLayoutCtrl', ['$scope', 'AuthAdminService', 'LogInAdminService',
+        function ($scope, AuthAdminService, LogInAdminService) {
 
             $scope.isAuthAdmin = function () {
                 return AuthAdminService.isAuthenticated;
@@ -11,10 +11,6 @@ define([
 
             $scope.logOut = function () {
                 LogInAdminService.logOut();
-            };
-
-            $scope.isAuthFB = function(){
-                return AuthFBService.isAuthFB;
             };
         }]);
 });
