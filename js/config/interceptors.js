@@ -34,7 +34,16 @@ define([
             }
         };
     }]);
-
+    /*
+    app.factory('FacebookInterceptor',[function(){
+        return {
+            responseError: function(rejection){
+                //Intentify facebook error
+                //Log out from facebook
+            }
+        };
+    }]);
+    */
     app.config(['$httpProvider', function($httpProvider) {
         $httpProvider.interceptors.push('TokenInterceptor');
     }]);

@@ -3,7 +3,8 @@
 define([
     '../module'
 ],function(module){
-    module.controller('FBButtonCtrl',['Facebook','AuthFBService','AuthFBStorageService',function(Facebook,AuthFBService,AuthFBStorageService){
+    module.controller('FBButtonCtrl',['Config','Facebook','AuthFBService','AuthFBStorageService',
+        function(Config,Facebook,AuthFBService,AuthFBStorageService){
 
         this.isAuthFB = function(){
             return AuthFBService.isAuthFB;
@@ -18,7 +19,7 @@ define([
                 if (angular.isDefined(accessToken) && angular.isDefined(userID)){
                     AuthFBStorageService.handleLogIn(accessToken,userID);
                 }
-            });
+            },{scope:Config.FACEBOOK_PERMISSIONS});
         };
         this.logOutFB = function(){
             Facebook.logout(function(response){

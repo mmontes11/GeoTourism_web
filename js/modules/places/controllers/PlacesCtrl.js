@@ -94,10 +94,10 @@ define([
                 }
             });
 
-            $scope.showPlaceDetailsDialog = function (layer) {
+            $scope.showPlaceDialog = function (layer) {
                 var feature = layer.customFeature;
 
-                DialogService.showPlaceDetailsDialog(feature)
+                DialogService.showPlaceDialog(feature)
                     .then(function (operation) {
                         if (operation === "Delete") {
                             DialogService.showConfirmDialog("Delete Place", "Are you sure?", "Yes", "Cancel")
@@ -112,7 +112,7 @@ define([
                                             }
                                         });
                                 }, function () {
-                                    $scope.showPlaceDetailsDialog(layer);
+                                    $scope.showPlaceDialog(layer);
                                 });
                         }
                     });
@@ -120,7 +120,7 @@ define([
 
             $scope.$watch('layerclicked', function (layer) {
                 if (angular.isDefined(layer)) {
-                    $scope.showPlaceDetailsDialog(layer);
+                    $scope.showPlaceDialog(layer);
                     $scope.layerclicked = undefined;
                 }
             });

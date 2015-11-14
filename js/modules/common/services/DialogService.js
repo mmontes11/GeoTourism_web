@@ -14,7 +14,7 @@ define([
            });
        };
 
-       this.showPlaceDetailsDialog = function(feature){
+       this.showPlaceDialog = function(feature){
            return $mdDialog.show({
                controller: 'DialogPlaceCtrl',
                templateUrl: 'partials/places/dialogPlace.html',
