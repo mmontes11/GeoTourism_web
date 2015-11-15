@@ -3,6 +3,7 @@
 define([
     './directives/FBButton',
     './services/AuthFBService',
-    './services/AuthFBStorageService',
+    './services/FBStorageService',
+    './services/User',
     './controllers/FBButtonCtrl'
 ],function(){});

@@ -3,7 +3,7 @@
 define([
     '../module'
 ],function(module){
-    module.service('AuthFBService', ['Facebook','AuthFBStorageService', function(Facebook,AuthFBStorageService){
+    module.service('AuthFBService', ['Facebook','FBStorageService', function(Facebook,FBStorageService){
 
         this.isAuthFB = false;
 
@@ -17,7 +17,7 @@ define([
                 that.isAuthFB = true;
             }else{
                 that.isAuthFB = false;
-                AuthFBStorageService.handleLogOut();
+                FBStorageService.handleLogOut();
             }
         });
     }]);
