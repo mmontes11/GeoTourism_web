@@ -5,15 +5,32 @@ define([
 ],function(module){
     module.service('FBStorageService',['BrowserService',function(BrowserService){
 
-        this.handleLogIn = function(accessToken,userID,userName,profilePhotoURL){
+        this.storeAccessToken = function(accessToken){
             BrowserService.setStorage('FBAccessToken',accessToken);
+        };
+        this.deleteAccessToken = function(){
+            BrowserService.deleteStorage('FBAccessToken');
+        };
+        this.getAccessToken = function(){
+            return BrowserService.getStorage('FBAccessToken');
+        };
+        this.storeUserID = function(userID){
             BrowserService.setStorage('FBUserID',userID);
+        };
+        this.deleteUserID = function(){
+            BrowserService.deleteStorage('FBUserID');
+        };
+        this.getUserID = function(){
+            return BrowserService.getStorage('FBUserID');
+        };
+        this.handleLogIn = function(userID,userName,profilePhotoURL){
+            this.storeUserID(userID);
             BrowserService.setStorage('FBUserName',userName);
             BrowserService.setStorage('FBProfilePhoto',profilePhotoURL);
         };
         this.handleLogOut = function(){
-            BrowserService.deleteStorage('FBAccessToken');
-            BrowserService.deleteStorage('FBUserID');
+            this.deleteAccessToken();
+            this.deleteUserID();
             BrowserService.deleteStorage('FBUserName');
             BrowserService.deleteStorage('FBProfilePhoto');
         };

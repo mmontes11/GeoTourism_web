@@ -14,7 +14,7 @@ define([
                     AuthAdminService.isAuthenticated = true;
                     $state.go('places');
                     NotificationService.displayMessage('You are now Admin!');
-                }, function(response){
+                }, function(){
                     NotificationService.displayMessage('Invalid Credentials');
                 });
         };

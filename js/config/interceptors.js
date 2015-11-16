@@ -3,24 +3,21 @@
 define([
     '../app'
 ], function(app){
-    app.factory('AuthInterceptor', ['$q','$injector','BrowserService','AuthAdminService','AuthFBService',
-        function($q,$injector,BrowserService,AuthAdminService,AuthFBService){
+    app.factory('AuthInterceptor', ['$q','$injector','BrowserService','FBStorageService','AuthAdminService','AuthFBService',
+        function($q,$injector,BrowserService,FBStorageService,AuthAdminService,AuthFBService){
         return {
             request: function(config){
                 config.headers = config.headers || {};
-                if (BrowserService.getStorage('token')){
+                if (angular.isDefined(BrowserService.getStorage('token'))){
                     config.headers.Authorization = 'Bearer ' + BrowserService.getStorage('token');
+                }
+                if (angular.isDefined(FBStorageService.getAccessToken())){
+                    config.headers.AuthorizationFB = FBStorageService.getAccessToken();
                 }
                 return config || $q.when(config);
             },
             requestError: function(rejection){
                 return $q.reject(rejection);
-            },
-            response: function(response){
-                if (response != null && response.status == 200 && !AuthAdminService.isAuthenticated){
-                    AuthAdminService.isAuthenticated = true;
-                }
-                return response || $q.when(response);
             },
             responseError: function(rejection){
                 if (rejection != null && rejection.status === 401) {

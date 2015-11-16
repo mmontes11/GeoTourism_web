@@ -12,7 +12,7 @@ define([
             //Actions
             {
                 createOrRetrieve:{
-                    method: 'POST'
+                    method: 'GET'
                 }
             }
         );
