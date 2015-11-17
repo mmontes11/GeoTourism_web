@@ -20,19 +20,18 @@ define([
                 return $q.reject(rejection);
             },
             responseError: function(rejection){
-                if (rejection != null && rejection.status === 401) {
-                    if(AuthFBService.isAuthFB && angular.isDefined(rejection.config.data.accessToken)){
+                if (rejection != null) {
+                    if(AuthFBService.isAuthFB && rejection.status === 403){
                         $injector.get('LogInFacebookService').logOutFB();
                         $injector.get('$mdDialog').cancel();
                         $injector.get('NotificationService').displayMessage("Invalid or expired Facebook token");
-                    }else if (AuthAdminService.isAuthenticated){
+                    }else if (AuthAdminService.isAuthenticated && rejection.status === 401){
                         AuthAdminService.isAuthenticated = false;
                         BrowserService.deleteStorage('token');
                         $injector.get('$state').transitionTo('admin');
                         $injector.get('$mdDialog').cancel();
                         $injector.get('NotificationService').displayMessage("Invalid or expired Admin token");
                     }
-
                 }
                 return $q.reject(rejection);
             }
