@@ -2,7 +2,6 @@ body{
     overflow:hidden;
 }
 
-
 #map {
     height: 95%;
 
@@ -17,37 +16,22 @@ body{
     width: 100%;
 }
 
-.chips ::-webkit-input-placeholder{
-    color:    #000000;
-    font-weight: bold
+.md-toolbar.md-warn > md-tabs.md-default-theme, md-tabs > md-tabs-wrapper > md-tabs-canvas > md-pagination-wrapper >
+md-tab-item:not([disabled]).md-active, md-toolbar.md-warn > md-tabs.md-default-theme, md-tabs > md-tabs-wrapper >
+md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused {
+    color: #000000;
 }
 
-.chips  ::-moz-placeholder{
-    color:    #000000;
-    opacity:  1;
-    font-weight: bold
+.img-dialog {
+    max-height: 70%;
+    height: auto;
+    display: block;
+    border-radius: 5%;
 }
 
-.chips ::-webkit-input-placeholder{
-    color:    #000000;
-    opacity:  1;
-    font-weight: bold
-}
-
-.chips :-ms-input-placeholder{
-    color:    #000000;
-    font-weight: bold
-}
-
-.drop-box {
-    background: #F8F8F8;
-    border: 5px dashed #DDD;
-    height: 5%;
-    text-align: center;
-    padding-top: 25px;
-    margin: 10px;
-}
-
-.dragover {
-    border: 5px dashed rgb(0,188,212);
+.img-dialog-small {
+    max-height: 30%;
+    height: auto;
+    display: block;
+    border-radius: 5%;
 }

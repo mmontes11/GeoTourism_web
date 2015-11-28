@@ -85,5 +85,11 @@ define([
                         $scope.type = TIP.getTypeName({type:typeID});
                     }
                 });
+
+                $scope.$watch('feature.myFavourite',function(favourite){
+                    if (_.isBoolean(favourite)){
+                        console.log(favourite)
+                    }
+                });
             }]);
 });
