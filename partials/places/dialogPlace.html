@@ -4,7 +4,7 @@
             <h2>
                 {{feature.name}}
             </h2>
-            <favourite favourited="feature.myFavourite"></favourite>
+            <favourite favourited="feature.myFavourite" ng-if="isAuthFB()"></favourite>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="close()">
                 <i class="material-icons">close</i>

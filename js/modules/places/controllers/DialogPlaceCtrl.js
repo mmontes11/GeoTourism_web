@@ -4,29 +4,29 @@ define([
     '../module'
 ], function (module) {
     module.controller('DialogPlaceCtrl',
-        ['$scope', '$mdDialog', 'AuthAdminService', 'DialogService', 'NotificationService', 'feature', 'TIP', 'AuthFBService',
-            function ($scope, $mdDialog, AuthAdminService, DialogService, NotificationService, feature, TIP, AuthFBService) {
+        ['$scope', '$mdDialog', 'AuthAdminService', 'DialogService', 'NotificationService', 'feature', 'TIP', 'AuthFBService', 'FBStorageService',
+            function ($scope, $mdDialog, AuthAdminService, DialogService, NotificationService, feature, TIP, AuthFBService, FBStorageService) {
 
                 $scope.isAuthenticated = function () {
                     return AuthAdminService.isAuthenticated;
                 };
-                $scope.isAuthFB = function(){
+                $scope.isAuthFB = function () {
                     return AuthFBService.isAuthFB;
                 };
 
                 $scope.types = TIP.getTypes();
 
-                TIP.get({id: feature.id}).$promise
+                var facebookUserId = $scope.isAuthFB() && FBStorageService.getUserID()? FBStorageService.getUserID() : undefined;
+                TIP.get({
+                    id: feature.id,
+                    facebookUserId: facebookUserId
+                }).$promise
                     .then(function (feature) {
                         $scope.feature = feature;
                         $scope.copy = angular.copy(feature);
                     }, function (response) {
-                        if (response.status != 401) {
-                            if (response.status === 404) {
-                                NotificationService.displayMessage("Place not found");
-                            } else {
-                                NotificationService.displayMessage("Error retrieving place");
-                            }
+                        if (response.status === 404) {
+                            NotificationService.displayMessage("Place not found");
                         }
                         $scope.close();
                     });
@@ -64,7 +64,7 @@ define([
                             $scope.disableEdit(false);
                             NotificationService.displayMessage("Place updated!");
                         }, function (response) {
-                            if (response.status != 401) {
+                            if (response.status == 500) {
                                 NotificationService.displayMessage("Error updating place");
                             }
                             $scope.close();
@@ -80,15 +80,19 @@ define([
                     $mdDialog.cancel();
                 };
 
-                $scope.$watch('feature.type',function(typeID){
-                    if (angular.isDefined(typeID)){
-                        $scope.type = TIP.getTypeName({type:typeID});
+                $scope.$watch('feature.type', function (typeID) {
+                    if (angular.isDefined(typeID)) {
+                        $scope.type = TIP.getTypeName({type: typeID});
                     }
                 });
 
-                $scope.$watch('feature.myFavourite',function(favourite){
-                    if (_.isBoolean(favourite)){
-                        console.log(favourite)
+                $scope.$watch('feature.myFavourite', function (favourite) {
+                    if (_.isBoolean(favourite)) {
+                        TIP.favourite({
+                            id: feature.id,
+                            facebookUserId: FBStorageService.getUserID(),
+                            favouriteValue: favourite
+                        });
                     }
                 });
             }]);

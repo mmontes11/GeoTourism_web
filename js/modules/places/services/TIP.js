@@ -10,13 +10,15 @@ define([
             //Default Parameters
             {
                 id: '@id',
-                type: '@type'
+                type: '@type',
+                facebookUserId: '@facebookUserId',
+                favouriteValue: '@favouriteValue'
             },
             //Actions
             {
                 get: {
                     method: 'GET',
-                    url: Config.API_ROOT_URL + '/tip/:id'
+                    url: Config.API_ROOT_URL + '/tip/:id?facebookUserId=:facebookUserId'
                 },
                 patch: {
                     method: 'PATCH'
@@ -29,6 +31,10 @@ define([
                 getTypeName: {
                     method: 'GET',
                     url: Config.API_ROOT_URL + '/tip/type/:type'
+                },
+                favourite: {
+                    method: 'POST',
+                    url: Config.API_ROOT_URL + '/social/tip/:id/favourite?facebookUserId=:facebookUserId&favouriteValue=:favouriteValue',
                 }
             }
         );
