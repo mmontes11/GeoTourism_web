@@ -21,9 +21,9 @@ define([
                     id: feature.id,
                     facebookUserId: facebookUserId
                 }).$promise
-                    .then(function (feature) {
-                        $scope.feature = feature;
-                        $scope.copy = angular.copy(feature);
+                    .then(function (tip) {
+                        $scope.tip = tip;
+                        $scope.copy = angular.copy(tip);
                     }, function (response) {
                         if (response.status === 404) {
                             NotificationService.displayMessage("Place not found");
@@ -38,7 +38,7 @@ define([
 
                 $scope.disableEdit = function (reset) {
                     if (reset) {
-                        $scope.feature = angular.copy($scope.copy);
+                        $scope.tip = angular.copy($scope.copy);
                     }
                     $scope.edit = false;
                 };
@@ -49,18 +49,18 @@ define([
 
                 $scope.saveChanges = function () {
 
-                    if (angular.isDefined($scope.feature.photo)) {
-                        $scope.feature.photoContent = $scope.feature.photo.$ngfDataUrl;
-                        $scope.feature.photoName = $scope.feature.photo.name;
+                    if (angular.isDefined($scope.tip.photo)) {
+                        $scope.tip.photoContent = $scope.tip.photo.$ngfDataUrl;
+                        $scope.tip.photoName = $scope.tip.photo.name;
                     }
 
-                    var parameters = {id: $scope.feature.id},
-                        patchPayload = _.pick($scope.feature, 'type', 'name', 'description', 'infoUrl', 'address',
+                    var parameters = {id: $scope.tip.id},
+                        patchPayload = _.pick($scope.tip, 'type', 'name', 'description', 'infoUrl', 'address',
                             'photoUrl', 'photoContent', 'photoName');
                     TIP.patch(parameters, patchPayload).$promise
-                        .then(function (feature) {
-                            $scope.feature = feature;
-                            $scope.copy = angular.copy(feature);
+                        .then(function (tip) {
+                            $scope.tip = tip;
+                            $scope.copy = angular.copy(tip);
                             $scope.disableEdit(false);
                             NotificationService.displayMessage("Place updated!");
                         }, function (response) {
@@ -80,13 +80,13 @@ define([
                     $mdDialog.cancel();
                 };
 
-                $scope.$watch('feature.type', function (typeID) {
+                $scope.$watch('tip.type', function (typeID) {
                     if (angular.isDefined(typeID)) {
                         $scope.type = TIP.getTypeName({type: typeID});
                     }
                 });
 
-                $scope.$watch('feature.myFavourite', function (favourite) {
+                $scope.$watch('tip.myFavourite', function (favourite) {
                     if (_.isBoolean(favourite)) {
                         TIP.favourite({
                             id: feature.id,
@@ -95,5 +95,25 @@ define([
                         });
                     }
                 });
+
+                $scope.averageRate = 0;
+                $scope.$watch('tip.averageRate', function (newVal) {
+                    $scope.averageRate = Math.round(parseFloat(newVal));
+                });
+
+                $scope.myRate = 0;
+                $scope.$watch('tip.myRate', function(newVal){
+                    $scope.myRate = Math.round(parseFloat(newVal));
+                });
+
+                $scope.rateSelected = function(ratingValue) {
+                    TIP.rate({
+                        id: feature.id,
+                        facebookUserId: FBStorageService.getUserID(),
+                        ratingValue: ratingValue
+                    }).$promise.then(function(response){
+                            $scope.averageRate = Math.round(parseFloat(response.averageRate));
+                    });
+                };
             }]);
 });

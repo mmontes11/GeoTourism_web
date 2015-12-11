@@ -12,7 +12,8 @@ define([
                 id: '@id',
                 type: '@type',
                 facebookUserId: '@facebookUserId',
-                favouriteValue: '@favouriteValue'
+                favouriteValue: '@favouriteValue',
+                ratingValue: '@ratingValue'
             },
             //Actions
             {
@@ -34,7 +35,11 @@ define([
                 },
                 favourite: {
                     method: 'POST',
-                    url: Config.API_ROOT_URL + '/social/tip/:id/favourite?facebookUserId=:facebookUserId&favouriteValue=:favouriteValue',
+                    url: Config.API_ROOT_URL + '/social/tip/:id/favourite?facebookUserId=:facebookUserId&favouriteValue=:favouriteValue'
+                },
+                rate: {
+                    method: 'POST',
+                    url: Config.API_ROOT_URL + '/social/tip/:id/rating?facebookUserId=:facebookUserId&ratingValue=:ratingValue'
                 }
             }
         );

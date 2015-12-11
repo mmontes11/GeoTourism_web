@@ -2,9 +2,9 @@
     <md-toolbar>
         <div class="md-toolbar-tools">
             <h2>
-                {{feature.name}}
+                {{tip.name}}
             </h2>
-            <favourite favourited="feature.myFavourite" ng-if="isAuthFB()"></favourite>
+            <favourite favourited="tip.myFavourite" ng-if="isAuthFB()"></favourite>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="close()">
                 <i class="material-icons">close</i>
@@ -21,10 +21,10 @@
                                 {{type.name}}
                             </h3>
                             <md-content layout-padding>
-                                <p>{{feature.description}}</p>
+                                <p>{{tip.description}}</p>
                             </md-content>
-                            <md-button class="md-primary" ng-href="{{feature.infoUrl}}" target="_blank"
-                                       ng-if="feature.infoUrl && !allowEdit">
+                            <md-button class="md-primary" ng-href="{{tip.infoUrl}}" target="_blank"
+                                       ng-if="tip.infoUrl && !allowEdit">
                                 + info <i class="mdl-color-text--blue-grey-400 material-icons"
                                           role="presentation">info</i>
                             </md-button>
@@ -32,28 +32,53 @@
                                 Address
                             </h3>
                             <md-content layout-padding>
-                                <p>{{feature.address}}</p>
+                                <p>{{tip.address}}</p>
                             </md-content>
-                            <md-button class="md-primary" ng-href="{{feature.googleMapsUrl}}" target="_blank">
+                            <md-button class="md-primary" ng-href="{{tip.googleMapsUrl}}" target="_blank">
                                 Google Maps <i class="mdl-color-text--blue-grey-400 material-icons"
                                                role="presentation">map</i>
                             </md-button>
                         </div>
                         <div flex="50" flex-order="2">
                             <md-card>
-                                <img ng-src="{{feature.photoUrl}}" class="img-dialog">
+                                <img ng-src="{{tip.photoUrl}}" class="img-dialog">
                             </md-card>
                         </div>
                     </md-content>
                 </md-tab>
                 <md-tab label="Social" ng-if="isAuthFB()">
                     <md-content class="md-padding">
+                        <div layout="column">
+                            <div layout="row">
+                                <div flex="50">
+                                    <div layout="column" layout-align="center center">
+                                        <h3 class="md-headline">
+                                            Average Rate:
+                                        </h3>
+                                        <star-rating rating="averageRate" readonly="true" yellow="true"></star-rating>
+                                    </div>
+                                    <div layout="column" layout-align="center center">
+                                        <h3 class="md-headline">
+                                            My Rate:
+                                        </h3>
+                                        <star-rating rating="myRate" on-rating-select="rateSelected(rating)"></star-rating>
+                                    </div>
+                                </div>
+                                <div flex="50">
+                                    <div layout="column" layout-align="center center">
+                                        <h3 class="md-headline">
+                                            Favourite of:
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </md-content>
                 </md-tab>
             </md-tabs>
         </div>
         <div ng-show="edit">
-            <form-place form="formDialog" edit="true" place="feature" restoreplace="copy" types="types"></form-place>
+            <form-place form="formDialog" edit="true" place="tip" restoreplace="copy" types="types"></form-place>
         </div>
     </md-dialog-content>
     <div class="md-actions" layout="row">

@@ -1,5 +1,6 @@
 'use strict';
 
 define([
-    './directive/FavouriteDirective'
+    './directive/Favourite',
+    './directive/Rating'
 ],function(){});
