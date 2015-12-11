@@ -11,8 +11,7 @@ define([
                 rating: '=',
                 max: '=?',
                 onRatingSelect: '&?',
-                readonly: '=?',
-                yellow: '=?'
+                readonly: '=?'
             },
             link: function(scope, element, attributes) {
                 if (scope.max == undefined) {
