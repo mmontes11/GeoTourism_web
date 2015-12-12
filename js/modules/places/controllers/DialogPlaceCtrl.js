@@ -86,12 +86,14 @@ define([
                     }
                 });
 
-                $scope.$watch('tip.myFavourite', function (favourite) {
-                    if (_.isBoolean(favourite)) {
+                $scope.$watch('tip.myFavourite', function (favourite,favouriteOld) {
+                    if (angular.isDefined(favourite) && angular.isDefined(favouriteOld) && _.isBoolean(favourite)) {
                         TIP.favourite({
                             id: feature.id,
                             facebookUserId: FBStorageService.getUserID(),
                             favouriteValue: favourite
+                        }).$promise.then(function(response){
+                                $scope.tip.favouritedBy = response;
                         });
                     }
                 });

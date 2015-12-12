@@ -61,7 +61,8 @@
                                         <h3 class="md-title">
                                             My Rate:
                                         </h3>
-                                        <star-rating rating="myRate" on-rating-select="rateSelected(rating)"></star-rating>
+                                        <star-rating rating="myRate"
+                                                     on-rating-select="rateSelected(rating)"></star-rating>
                                     </div>
                                 </div>
                                 <div flex="50">
@@ -69,6 +70,14 @@
                                         <h3 class="md-title">
                                             Favourite of:
                                         </h3>
+                                        <md-content>
+                                            <md-list-item class="md-2-line" ng-repeat="user in tip.favouritedBy">
+                                                <img ng-src="{{user.facebookProfilePhotoUrl}}" class="md-avatar"/>
+                                                <md-button class="md-primary" ng-href="{{user.facebookProfileUrl}}" target="_blank">
+                                                    {{user.name}}
+                                                </md-button>
+                                            </md-list-item>
+                                        </md-content>
                                     </div>
                                 </div>
                             </div>

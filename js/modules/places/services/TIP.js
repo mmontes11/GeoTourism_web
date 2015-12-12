@@ -35,7 +35,8 @@ define([
                 },
                 favourite: {
                     method: 'POST',
-                    url: Config.API_ROOT_URL + '/social/tip/:id/favourite?facebookUserId=:facebookUserId&favouriteValue=:favouriteValue'
+                    url: Config.API_ROOT_URL + '/social/tip/:id/favourite?facebookUserId=:facebookUserId&favouriteValue=:favouriteValue',
+                    isArray: true
                 },
                 rate: {
                     method: 'POST',
