@@ -13,10 +13,10 @@ define([
                 $scope.isAuthFB = function () {
                     return AuthFBService.isAuthFB;
                 };
+                var facebookUserId = $scope.isAuthFB() && FBStorageService.getUserID()? FBStorageService.getUserID() : undefined;
 
                 $scope.types = TIP.getTypes();
 
-                var facebookUserId = $scope.isAuthFB() && FBStorageService.getUserID()? FBStorageService.getUserID() : undefined;
                 TIP.get({
                     id: feature.id,
                     facebookUserId: facebookUserId
@@ -54,9 +54,11 @@ define([
                         $scope.tip.photoName = $scope.tip.photo.name;
                     }
 
-                    var parameters = {id: $scope.tip.id},
-                        patchPayload = _.pick($scope.tip, 'type', 'name', 'description', 'infoUrl', 'address',
-                            'photoUrl', 'photoContent', 'photoName');
+                    var parameters = {
+                            id: $scope.tip.id,
+                            facebookUserId: facebookUserId
+                        },
+                        patchPayload = _.pick($scope.tip, 'type', 'name', 'description', 'infoUrl', 'address', 'photoUrl');
                     TIP.patch(parameters, patchPayload).$promise
                         .then(function (tip) {
                             $scope.tip = tip;
