@@ -10,6 +10,7 @@ define([
             //Default Parameters
             {
                 id: '@id',
+                commentId: '@commentId',
                 type: '@type',
                 facebookUserId: '@facebookUserId',
                 favouriteValue: '@favouriteValue',
@@ -46,6 +47,11 @@ define([
                 comment: {
                     method: 'POST',
                     url: Config.API_ROOT_URL + '/social/tip/:id/comment?facebookUserId=:facebookUserId&commentText=:commentText',
+                    isArray: true
+                },
+                deleteComment: {
+                    method: 'DELETE',
+                    url: Config.API_ROOT_URL + '/social/tip/:id/comment/:commentId?facebookUserId=:facebookUserId',
                     isArray: true
                 }
             }

@@ -93,7 +93,6 @@
                                         <md-list-item class="md-3-line md-long-text"
                                                       ng-repeat="comment in tip.comments">
                                             <img ng-src="{{comment.user.facebookProfilePhotoUrl}}" class="md-avatar"/>
-
                                             <div class="md-list-item-text">
                                                 <md-button class="md-primary"
                                                            ng-href="{{comment.user.facebookProfileUrl}}"
@@ -103,6 +102,11 @@
                                                 <p>
                                                     {{comment.commentText}}
                                                 </p>
+                                            </div>
+                                            <div ng-if="comment.user.facebookUserId == facebookUserId">
+                                                <md-button class="md-warn" ng-click="deleteComment(comment.id)">
+                                                    <i class="material-icons">delete</i>
+                                                </md-button>
                                             </div>
                                         </md-list-item>
                                     </md-content>

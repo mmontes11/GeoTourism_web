@@ -13,13 +13,13 @@ define([
                 $scope.isAuthFB = function () {
                     return AuthFBService.isAuthFB;
                 };
-                var facebookUserId = $scope.isAuthFB() && FBStorageService.getUserID()? FBStorageService.getUserID() : undefined;
+                $scope.facebookUserId = $scope.isAuthFB() && FBStorageService.getUserID()? FBStorageService.getUserID() : undefined;
 
                 $scope.types = TIP.getTypes();
 
                 TIP.get({
                     id: feature.id,
-                    facebookUserId: facebookUserId
+                    facebookUserId: $scope.facebookUserId
                 }).$promise
                     .then(function (tip) {
                         $scope.tip = tip;
@@ -56,7 +56,7 @@ define([
 
                     var parameters = {
                             id: $scope.tip.id,
-                            facebookUserId: facebookUserId
+                            facebookUserId: $scope.facebookUserId
                         },
                         patchPayload = _.pick($scope.tip, 'type', 'name', 'description', 'infoUrl', 'address', 'photoUrl');
                     TIP.patch(parameters, patchPayload).$promise
@@ -92,7 +92,7 @@ define([
                     if (angular.isDefined(favourite) && angular.isDefined(favouriteOld) && _.isBoolean(favourite)) {
                         TIP.favourite({
                             id: feature.id,
-                            facebookUserId: FBStorageService.getUserID(),
+                            facebookUserId: $scope.facebookUserId,
                             favouriteValue: favourite
                         }).$promise.then(function(response){
                             if (favourite == true){
@@ -118,7 +118,7 @@ define([
                 $scope.rateSelected = function(ratingValue) {
                     TIP.rate({
                         id: feature.id,
-                        facebookUserId: FBStorageService.getUserID(),
+                        facebookUserId: $scope.facebookUserId,
                         ratingValue: ratingValue
                     }).$promise.then(function(response){
                         NotificationService.displayMessage("Place rated!");
@@ -129,12 +129,16 @@ define([
                 $scope.addComment = function(commentText){
                     TIP.comment({
                         id: feature.id,
-                        facebookUserId: FBStorageService.getUserID(),
+                        facebookUserId: $scope.facebookUserId,
                         commentText: commentText
                     }).$promise.then(function(response){
                         NotificationService.displayMessage("Place commented!");
                         $scope.tip.comments = response;
                     });
+                };
+
+                $scope.deleteComment = function(commentId){
+                    console.log(commentId);
                 };
             }]);
 });
