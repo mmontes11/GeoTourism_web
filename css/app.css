@@ -35,3 +35,7 @@ md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused 
     display: block;
     border-radius: 5%;
 }
+
+.tipFavourites {
+    max-height: 12%;
+}
