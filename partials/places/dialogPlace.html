@@ -70,7 +70,7 @@
                                         <h3 class="md-title">
                                             Favourite of:
                                         </h3>
-                                        <md-content class="tipFavourites">
+                                        <md-content class="list-dialog">
                                             <md-list-item class="md-2-line" ng-repeat="user in tip.favouritedBy">
                                                 <img ng-src="{{user.facebookProfilePhotoUrl}}" class="md-avatar"/>
                                                 <md-button class="md-primary" ng-href="{{user.facebookProfileUrl}}"
@@ -88,13 +88,35 @@
                                 </h3>
                             </div>
                             <div layout="row" layout-align="center center">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fringilla fringilla
-                                orci, sit amet molestie ante placerat quis. Donec malesuada dolor ut mollis euismod.
-                                Integer vel mauris sagittis, cursus est in, gravida enim. Duis vitae augue malesuada,
-                                imperdiet metus non, tristique arcu. Suspendisse quis convallis odio. Suspendisse in
-                                semper diam. Vivamus porttitor neque non mauris ultricies, vitae sollicitudin dolor
-                                interdum. Integer elementum blandit felis nec scelerisque.
+                                <div class="column">
+                                    <md-content class="list-dialog-big">
+                                        <md-list-item class="md-3-line md-long-text"
+                                                      ng-repeat="comment in tip.comments">
+                                            <img ng-src="{{comment.user.facebookProfilePhotoUrl}}" class="md-avatar"/>
 
+                                            <div class="md-list-item-text">
+                                                <md-button class="md-primary"
+                                                           ng-href="{{comment.user.facebookProfileUrl}}"
+                                                           target="_blank">
+                                                    {{comment.user.name}}
+                                                </md-button>
+                                                <p>
+                                                    {{comment.commentText}}
+                                                </p>
+                                            </div>
+                                        </md-list-item>
+                                    </md-content>
+                                </div>
+                            </div>
+                            <div layout="row" layout-align="center center">
+                                <md-input-container flex="90">
+                                    <label>Comment</label>
+                                    <textarea ng-model="comment" columns="1" md-maxlength="300"></textarea>
+                                </md-input-container>
+                                <md-button type="submit" class="md-primary" flex="5"
+                                           ng-click="addComment(comment); comment = undefined;">
+                                    <i class="material-icons">comment</i>
+                                </md-button>
                             </div>
                         </div>
                     </md-content>

@@ -95,7 +95,7 @@ define([
                             facebookUserId: FBStorageService.getUserID(),
                             favouriteValue: favourite
                         }).$promise.then(function(response){
-                                $scope.tip.favouritedBy = response;
+                            $scope.tip.favouritedBy = response;
                         });
                     }
                 });
@@ -116,7 +116,18 @@ define([
                         facebookUserId: FBStorageService.getUserID(),
                         ratingValue: ratingValue
                     }).$promise.then(function(response){
-                            $scope.averageRate = Math.round(parseFloat(response.averageRate));
+                        $scope.averageRate = Math.round(parseFloat(response.averageRate));
+                    });
+                };
+
+                $scope.addComment = function(commentText){
+                    TIP.comment({
+                        id: feature.id,
+                        facebookUserId: FBStorageService.getUserID(),
+                        commentText: commentText
+                    }).$promise.then(function(response){
+                            console.log(response);
+                        $scope.tip.comments = response;
                     });
                 };
             }]);

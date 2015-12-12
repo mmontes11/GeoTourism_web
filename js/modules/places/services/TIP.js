@@ -13,7 +13,8 @@ define([
                 type: '@type',
                 facebookUserId: '@facebookUserId',
                 favouriteValue: '@favouriteValue',
-                ratingValue: '@ratingValue'
+                ratingValue: '@ratingValue',
+                commentText: '@commentText'
             },
             //Actions
             {
@@ -41,6 +42,11 @@ define([
                 rate: {
                     method: 'POST',
                     url: Config.API_ROOT_URL + '/social/tip/:id/rating?facebookUserId=:facebookUserId&ratingValue=:ratingValue'
+                },
+                comment: {
+                    method: 'POST',
+                    url: Config.API_ROOT_URL + '/social/tip/:id/comment?facebookUserId=:facebookUserId&commentText=:commentText',
+                    isArray: true
                 }
             }
         );

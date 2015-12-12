@@ -36,6 +36,10 @@ md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused 
     border-radius: 5%;
 }
 
-.tipFavourites {
+.list-dialog {
     max-height: 12%;
+}
+
+.list-dialog-big {
+    max-height: 25%;
 }
