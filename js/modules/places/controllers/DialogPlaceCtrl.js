@@ -95,6 +95,11 @@ define([
                             facebookUserId: FBStorageService.getUserID(),
                             favouriteValue: favourite
                         }).$promise.then(function(response){
+                            if (favourite == true){
+                                NotificationService.displayMessage("Place favourited!");
+                            }else{
+                                NotificationService.displayMessage("Place unfavourited!");
+                            }
                             $scope.tip.favouritedBy = response;
                         });
                     }
@@ -116,6 +121,7 @@ define([
                         facebookUserId: FBStorageService.getUserID(),
                         ratingValue: ratingValue
                     }).$promise.then(function(response){
+                        NotificationService.displayMessage("Place rated!");
                         $scope.averageRate = Math.round(parseFloat(response.averageRate));
                     });
                 };
@@ -126,7 +132,7 @@ define([
                         facebookUserId: FBStorageService.getUserID(),
                         commentText: commentText
                     }).$promise.then(function(response){
-                            console.log(response);
+                        NotificationService.displayMessage("Place commented!");
                         $scope.tip.comments = response;
                     });
                 };
