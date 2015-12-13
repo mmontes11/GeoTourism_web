@@ -138,7 +138,14 @@ define([
                 };
 
                 $scope.deleteComment = function(commentId){
-                    console.log(commentId);
+                    TIP.deleteComment({
+                        id: feature.id,
+                        facebookUserId: $scope.facebookUserId,
+                        commentId: commentId
+                    }).$promise.then(function(response){
+                        NotificationService.displayMessage("Comment deleted!");
+                        $scope.tip.comments = response;
+                    });
                 };
             }]);
 });
