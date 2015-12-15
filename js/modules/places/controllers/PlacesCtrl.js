@@ -3,20 +3,25 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('PlacesCtrl', ['$scope', '$q', 'FeatureService', 'Cities', 'City', 'TIPs', 'TIP',
-        'AuthAdminService', 'NotificationService', 'DialogService',
-        function ($scope, $q, FeatureService, Cities, City, TIPs, TIP,
-                  AuthAdminService, NotificationService, DialogService) {
+    module.controller('PlacesCtrl', ['$scope', '$q', 'FeatureService', 'Cities', 'City', 'TIPs', 'TIP', 'User',
+        'FBStorageService', 'AuthAdminService', 'AuthFBService', 'NotificationService', 'DialogService',
+        function ($scope, $q, FeatureService, Cities, City, TIPs, TIP, User,
+                  FBStorageService, AuthAdminService, AuthFBService, NotificationService, DialogService) {
 
             $scope.isAuthenticated = function () {
                 return AuthAdminService.isAuthenticated;
             };
+            $scope.isAuthFB = function () {
+                return AuthFBService.isAuthFB;
+            };
+            $scope.facebookUserId = FBStorageService.getUserID();
 
             $scope.types = TIP.getTypes();
             $scope.selectedTypes = [];
-
             $scope.cities = Cities.query();
             $scope.selectedCities = [];
+            $scope.friends = User.getFriends({facebookUserId: $scope.facebookUserId});
+            $scope.selectedFriends = [];
 
             $scope.allowAddTIPs = false;
 
@@ -35,27 +40,60 @@ define([
                 }
             });
 
-            $scope.$watchCollection('selectedTypes', function(){
-                requestFeatures();
+            $scope.$watchCollection('selectedTypes', function (newVal, oldVal) {
+                console.log('selectedTypes');
+                console.log(newVal);
+                if (newVal != oldVal) {
+                    requestFeatures();
+                }
             });
 
-            $scope.$watchCollection('selectedCities', function(){
-                requestFeatures();
+            $scope.$watchCollection('selectedCities', function (newVal, oldVal) {
+                console.log('selectedCities');
+                console.log(newVal);
+                if (newVal != oldVal) {
+                    requestFeatures();
+                }
+            });
+
+            $scope.$watch('favouritedBy', function (newVal, oldVal) {
+                console.log('favouritedBy');
+                console.log(newVal);
+                if (newVal != oldVal) {
+                    requestFeatures();
+                }
+            });
+
+            $scope.$watchCollection('selectedFriends', function (newVal, oldVal) {
+                console.log('selectedFriends');
+                console.log(newVal);
+                if (newVal != oldVal) {
+                    requestFeatures();
+                }
             });
 
             var requestFeatures = function () {
-                var types = _.map($scope.selectedTypes, function(type){
+                var types = _.map($scope.selectedTypes, function (type) {
                     return type.id;
                 });
-                var cities = _.map($scope.selectedCities, function(city){
+                var cities = _.map($scope.selectedCities, function (city) {
                     return city.id;
                 });
-                var payload = {
+                var friends = [];
+                if (angular.isDefined($scope.favouritedBy) && $scope.favouritedBy == 1 && !_.isEmpty($scope.selectedFriends)) {
+                    friends = _.map($scope.selectedFriends, function (friend) {
+                        return friend.facebookUserId;
+                    });
+                }
+                var URLparams = {
                     bounds: $scope.bounds,
                     types: types,
-                    cities: cities
+                    cities: cities,
+                    favouritedBy: $scope.favouritedBy,
+                    facebookUserId: $scope.facebookUserId,
+                    friends: friends
                 };
-                TIPs.query(payload).$promise
+                TIPs.query(URLparams).$promise
                     .then(function (resultFeatures) {
                         $scope.features = resultFeatures;
                     }, function () {
@@ -63,7 +101,7 @@ define([
                     });
             };
 
-            $scope.$watch('boundschanged', function (bounds) {
+            $scope.$watch('boundschanged', function (bounds,boundsOld) {
                 if (angular.isDefined(bounds)) {
                     $scope.bounds = FeatureService.toWKT(bounds);
                     requestFeatures();

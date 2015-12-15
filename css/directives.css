@@ -6,7 +6,6 @@
 .chips  ::-moz-placeholder{
     color:    #000000;
     opacity:  1;
-    font-weight: bold
 }
 
 .chips ::-webkit-input-placeholder{

@@ -11,8 +11,13 @@ define([
             {},
             //Actions
             {
-                createOrRetrieve:{
+                createOrRetrieve: {
                     method: 'GET'
+                },
+                getFriends: {
+                    method: 'GET',
+                    url: Config.API_ROOT_URL + '/social/user/friends',
+                    isArray: true
                 }
             }
         );

@@ -22,6 +22,16 @@ md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused 
     color: #000000;
 }
 
+md-input-container.favouritedBy  *{
+    color: #000000;
+    font-weight: bold;
+}
+
+md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, md-input-container:not(.md-input-invalid).md-input-has-value.favouritedBy  label{
+    color: #000000;
+    font-weight: bold;
+}
+
 .img-dialog {
     max-height: 70%;
     height: auto;

@@ -13,7 +13,7 @@ define([
                 $scope.isAuthFB = function () {
                     return AuthFBService.isAuthFB;
                 };
-                $scope.facebookUserId = $scope.isAuthFB() && FBStorageService.getUserID()? FBStorageService.getUserID() : undefined;
+                $scope.facebookUserId = FBStorageService.getUserID();
 
                 $scope.types = TIP.getTypes();
 

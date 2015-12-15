@@ -1,18 +1,30 @@
 <map boundschanged='boundschanged' locationclicked="locationclicked" features='features'
      layerclicked='layerclicked' layerdelete="layerdelete">
-    <div layout="row" layout-align="center center" ng-show="!allowAddTIPs">
-        <chips class="map-overlay" flex="15"
-               placeholder="FILTER BY TYPE"
+    <div layout="row" layout-align="center center"
+         layout-sm="row" layout-align-sm="space-around"
+         ng-show="!allowAddTIPs">
+        <chips class="map-overlay"
+               flex="15"
+               placeholder="TYPE ..."
                items="types" selected="selectedTypes">
         </chips>
-        <chips class="map-overlay" flex="15"
-               placeholder="FILTER BY CITY"
+        <chips class="map-overlay"
+               flex="15"
+               placeholder="CITY ..."
                items="cities" selected="selectedCities">
         </chips>
+        <div layout="column" flex="15" ng-show="isAuthFB()">
+            <favourite-selector favouritedBy="favouritedBy"></favourite-selector>
+            <chips class="map-overlay"
+                   placeholder="FRIENDS ..."
+                   items="friends" selected="selectedFriends"
+                   ng-show="favouritedBy == 1">
+            </chips>
+        </div>
     </div>
     <div layout="row" layout-align="center center" ng-show="allowAddTIPs">
         <md-button class="md-raised md-primary map-overlay" ng-click="finishAddTIPs()">
-            Done
+            Donel
         </md-button>
     </div>
 </map>
