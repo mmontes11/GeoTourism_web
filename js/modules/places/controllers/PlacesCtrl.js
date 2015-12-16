@@ -56,12 +56,11 @@ define([
                 }
             });
 
-            $scope.$watch('favouritedBy', function (newVal, oldVal) {
+            $scope.$on('favouriteSelector.favouritedBy', function (event, favouritedBy) {
+                $scope.favouritedBy = favouritedBy;
                 console.log('favouritedBy');
-                console.log(newVal);
-                if (newVal != oldVal) {
-                    requestFeatures();
-                }
+                console.log(favouritedBy);
+                requestFeatures();
             });
 
             $scope.$watchCollection('selectedFriends', function (newVal, oldVal) {

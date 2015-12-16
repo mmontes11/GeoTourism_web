@@ -14,7 +14,7 @@
                items="cities" selected="selectedCities">
         </chips>
         <div layout="column" flex="15" ng-show="isAuthFB()">
-            <favourite-selector favouritedBy="favouritedBy"></favourite-selector>
+            <favourite-selector></favourite-selector>
             <chips class="map-overlay"
                    placeholder="FRIENDS ..."
                    items="friends" selected="selectedFriends"
@@ -24,7 +24,7 @@
     </div>
     <div layout="row" layout-align="center center" ng-show="allowAddTIPs">
         <md-button class="md-raised md-primary map-overlay" ng-click="finishAddTIPs()">
-            Donel
+            Done
         </md-button>
     </div>
 </map>

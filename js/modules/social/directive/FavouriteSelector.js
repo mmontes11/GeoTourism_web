@@ -7,9 +7,6 @@ define([
         return {
             restrict: 'E',
             templateUrl: 'partials/social/favouriteSelector.html',
-            scope: {
-                favouritedBy: '='
-            },
             link: function(scope) {
                 scope.people = [
                     {
@@ -22,8 +19,10 @@ define([
                     }
                 ];
 
-                scope.$watch('favouritedBy',function(a){
-                    console.log(a);
+                scope.$watch('favouritedBy',function(newVal,oldVal){
+                    if (newVal != oldVal){
+                        scope.$emit('favouriteSelector.favouritedBy',newVal);
+                    }
                 });
             }
         };
