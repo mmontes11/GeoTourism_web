@@ -14,15 +14,14 @@ define([
             $scope.isAuthFB = function () {
                 return AuthFBService.isAuthFB;
             };
-            $scope.facebookUserId = FBStorageService.getUserID();
 
             $scope.types = TIP.getTypes();
             $scope.selectedTypes = [];
             $scope.cities = Cities.query();
             $scope.selectedCities = [];
-            $scope.friends = User.getFriends({facebookUserId: $scope.facebookUserId});
+            $scope.friends = User.getFriends({facebookUserId: FBStorageService.getUserID()});
             $scope.selectedFriends = [];
-
+            
             $scope.allowAddTIPs = false;
 
             $scope.addTIP = function () {
@@ -63,13 +62,15 @@ define([
                 requestFeatures();
             });
 
-            $scope.$watchCollection('selectedFriends', function (newVal, oldVal) {
-                console.log('selectedFriends');
-                console.log(newVal);
-                if (newVal != oldVal) {
-                    requestFeatures();
-                }
-            });
+            if ($scope.isAuthFB()) {
+                $scope.$watchCollection('selectedFriends', function (newVal, oldVal) {
+                    console.log('selectedFriends');
+                    console.log(newVal);
+                    if (newVal != oldVal) {
+                        requestFeatures();
+                    }
+                });
+            }
 
             var requestFeatures = function () {
                 var types = _.map($scope.selectedTypes, function (type) {
@@ -78,20 +79,21 @@ define([
                 var cities = _.map($scope.selectedCities, function (city) {
                     return city.id;
                 });
-                var friends = [];
-                if (angular.isDefined($scope.favouritedBy) && $scope.favouritedBy == 1 && !_.isEmpty($scope.selectedFriends)) {
-                    friends = _.map($scope.selectedFriends, function (friend) {
-                        return friend.facebookUserId;
-                    });
-                }
                 var URLparams = {
                     bounds: $scope.bounds,
                     types: types,
-                    cities: cities,
-                    favouritedBy: $scope.favouritedBy,
-                    facebookUserId: $scope.facebookUserId,
-                    friends: friends
+                    cities: cities
                 };
+                if ($scope.isAuthFB() && angular.isDefined($scope.favouritedBy)) {
+                    URLparams["facebookUserId"] = FBStorageService.getUserID();
+                    URLparams["favouritedBy"] = $scope.favouritedBy;
+                    if ($scope.favouritedBy == 1 && !_.isEmpty($scope.selectedFriends)) {
+                        var friends = _.map($scope.selectedFriends, function (friend) {
+                            return friend.facebookUserId;
+                        });
+                        URLparams["friends"] = friends;
+                    }
+                }
                 TIPs.query(URLparams).$promise
                     .then(function (resultFeatures) {
                         $scope.features = resultFeatures;
@@ -100,7 +102,7 @@ define([
                     });
             };
 
-            $scope.$watch('boundschanged', function (bounds,boundsOld) {
+            $scope.$watch('boundschanged', function (bounds, boundsOld) {
                 if (angular.isDefined(bounds)) {
                     $scope.bounds = FeatureService.toWKT(bounds);
                     requestFeatures();
