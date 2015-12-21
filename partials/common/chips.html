@@ -1,16 +1,18 @@
 <div class="chips" ng-cloak>
-    <md-chips ng-model="selected" md-autocomplete-snap=""
-              md-transform-chip="ctrl.transformChip($chip)" md-require-match="true">
-        <md-autocomplete md-selected-item="ctrl.selectedItem"
-                         md-search-text="ctrl.searchText"
-                         md-items="item in ctrl.querySearch(ctrl.searchText)" md-item-text="item.name"
-                         placeholder="{{placeholder}}">
-            <span md-highlight-text="ctrl.searchText">{{item.name}}</span>
-        </md-autocomplete>
-        <md-chip-template>
-            <span>
-              <strong>{{$chip.name}}</strong>
-            </span>
-        </md-chip-template>
-    </md-chips>
+    <md-content class="md-padding">
+        <md-chips ng-model="selected" md-autocomplete-snap=""
+                  md-transform-chip="ctrl.transformChip($chip)" md-require-match="true">
+            <md-autocomplete md-selected-item="ctrl.selectedItem"
+                             md-search-text="ctrl.searchText"
+                             md-items="item in ctrl.querySearch(ctrl.searchText)" md-item-text="item.name"
+                             placeholder="{{placeholder}}">
+                <span md-highlight-text="ctrl.searchText">{{item.name}}</span>
+            </md-autocomplete>
+            <md-chip-template>
+                <span>
+                  <strong>{{$chip.name}}</strong>
+                </span>
+            </md-chip-template>
+        </md-chips>
+    </md-content>
 </div>

@@ -13,13 +13,9 @@
                placeholder="CITY ..."
                items="cities" selected="selectedCities">
         </chips>
-        <div layout="column" flex="15" ng-show="isAuthFB()">
+        <div layout="column" flex="15" ng-if="isAuthFB()">
             <favourite-selector></favourite-selector>
-            <chips class="map-overlay"
-                   placeholder="FRIENDS ..."
-                   items="friends" selected="selectedFriends"
-                   ng-show="favouritedBy == 1">
-            </chips>
+            <social-chips class="map-overlay" ng-if="favouritedBy == 1" friends="friends"></social-chips>
         </div>
     </div>
     <div layout="row" layout-align="center center" ng-show="allowAddTIPs">

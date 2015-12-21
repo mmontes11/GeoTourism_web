@@ -25,7 +25,6 @@ define([
                     return chip;
                 }
             }
-
             function querySearch(query) {
                 return query ? lowerItems.filter(createFilterFor(query)) : [];
             }

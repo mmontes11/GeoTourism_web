@@ -27,6 +27,10 @@ md-input-container.favouritedBy  *{
     font-weight: bold;
 }
 
+md-content {
+    background-color:rgba(255, 255, 255, 0.65);
+}
+
 md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, md-input-container:not(.md-input-invalid).md-input-has-value.favouritedBy  label{
     color: #000000;
     font-weight: bold;

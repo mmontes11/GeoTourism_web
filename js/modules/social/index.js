@@ -3,5 +3,6 @@
 define([
     './directive/Favourite',
     './directive/FavouriteSelector',
-    './directive/Rating'
+    './directive/Rating',
+    './directive/SocialChips'
 ],function(){});
