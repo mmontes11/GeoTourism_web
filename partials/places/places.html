@@ -1,24 +1,27 @@
 <map boundschanged='boundschanged' locationclicked="locationclicked" features='features'
      layerclicked='layerclicked' layerdelete="layerdelete">
-    <div layout="row" layout-align="center center"
-         layout-sm="row" layout-align-sm="space-around"
-         ng-show="!allowAddTIPs">
-        <chips class="map-overlay"
-               flex="15"
-               placeholder="TYPE ..."
-               items="types" selected="selectedTypes">
-        </chips>
-        <chips class="map-overlay"
-               flex="15"
-               placeholder="CITY ..."
-               items="cities" selected="selectedCities">
-        </chips>
-        <div layout="column" flex="15" ng-if="isAuthFB()">
-            <favourite-selector></favourite-selector>
-            <social-chips class="map-overlay" ng-if="favouritedBy == 1" friends="friends"></social-chips>
+    <md-content class="md-padding map-overlay" ng-if="!allowAddTIPs">
+        <div layout="row" layout-align="center center"
+             layout-sm="row" layout-align-sm="space-around"
+             ng-show="!allowAddTIPs">
+
+            <chips class="map-overlay"
+                   flex="15"
+                   placeholder="TYPE ..."
+                   items="types" selected="selectedTypes">
+            </chips>
+            <chips class="map-overlay"
+                   flex="15"
+                   placeholder="CITY ..."
+                   items="cities" selected="selectedCities">
+            </chips>
+            <div flex="22" layout="row" layout-sm="column" ng-if="isAuthFB()">
+                <favourite-selector></favourite-selector>
+                <social-chips class="map-overlay" ng-if="favouritedBy == 1" friends="friends"></social-chips>
+            </div>
         </div>
-    </div>
-    <div layout="row" layout-align="center center" ng-show="allowAddTIPs">
+    </md-content>
+    <div layout="row" layout-align="center center" ng-if="allowAddTIPs">
         <md-button class="md-raised md-primary map-overlay" ng-click="finishAddTIPs()">
             Done
         </md-button>
