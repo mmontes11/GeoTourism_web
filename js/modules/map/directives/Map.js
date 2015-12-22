@@ -41,19 +41,7 @@ define([
                     enableHighAccuracy: true
                 });
 
-                map.on('locationfound', function(){
-                    scope.$apply(function(){
-                        fireBoundsChanged();
-                    });
-                });
-
-                map.on('dragend',function(){
-                    scope.$apply(function(){
-                        fireBoundsChanged();
-                    });
-                });
-
-                map.on('zoomend',function(){
+                map.on('locationfound dragend zoomend', function(){
                     scope.$apply(function(){
                         fireBoundsChanged();
                     });

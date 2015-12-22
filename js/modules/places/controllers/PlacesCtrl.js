@@ -4,9 +4,9 @@ define([
     '../module'
 ], function (module) {
     module.controller('PlacesCtrl', ['$scope', '$q', 'FeatureService', 'Cities', 'City', 'TIPs', 'TIP', 'User',
-        'FBStorageService', 'AuthAdminService', 'AuthFBService', 'NotificationService', 'DialogService',
+        'FBStorageService', 'AuthAdminService', 'AuthFBService', 'NotificationService', 'DialogService','ValidationService',
         function ($scope, $q, FeatureService, Cities, City, TIPs, TIP, User,
-                  FBStorageService, AuthAdminService, AuthFBService, NotificationService, DialogService) {
+                  FBStorageService, AuthAdminService, AuthFBService, NotificationService, DialogService, ValidationService) {
 
             $scope.isAuthenticated = function () {
                 return AuthAdminService.isAuthenticated;
@@ -50,25 +50,21 @@ define([
             });
 
             $scope.$watchCollection('selectedTypes', function (newVal, oldVal) {
-                console.log(newVal);
-                console.log(oldVal);
-                requestFeatures();
+                if (ValidationService.arrayChanged(newVal,oldVal)) {
+                    requestFeatures();
+                }
             });
             $scope.$watchCollection('selectedCities', function (newVal, oldVal) {
-                console.log('selectedCities');
-                console.log(newVal);
-                requestFeatures();
+                if (ValidationService.arrayChanged(newVal,oldVal)){
+                    requestFeatures();
+                }
             });
             $scope.$on('favouriteSelector.favouritedBy', function (event, favouritedBy) {
                 $scope.favouritedBy = favouritedBy;
-                console.log('favouritedBy');
-                console.log(favouritedBy);
                 requestFeatures();
             });
             $scope.$on('socialChips.selectedFriends', function (event, selectedFriends) {
                 $scope.selectedFriends = selectedFriends;
-                console.log('selectedFriends');
-                console.log(selectedFriends);
                 requestFeatures();
             });
 
@@ -107,7 +103,7 @@ define([
             };
 
             $scope.$watch('boundschanged', function (bounds, boundsOld) {
-                if (angular.isDefined(bounds)) {
+                if (angular.isDefined(bounds) && angular.isDefined(boundsOld)) {
                     $scope.bounds = FeatureService.toWKT(bounds);
                     requestFeatures();
                 }

@@ -5,6 +5,7 @@ define([
     './services/PasswordEncrypter',
     './services/NotificationService',
     './services/DialogService',
+    './services/ValidationService',
     './controllers/MainLayoutCtrl',
     './controllers/ChipsController',
     './directives/FAB',

@@ -3,7 +3,7 @@
 define([
     '../module'
 ], function(module){
-    module.directive('socialChips',function(){
+    module.directive('socialChips', ['ValidationService', function(ValidationService){
         return {
             restrict: 'E',
             replace: false,
@@ -22,7 +22,7 @@ define([
                     }
                 });
                 scope.$watchCollection('selectedFriends', function(newVal,oldVal){
-                    if (angular.isDefined(newVal) || (angular.isUndefined(newVal) && angular.isDefined(oldVal))) {
+                    if (ValidationService.arrayChanged(newVal,oldVal)) {
                         scope.$emit('socialChips.selectedFriends', newVal);
                     }
                 });
@@ -36,5 +36,5 @@ define([
                 }
             }
         }
-    });
+    }]);
 });
