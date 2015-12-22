@@ -65,7 +65,7 @@ define([
                 console.log(favouritedBy);
                 requestFeatures();
             });
-            $scope.$watchCollection('socialChips.selectedFriends', function (event, selectedFriends) {
+            $scope.$on('socialChips.selectedFriends', function (event, selectedFriends) {
                 $scope.selectedFriends = selectedFriends;
                 console.log('selectedFriends');
                 console.log(selectedFriends);

@@ -21,7 +21,7 @@ define([
                         });
                     }
                 });
-                scope.$watch('selectedFriends', function(selectedFriends){
+                scope.$watchCollection('selectedFriends', function(selectedFriends){
                     console.log(selectedFriends);
                     scope.$emit('socialChips.selectedFriends',selectedFriends);
                 });
