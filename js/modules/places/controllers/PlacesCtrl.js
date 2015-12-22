@@ -50,8 +50,8 @@ define([
             });
 
             $scope.$watchCollection('selectedTypes', function (newVal, oldVal) {
-                console.log('selectedTypes');
                 console.log(newVal);
+                console.log(oldVal);
                 requestFeatures();
             });
             $scope.$watchCollection('selectedCities', function (newVal, oldVal) {
@@ -97,6 +97,7 @@ define([
                     URLparams["facebookUserId"] = undefined;
                     URLparams["friends"] = undefined;
                 }
+
                 TIPs.query(URLparams).$promise
                     .then(function (resultFeatures) {
                         $scope.features = resultFeatures;

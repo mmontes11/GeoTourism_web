@@ -18,8 +18,10 @@ define([
                         text: "My Friends"
                     }
                 ];
-                scope.$watch('favouritedBy',function(favouritedBy){
-                    scope.$emit('favouriteSelector.favouritedBy',favouritedBy);
+                scope.$watch('favouritedBy',function(newVal,oldVal){
+                    if (angular.isDefined(newVal) || (angular.isUndefined(newVal) && angular.isDefined(oldVal))){
+                        scope.$emit('favouriteSelector.favouritedBy',newVal);
+                    }
                 });
             }
         };

@@ -4,21 +4,10 @@
         <div layout="row" layout-align="center center"
              layout-sm="row" layout-align-sm="space-around"
              ng-show="!allowAddTIPs">
-
-            <chips class="map-overlay"
-                   flex="15"
-                   placeholder="TYPE ..."
-                   items="types" selected="selectedTypes">
-            </chips>
-            <chips class="map-overlay"
-                   flex="15"
-                   placeholder="CITY ..."
-                   items="cities" selected="selectedCities">
-            </chips>
-            <div flex="22" layout="row" layout-sm="column" ng-if="isAuthFB()">
-                <favourite-selector></favourite-selector>
-                <social-chips class="map-overlay" ng-if="favouritedBy == 1" friends="friends"></social-chips>
-            </div>
+            <chips flex="15" placeholder="TYPE ..." items="types" selected="selectedTypes"></chips>
+            <chips flex="15" placeholder="CITY ..." items="cities" selected="selectedCities"></chips>
+            <favourite-selector flex="15" ng-if="isAuthFB()"></favourite-selector>
+            <social-chips flex="15" ng-if="isAuthFB() && favouritedBy == 1" friends="friends"></social-chips>
         </div>
     </md-content>
     <div layout="row" layout-align="center center" ng-if="allowAddTIPs">

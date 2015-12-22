@@ -21,9 +21,10 @@ define([
                         });
                     }
                 });
-                scope.$watchCollection('selectedFriends', function(selectedFriends){
-                    console.log(selectedFriends);
-                    scope.$emit('socialChips.selectedFriends',selectedFriends);
+                scope.$watchCollection('selectedFriends', function(newVal,oldVal){
+                    if (angular.isDefined(newVal) || (angular.isUndefined(newVal) && angular.isDefined(oldVal))) {
+                        scope.$emit('socialChips.selectedFriends', newVal);
+                    }
                 });
                 scope.querySearch =  function(query) {
                     return query ? scope.allFriends.filter(scope.createFilterFor(query)) : [];

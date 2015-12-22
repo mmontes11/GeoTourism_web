@@ -1,6 +1,6 @@
 <div class="chips" ng-cloak>
-    <md-chips ng-model="selected" md-autocomplete-snap=""
-              md-transform-chip="ctrl.transformChip($chip)" md-require-match="true">
+    <md-chips ng-model="selected" filter-selected="true"
+              md-transform-chip="ctrl.transformChip($chip)" md-require-match="true" md-highlight-flags="i">
         <md-autocomplete md-selected-item="ctrl.selectedItem"
                          md-search-text="ctrl.searchText"
                          md-items="item in ctrl.querySearch(ctrl.searchText)" md-item-text="item.name"
