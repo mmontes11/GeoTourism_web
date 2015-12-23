@@ -12,7 +12,6 @@ define([
             that.isAuthFB = (response.status === 'connected');
         });
         Facebook.subscribe('auth.statusChange',function(response){
-            console.log(response);
             if(response.status === 'connected'){
                 that.isAuthFB = true;
             }else{

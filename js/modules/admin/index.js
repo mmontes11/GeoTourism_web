@@ -3,5 +3,5 @@
 define([
     './controllers/LogInAdminCtrl',
     './services/AuthAdminService',
-    './services/LogInAdminService'
+    './services/Admin'
 ], function(){});
