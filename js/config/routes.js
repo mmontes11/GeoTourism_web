@@ -16,7 +16,7 @@ define([
             .state('admin',{
                 url: '/admin',
                 templateUrl: 'partials/admin/logInAdmin.html',
-                controller: 'LogInAdminCtrl'
+                controller: 'LogInAdminCtrl as ctrl'
             })
             .state('about', {
                 url: '/about',
@@ -26,12 +26,10 @@ define([
     }]);
 
     app.run(['$rootScope','$state','AuthAdminService', function($rootScope,$state,AuthAdminService){
-        $rootScope.$on("$stateChangeStart", function(event, toState, toParams, fromState, fromParams) {
+        $rootScope.$on("$stateChangeStart", function(event, toState) {
             if (AuthAdminService.isAuthenticated){
                 if (toState.url == '/admin'){
                     event.preventDefault();
-                    $state.go(toState);
-                    return;
                 }
             }
         });

@@ -4,15 +4,15 @@ define([
    '../module'
 ], function(module){
 
-    module.controller('LogInAdminCtrl',['$scope','$state','BrowserService','LogInAdminService','AuthAdminService','NotificationService',
-        function($scope,$state,BrowserService,LogInAdminService,AuthAdminService,NotificationService){
+    module.controller('LogInAdminCtrl',['$scope','$state','BrowserService','AuthAdminService','NotificationService',
+        function($scope,$state,BrowserService,AuthAdminService,NotificationService){
 
         $scope.logIn = function() {
-            LogInAdminService.logIn($scope.username,$scope.password)
+            AuthAdminService.logIn($scope.username,$scope.password).$promise
                 .then(function(response){
-                    BrowserService.setStorage("token",response.data.token);
+                    BrowserService.setStorage("token",response.token);
                     AuthAdminService.isAuthenticated = true;
-                    $state.go('places');
+                    $state.transitionTo('places');
                     NotificationService.displayMessage('You are now Admin!');
                 }, function(){
                     NotificationService.displayMessage('Invalid Credentials');

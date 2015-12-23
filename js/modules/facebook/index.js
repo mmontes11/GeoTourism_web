@@ -5,6 +5,5 @@ define([
     './services/AuthFBService',
     './services/FBStorageService',
     './services/LogInFacebookService',
-    './services/User',
     './controllers/FBButtonCtrl'
 ],function(){});
