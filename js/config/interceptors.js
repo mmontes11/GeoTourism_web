@@ -29,7 +29,6 @@ define([
                     }else if (AuthAdminService.isAuthenticated && rejection.status === 401){
                         BrowserService.deleteStorage('token');
                         AuthAdminService.isAuthenticated = false;
-                        $injector.get('$state').transitionTo('admin');
                         $injector.get('$mdDialog').cancel();
                         $injector.get('NotificationService').displayMessage("Invalid or expired Admin token");
                     }
