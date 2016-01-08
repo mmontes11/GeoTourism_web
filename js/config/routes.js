@@ -3,9 +3,9 @@
 define([
     '../app',
     'angularUiRouter'
-], function(app){
+], function (app) {
 
-    app.config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlRouterProvider){
+    app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
         $stateProvider
             .state('places', {
@@ -13,7 +13,12 @@ define([
                 templateUrl: 'partials/places/places.html',
                 controller: 'PlacesCtrl'
             })
-            .state('admin',{
+            .state('routes', {
+                url: '/routes',
+                templateUrl: 'partials/routes/routes.html',
+                controller: 'RoutesCtrl'
+            })
+            .state('admin', {
                 url: '/admin',
                 templateUrl: 'partials/admin/logInAdmin.html',
                 controller: 'LogInAdminCtrl as ctrl'
@@ -22,15 +27,13 @@ define([
                 url: '/about',
                 templateUrl: 'partials/common/about.html'
             });
-            $urlRouterProvider.otherwise('/places');
+        $urlRouterProvider.otherwise('/places');
     }]);
 
-    app.run(['$rootScope','$state','AuthAdminService', function($rootScope,$state,AuthAdminService){
-        $rootScope.$on("$stateChangeStart", function(event, toState) {
-            if (AuthAdminService.isAuthenticated){
-                if (toState.url == '/admin'){
-                    event.preventDefault();
-                }
+    app.run(['$rootScope', '$state', 'AuthAdminService', function ($rootScope, $state, AuthAdminService) {
+        $rootScope.$on("$stateChangeStart", function (event, toState) {
+            if (AuthAdminService.isAuthenticated && toState.url == '/admin') {
+                event.preventDefault();
             }
         });
     }]);
