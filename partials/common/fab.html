@@ -1,19 +1,9 @@
-<div layout="column" ng-cloak>
-    <div layout="row" layout-align="center center">
-        <md-fab-speed-dial md-open="isOpen" md-direction="up" ng-class="md-fling">
-            <md-fab-trigger>
-                <md-button aria-label="menu" class="md-fab md-primary">
-                    <i class="material-icons">add</i>
-                </md-button>
-            </md-fab-trigger>
-            <md-fab-actions>
-                <md-button class="md-fab md-raised md-mini" ng-if="isAuthenticated()" ng-click="addTIP()">
-                    <i class="material-icons">place</i>
-                </md-button>
-                <md-button class="md-fab md-raised md-mini">
-                    <i class="material-icons">directions</i>
-                </md-button>
-            </md-fab-actions>
-        </md-fab-speed-dial>
+<md-fab-speed-dial md-open="isOpen" md-direction="up" ng-class="md-fling">
+    <md-fab-trigger>
+        <md-button aria-label="menu" class="md-fab md-primary">
+            <i class="material-icons">add</i>
+        </md-button>
+    </md-fab-trigger>
+    <div ng-transclude>
     </div>
-</div>
+</md-fab-speed-dial>

@@ -1,7 +1,7 @@
 <map boundschanged='boundschanged' locationclicked="locationclicked" features='features'
      layerclicked='layerclicked' layerdelete="layerdelete">
-    <md-content class="md-padding map-overlay" ng-if="!allowAddTIPs">
-        <div layout="row" layout-align="center center"
+    <md-content class="md-padding map-overlay">
+        <div layout="row" layout-align="center center" ng-if="!allowAddTIPs"
              layout-sm="row" layout-align-sm="space-around"
              ng-show="!allowAddTIPs">
             <chips flex="15" placeholder="TYPE ..." items="types" selected="selectedTypes"></chips>
@@ -9,22 +9,21 @@
             <favourite-selector flex="15" ng-if="isAuthFB()"></favourite-selector>
             <social-chips flex="15" ng-if="isAuthFB() && favouritedBy == 1" friends="friends"></social-chips>
         </div>
+        <div layout="row" layout-align="center center" ng-if="allowAddTIPs">
+            <md-button class="md-raised md-primary map-overlay" ng-click="finishAddTIPs()">
+                <strong>Done</strong>
+            </md-button>
+        </div>
     </md-content>
-    <div layout="row" layout-align="center center" ng-if="allowAddTIPs">
-        <md-button class="md-raised md-primary map-overlay" ng-click="finishAddTIPs()">
-            <strong>Done</strong>
-        </md-button>
-    </div>
 </map>
-<fab>
-    <md-fab-actions>
-        <md-button class="md-fab md-raised md-mini" ng-if="isAuthenticated()" ng-click="addTIP()">
-            <i class="material-icons">place</i>
-        </md-button>
-        <md-button class="md-fab md-raised md-mini">
-            <i class="material-icons">directions</i>
-        </md-button>
-    </md-fab-actions>
-</fab>
-
+<div layout="row" layout-align="center center" class="fab-position">
+    <fab ng-if="isAuthenticated() && !loading">
+        <md-fab-actions>
+            <md-button class="md-fab md-raised md-mini" ng-click="addTIP()">
+                <i class="material-icons">place</i>
+            </md-button>
+        </md-fab-actions>
+    </fab>
+    <md-progress-circular ng-if="loading" md-mode="indeterminate" md-diameter="80"></md-progress-circular>
+</div>
 

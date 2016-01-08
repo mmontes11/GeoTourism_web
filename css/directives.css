@@ -130,4 +130,11 @@
     margin-top: -20%;
 }
 
+.fab-position {
+    position: absolute;
+    bottom: 0;
+    margin-left: 80%;
+    margin-bottom: 2%;
+}
+
 

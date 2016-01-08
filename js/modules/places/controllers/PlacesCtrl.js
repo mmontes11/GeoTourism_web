@@ -25,6 +25,7 @@ define([
             $scope.selectedFriends = [];
             $scope.friends = [];
             $scope.allowAddTIPs = false;
+            $scope.loading = false;
 
             $scope.addTIP = function () {
                 NotificationService.displayMessage("Click to add Places");
@@ -117,14 +118,17 @@ define([
                             DialogService.showAddPlaceDialog()
                                 .then(function (place) {
                                     place["geometry"] = locationFeature;
+                                    $scope.loading = true;
                                     TIP.save(place).$promise
                                         .then(function () {
                                             requestFeatures();
                                             NotificationService.displayMessage("Place created!");
+                                            $scope.loading = false;
                                         }, function (response) {
-                                            if (response.status != 401) {
+                                            if (response.status == 500) {
                                                 NotificationService.displayMessage("Error creating Place");
                                             }
+                                            $scope.loading = false;
                                         });
                                 });
                         }, function () {
@@ -135,20 +139,22 @@ define([
 
             $scope.showPlaceDialog = function (layer) {
                 var feature = layer.customFeature;
-
                 DialogService.showPlaceDialog(feature)
                     .then(function (operation) {
                         if (operation === "Delete") {
                             DialogService.showConfirmDialog("Delete Place", "Are you sure?", "Yes", "Cancel")
                                 .then(function () {
+                                    $scope.loading = true;
                                     TIP.delete({id: feature.id}).$promise
                                         .then(function () {
                                             $scope.layerdelete = layer;
-                                            NotificationService.displayMessage("Place deleted!")
+                                            NotificationService.displayMessage("Place deleted!");
+                                            $scope.loading = false;
                                         }, function (response) {
-                                            if (response.status != 401) {
+                                            if (response.status == 500) {
                                                 NotificationService.displayMessage("Error deleting Place");
                                             }
+                                            $scope.loading = false;
                                         });
                                 }, function () {
                                     $scope.showPlaceDialog(layer);
