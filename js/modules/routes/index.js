@@ -2,5 +2,7 @@
 
 define([
     './controllers/RoutesCtrl',
-    './services/Route'
+    './services/Route',
+    './services/TravelModes',
+    './filters/TravelModeIcon'
 ], function(){});

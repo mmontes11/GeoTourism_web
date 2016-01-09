@@ -3,47 +3,39 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('RoutesCtrl',['$scope',function($scope){
+    module.controller('RoutesCtrl', ['$scope', 'AuthFBService', 'FBStorageService', 'Route', 'TravelModes', 'NotificationService',
+        function ($scope, AuthFBService, FBStorageService, Route, TravelModes, NotificationService) {
 
-        var requestFeatures = function () {
-            var types = _.map($scope.selectedTypes, function (type) {
-                return type.id;
-            });
-            var cities = _.map($scope.selectedCities, function (city) {
-                return city.id;
-            });
-            var URLparams = {
-                bounds: $scope.bounds,
-                types: types,
-                cities: cities
+            $scope.isAuthFB = function () {
+                return AuthFBService.isAuthFB;
             };
-            if ($scope.isAuthFB()){
-                URLparams["favouritedBy"] = $scope.favouritedBy;
-                URLparams["facebookUserId"] = FBStorageService.getUserID();
-                if (angular.isDefined($scope.favouritedBy) && $scope.favouritedBy == 1 && !_.isEmpty($scope.selectedFriends)) {
-                    URLparams["friends"] = _.map($scope.selectedFriends, function (friend) {
-                        return friend.facebookUserId;
-                    });
-                }
-            }else{
-                URLparams["favouritedBy"] = undefined;
-                URLparams["facebookUserId"] = undefined;
-                URLparams["friends"] = undefined;
-            }
+            $scope.getFBUserId = function () {
+                return FBStorageService.getUserID();
+            };
 
-            TIPs.query(URLparams).$promise
-                .then(function (resultFeatures) {
-                    $scope.features = resultFeatures;
-                }, function () {
-                    NotificationService.displayMessage("Error retrieving TIPS")
+            TravelModes.query().$promise
+                .then(function(travelModes){
+                    $scope.travelModes = travelModes;
+                    $scope.travelModePreference = travelModes[0];
                 });
-        };
+            $scope.allowAddRoutes = false;
+            $scope.loading = false;
 
-        $scope.$watch('boundschanged', function (bounds, boundsOld) {
-            if (angular.isDefined(bounds) && angular.isDefined(boundsOld)) {
-                $scope.bounds = FeatureService.toWKT(bounds);
-                requestFeatures();
-            }
-        });
-    }]);
+            $scope.enableAddRoutes = function () {
+                $scope.displayHelpMessage();
+                $scope.allowAddRoutes = true;
+            };
+
+            $scope.createRoute = function () {
+
+            };
+
+            $scope.finishAddRoutes = function () {
+                $scope.allowAddRoutes = false;
+            };
+
+            $scope.displayHelpMessage = function(){
+                NotificationService.displayMessage("Click on the places in order to create Routes");
+            };
+        }]);
 });

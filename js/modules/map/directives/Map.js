@@ -20,7 +20,7 @@ define([
                 layerclicked: "=",
                 layerdelete: "="
             },
-            link: function(scope,element,attrs){
+            link: function(scope){
 
                 var tileLayer = L.tileLayer.provider(Config.TILE_LAYER);
 
@@ -47,9 +47,9 @@ define([
                     });
                 });
 
-                map.on('click',function(location){
+                map.on('click',function(e){
                     scope.$apply(function(){
-                        scope.locationclicked = L.marker(location.latlng);
+                        scope.locationclicked = L.marker(e.latlng);
                     });
                 });
 

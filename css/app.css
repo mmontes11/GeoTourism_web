@@ -22,7 +22,7 @@ md-tabs-canvas > md-pagination-wrapper > md-tab-item:not([disabled]).md-focused 
     color: #000000;
 }
 
-md-input-container.favouritedBy  *{
+md-input-container.custom-selector  *{
     color: #000000;
     font-weight: bold;
 }

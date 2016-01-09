@@ -28,12 +28,16 @@ define([
             $scope.loading = false;
 
             $scope.addTIP = function () {
-                NotificationService.displayMessage("Click to add Places");
+                $scope.displayHelpMessage();
                 $scope.allowAddTIPs = true;
             };
 
             $scope.finishAddTIPs = function () {
                 $scope.allowAddTIPs = false;
+            };
+
+            $scope.displayHelpMessage = function(){
+                NotificationService.displayMessage("Click on the map to create Places");
             };
 
             $scope.$watch('isAuthenticated()', function (newVal) {

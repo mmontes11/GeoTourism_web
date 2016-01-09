@@ -2,16 +2,18 @@
      layerclicked='layerclicked' layerdelete="layerdelete">
     <md-content class="md-padding map-overlay">
         <div layout="row" layout-align="center center" ng-if="!allowAddTIPs"
-             layout-sm="row" layout-align-sm="space-around"
-             ng-show="!allowAddTIPs">
+             layout-sm="row" layout-align-sm="space-around">
             <chips flex="15" placeholder="TYPE ..." items="types" selected="selectedTypes"></chips>
             <chips flex="15" placeholder="CITY ..." items="cities" selected="selectedCities"></chips>
             <favourite-selector flex="15" ng-if="isAuthFB()"></favourite-selector>
             <social-chips flex="15" ng-if="isAuthFB() && favouritedBy == 1" friends="friends"></social-chips>
         </div>
         <div layout="row" layout-align="center center" ng-if="allowAddTIPs">
-            <md-button class="md-raised md-primary map-overlay" ng-click="finishAddTIPs()">
-                <strong>Done</strong>
+            <md-button class="md-raised md-warn" ng-click="finishAddTIPs()">
+                <strong>Cancel</strong>
+            </md-button>
+            <md-button class="md-primary" ng-click="displayHelpMessage();$event.stopPropagation();">
+                <i class="material-icons">help</i>
             </md-button>
         </div>
     </md-content>

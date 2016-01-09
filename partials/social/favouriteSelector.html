@@ -1,5 +1,5 @@
 <div layout="row" layout-sm="column" layout-align="center center">
-    <md-input-container class="map-overlay favouritedBy">
+    <md-input-container class="custom-selector">
         <label>FAVOURITED BY ...</label>
         <md-select ng-model="favouritedBy">
             <md-option ng-value="person.value" ng-repeat="person in people">
@@ -7,7 +7,7 @@
             </md-option>
         </md-select>
     </md-input-container>
-    <md-button class="md-warn map-overlay" ng-show="favouritedBy != undefined" ng-click="favouritedBy = undefined">
+    <md-button class="md-warn" ng-show="favouritedBy != undefined" ng-click="favouritedBy = undefined">
         <i class="material-icons">close</i><i class="material-icons">people</i>
     </md-button>
 </div>
