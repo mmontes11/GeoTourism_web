@@ -98,8 +98,10 @@ define([
                 TIPs.query(URLparams).$promise
                     .then(function (resultFeatures) {
                         $scope.features = resultFeatures;
-                    }, function () {
-                        NotificationService.displayMessage("Error retrieving TIPS")
+                    }, function (response) {
+                        if (response.status == 500) {
+                            NotificationService.displayMessage("Error retrieving TIPS");
+                        }
                     });
             };
 
@@ -110,57 +112,77 @@ define([
                 }
             });
 
+            var activateLoading = function(){
+                $scope.loading = true;
+            };
+
+            var disableLoading = function(){
+                $scope.loading = false;
+            };
+
             $scope.$watch('locationclicked', function (location) {
                 if ($scope.isAuthenticated() && $scope.allowAddTIPs && angular.isDefined(location)) {
                     var locationFeature = FeatureService.toWKT(location);
-                    City.get({location: locationFeature}).$promise
-                        .then(function () {
-                            DialogService.showAddPlaceDialog()
-                                .then(function (place) {
-                                    place["geometry"] = locationFeature;
-                                    $scope.loading = true;
-                                    TIP.save(place).$promise
-                                        .then(function () {
-                                            requestFeatures();
-                                            NotificationService.displayMessage("Place created!");
-                                            $scope.loading = false;
-                                        }, function (response) {
-                                            if (response.status == 500) {
-                                                NotificationService.displayMessage("Error creating Place");
-                                            }
-                                            $scope.loading = false;
-                                        });
-                                });
-                        }, function () {
+
+                    activateLoading();
+                    City.get({location: locationFeature}).$promise.finally(disableLoading)
+                        .then(function(){
+                            return DialogService.showAddPlaceDialog()
+                        }, function(){
                             NotificationService.displayMessage("The place should be located in a existing city");
+                            return $q.reject();
+                        })
+                        .then(function(place){
+                            place["geometry"] = locationFeature;
+                            activateLoading();
+                            return TIP.save(place).$promise.finally(disableLoading)
+                        }, function(){
+                            return $q.reject();
+                        })
+                        .then(function(){
+                            requestFeatures();
+                            NotificationService.displayMessage("Place created!");
+                        }, function(response){
+                            if (response && response.status == 500) {
+                                NotificationService.displayMessage("Error creating Place");
+                            }
                         });
                 }
             });
 
             $scope.showPlaceDialog = function (layer) {
                 var feature = layer.customFeature;
+
                 DialogService.showPlaceDialog(feature)
-                    .then(function (operation) {
-                        if (operation === "Delete") {
-                            DialogService.showConfirmDialog("Delete Place", "Are you sure?", "Yes", "Cancel")
-                                .then(function () {
-                                    $scope.loading = true;
-                                    TIP.delete({id: feature.id}).$promise
-                                        .then(function () {
-                                            $scope.layerdelete = layer;
-                                            NotificationService.displayMessage("Place deleted!");
-                                            $scope.loading = false;
-                                        }, function (response) {
-                                            if (response.status == 500) {
-                                                NotificationService.displayMessage("Error deleting Place");
-                                            }
-                                            $scope.loading = false;
-                                        });
-                                }, function () {
-                                    $scope.showPlaceDialog(layer);
-                                });
+                    .then(function(operation){
+                        if (operation === "Delete"){
+                            return DialogService.showConfirmDialog("Delete Place", "Are you sure?", "Yes", "Cancel");
+                        }else{
+                            return $q.reject();
+                        }
+                    }, function(error){
+                       return $q.reject(error);
+                    })
+                    .then(function(){
+                        activateLoading();
+                        return TIP.delete({id: feature.id}).$promise.finally(disableLoading)
+                    }, function(error){
+                        return $q.reject(error);
+                    })
+                    .then(function(){
+                        $scope.layerdelete = layer;
+                        NotificationService.displayMessage("Place deleted!");
+                    }, function(error){
+                        if (error) {
+                            if (error.status == 500){
+                                NotificationService.displayMessage("Error deleting Place");
+                            }
+                            if (error.confirm == false){
+                                $scope.showPlaceDialog(layer);
+                            }
                         }
                     });
+
             };
 
             $scope.$watch('layerclicked', function (layer) {

@@ -3,7 +3,7 @@
 define([
     '../module'
 ], function(module){
-   module.service('DialogService',['$mdDialog', function($mdDialog){
+   module.service('DialogService',['$mdDialog', '$q', function($mdDialog,$q){
 
        this.showAddPlaceDialog = function(){
            return $mdDialog.show({
@@ -32,7 +32,14 @@ define([
                .content(content)
                .ok(ok)
                .cancel(cancel);
-           return $mdDialog.show(confirm);
+           var deferred = $q.defer();
+           $mdDialog.show(confirm)
+               .then(function(){
+                   deferred.resolve({confirm:true});
+               }, function(){
+                   deferred.reject({confirm:false});
+               });
+           return deferred.promise;
        };
    }]);
 });

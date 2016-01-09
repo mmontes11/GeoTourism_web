@@ -1,1 +1,14 @@
-Routes
+<map boundschanged='boundschanged' features='features'
+     layerclicked='layerclicked' layerdelete="layerdelete">
+
+</map>
+<div layout="row" layout-align="center center" class="fab-position">
+    <fab>
+        <md-fab-actions>
+            <md-button class="md-fab md-raised md-mini" ng-click="addRoute()">
+                <i class="material-icons">directions</i>
+            </md-button>
+        </md-fab-actions>
+    </fab>
+    <md-progress-circular ng-if="loading" md-mode="indeterminate" md-diameter="80"></md-progress-circular>
+</div>
