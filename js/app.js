@@ -4,6 +4,7 @@ define([
     'angular',
     'angularMaterial',
     'angularResource',
+    'angularAnimate',
     'material',
     './modules/common/index',
     './modules/admin/index',
@@ -15,6 +16,6 @@ define([
     './modules/social/index'
 ], function(angular){
     return  angular.module('app', ['app.common','app.admin','app.places','app.routes','app.map','app.wikipedia','app.facebook', 'app.social',
-                                    'ngMaterial','ngResource','ui.router']);
+                                    'ngMaterial','ngResource','ngAnimate','ui.router']);
 });
 

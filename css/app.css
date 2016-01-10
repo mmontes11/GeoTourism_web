@@ -227,3 +227,11 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, m
 .place-title {
     max-width: 60%;
 }
+
+.fade {
+    transition: 0.5s linear all;
+    opacity: 1;
+}
+.fade.ng-hide {
+    opacity: 0;
+}

@@ -2,13 +2,13 @@
      layerclicked='layerclicked' layerdelete="layerdelete">
     <md-content class="md-padding map-overlay">
         <filters-handler filters-enabled="filtersEnabled" ng-show="!allowAddTIPs"></filters-handler>
-        <div layout="row" layout-sm="column" layout-align="center center" ng-show="!allowAddTIPs && filtersEnabled">
+        <div class="fade" layout="row" layout-sm="column" layout-align="center center" ng-show="!allowAddTIPs && filtersEnabled">
             <chips placeholder="TYPE ..." items="types" selected="selectedTypes"></chips>
             <chips placeholder="CITY ..." items="cities" selected="selectedCities"></chips>
             <favourite-selector ng-show="isAuthFB()"></favourite-selector>
             <social-chips ng-if="isAuthFB() && favouritedBy == 1" friends="friends"></social-chips>
         </div>
-        <div layout="row" layout-align="center center" ng-if="allowAddTIPs">
+        <div class="fade" layout="row" layout-align="center center" ng-if="allowAddTIPs">
             <md-button class="md-raised md-warn" ng-click="finishAddTIPs()">
                 <strong>Cancel</strong>
             </md-button>
