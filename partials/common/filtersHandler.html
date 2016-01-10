@@ -1,0 +1,5 @@
+<div layout="row" layout-align="center center">
+    <md-button ng-class="filtersEnabled? 'md-warn' : 'md-primary'" ng-click="toggleFilters();$event.stopPropagation()">
+        <i class="material-icons">{{!filtersEnabled | plusLessIcon}}</i><i class="fa fa-filter btn-icon"></i>
+    </md-button>
+</div>

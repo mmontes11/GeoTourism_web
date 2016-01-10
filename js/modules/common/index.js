@@ -10,5 +10,7 @@ define([
     './controllers/ChipsController',
     './directives/FAB',
     './directives/UploadPhoto',
-    './directives/Chips'
+    './directives/Chips',
+    './directives/FiltersHandler',
+    './filters/PlusLessIncon'
 ], function(){});
