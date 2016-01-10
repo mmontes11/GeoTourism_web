@@ -9,6 +9,7 @@ define([
 
         this.userName = BrowserService.getStorage('FBUserName');
         this.profilePhotoURL = BrowserService.getStorage('FBProfilePhoto');
+        this.loading = false;
 
         this.isAuthFB = function(){
             return AuthFBService.isAuthFB;
@@ -18,8 +19,10 @@ define([
         };
         this.logInFB = function(){
             var that = this;
+            that.loading = true;
             LogInFacebookService.logInFB().promise
                 .then(function(response){
+                    that.loading = false;
                     that.userName = response.userName;
                     that.profilePhotoURL = response.profilePhotoURL;
                 });

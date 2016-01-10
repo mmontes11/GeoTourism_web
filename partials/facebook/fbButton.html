@@ -3,6 +3,8 @@
         <img ng-src="{{ctrl.profilePhotoURL}}" class="demo-avatar">
         <span>{{ctrl.userName}}</span>
     </div>
+    <md-progress-circular ng-if="!(ctrl.isAuthFB() ||ctrl.profilePhotoURL || ctrl.userName) && ctrl.loading" md-mode="indeterminate" md-diameter="45">
+    </md-progress-circular>
     <md-button class="md-raised md-primary fb-button" ng-click="ctrl.logInFB()" ng-show="!ctrl.isAuthFB()">
         <i class="fa fa-facebook-official"></i> Log In
     </md-button>
