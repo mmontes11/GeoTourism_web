@@ -1,5 +1,5 @@
 <div class="chips">
-    <md-chips ng-model="selected" filter-selected="true"
+    <md-chips class="chips" ng-model="selected" filter-selected="true"
               md-transform-chip="ctrl.transformChip($chip)" md-require-match="true" md-highlight-flags="i">
         <md-autocomplete md-selected-item="ctrl.selectedItem"
                          md-search-text="ctrl.searchText"
@@ -8,7 +8,7 @@
             <span md-highlight-text="ctrl.searchText">{{item.name}}</span>
         </md-autocomplete>
         <md-chip-template>
-                <span>
+                <span ng-show="!routeIcons">
                   <strong>{{$chip.name}}</strong>
                 </span>
         </md-chip-template>

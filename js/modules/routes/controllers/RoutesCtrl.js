@@ -12,14 +12,21 @@ define([
             $scope.getFBUserId = function () {
                 return FBStorageService.getUserID();
             };
-
-            TravelModes.query().$promise
-                .then(function(travelModes){
-                    $scope.travelModes = travelModes;
-                    $scope.travelModePreference = travelModes[0];
-                });
+            $scope.filtersEnabled = false;
+            $scope.travelModes = TravelModes.query();
+            $scope.selectedTravelModes = [];
             $scope.allowAddRoutes = false;
             $scope.loading = false;
+
+            $scope.toggleTravelMode = function (item, list) {
+                var idx = list.indexOf(item);
+                if (idx > -1) list.splice(idx, 1);
+                else list.push(item);
+            };
+
+            $scope.existsTravelMode = function (item, list) {
+                return list.indexOf(item) > -1;
+            };
 
             $scope.enableAddRoutes = function () {
                 $scope.displayHelpMessage();

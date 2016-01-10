@@ -228,10 +228,16 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, m
     max-width: 60%;
 }
 
-.fade {
-    transition: 0.5s linear all;
-    opacity: 1;
+.fade.ng-enter, .fade.ng-leave {
+    transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
 }
-.fade.ng-hide {
-    opacity: 0;
+
+.fade.ng-enter,
+.fade.ng-leave.ng-leave-active {
+    opacity:0;
+}
+
+.fade.ng-leave,
+.fade.ng-enter.ng-enter-active {
+    opacity:1;
 }

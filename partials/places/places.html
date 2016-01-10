@@ -2,11 +2,11 @@
      layerclicked='layerclicked' layerdelete="layerdelete">
     <md-content class="md-padding map-overlay">
         <filters-handler filters-enabled="filtersEnabled" ng-show="!allowAddTIPs"></filters-handler>
-        <div class="fade" layout="row" layout-sm="column" layout-align="center center" ng-show="!allowAddTIPs && filtersEnabled">
+        <div class="fade" layout="row" layout-sm="column" layout-align="center center" ng-if="!allowAddTIPs && filtersEnabled">
             <chips placeholder="TYPE ..." items="types" selected="selectedTypes"></chips>
             <chips placeholder="CITY ..." items="cities" selected="selectedCities"></chips>
-            <favourite-selector ng-show="isAuthFB()"></favourite-selector>
-            <social-chips ng-if="isAuthFB() && favouritedBy == 1" friends="friends"></social-chips>
+            <favourite-selector class="fade" ng-if="isAuthFB()"></favourite-selector>
+            <social-chips class="fade" ng-if="isAuthFB() && favouritedBy == 1" friends="friends"></social-chips>
         </div>
         <div class="fade" layout="row" layout-align="center center" ng-if="allowAddTIPs">
             <md-button class="md-raised md-warn" ng-click="finishAddTIPs()">
@@ -19,13 +19,13 @@
     </md-content>
 </map>
 <div layout="row" layout-align="center center" class="fab-position">
-    <fab ng-if="isAuthenticated() && !loading">
+    <fab class="fade" ng-if="isAuthenticated() && !loading">
         <md-fab-actions>
             <md-button class="md-fab md-raised md-mini" ng-click="addTIP()">
                 <i class="material-icons">place</i>
             </md-button>
         </md-fab-actions>
     </fab>
-    <md-progress-circular ng-if="loading" md-mode="indeterminate" md-diameter="75"></md-progress-circular>
+    <md-progress-circular class="fade" ng-if="loading" md-mode="indeterminate" md-diameter="75"></md-progress-circular>
 </div>
 

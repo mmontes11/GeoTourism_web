@@ -1,10 +1,17 @@
 <map boundschanged='boundschanged' features='features'
      layerclicked='layerclicked' layerdelete="layerdelete">
     <md-content class="md-padding map-overlay">
-        <div layout="row" layout-align="center center" ng-if="!allowAddRoutes">
-
+        <filters-handler filters-enabled="filtersEnabled" ng-show="!allowAddRoutes"></filters-handler>
+        <div class="fade" layout="row" layout-align="center center" ng-if="!allowAddRoutes && filtersEnabled">
+            <div layout="column" >
+                <md-checkbox class="md-primary" ng-repeat="travelMode in travelModes"
+                            ng-checked="existsTravelMode(travelMode, selectedTravelModes)"
+                            ng-click="toggleTravelMode(travelMode, selectedTravelModes)">
+                    <i class="material-icons">{{travelMode | travelModeIcon}}</i>
+                </md-checkbox>
+            </div>
         </div>
-        <div layout="row" layout-align="center center" ng-if="allowAddRoutes">
+        <div class="fade" layout="row" layout-align="center center" ng-if="allowAddRoutes">
             <md-radio-group class="custom-selector" ng-model="travelModePreference">
                 <md-radio-button class="md-primary" ng-value="travelMode" ng-repeat="travelMode in travelModes">
                     <i class="material-icons">{{travelMode | travelModeIcon}}</i>
@@ -28,12 +35,12 @@
     </md-content>
 </map>
 <div layout="row" layout-align="center center" class="fab-position">
-    <fab ng-if="isAuthFB() && !loading">
+    <fab class="fade" ng-if="isAuthFB() && !loading">
         <md-fab-actions>
             <md-button class="md-fab md-raised md-mini" ng-click="enableAddRoutes()">
                 <i class="material-icons">directions</i>
             </md-button>
         </md-fab-actions>
     </fab>
-    <md-progress-circular ng-if="loading" md-mode="indeterminate" md-diameter="80"></md-progress-circular>
+    <md-progress-circular class="fade" ng-if="loading" md-mode="indeterminate" md-diameter="80"></md-progress-circular>
 </div>

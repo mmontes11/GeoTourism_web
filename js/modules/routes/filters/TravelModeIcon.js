@@ -5,7 +5,7 @@ define([
 ], function (module) {
    module.filter('travelModeIcon', function(){
        return function(travelMode){
-           switch(travelMode){
+           switch(travelMode.toLowerCase()){
                case "walking":
                    return "directions_walk";
                case "bicycling":
