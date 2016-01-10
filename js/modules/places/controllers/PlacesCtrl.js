@@ -17,7 +17,7 @@ define([
             $scope.getFBUserId = function() {
                 return FBStorageService.getUserID();
             };
-
+            $scope.filtersEnabled = false;
             $scope.types = TIP.getTypes();
             $scope.selectedTypes = [];
             $scope.cities = Cities.query();

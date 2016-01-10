@@ -1,10 +1,11 @@
 <map boundschanged='boundschanged' locationclicked="locationclicked" features='features'
      layerclicked='layerclicked' layerdelete="layerdelete">
     <md-content class="md-padding map-overlay">
-        <div layout="row" layout-sm="column" layout-align="center center" ng-if="!allowAddTIPs">
+        <filters-handler filters-enabled="filtersEnabled" ng-show="!allowAddTIPs"></filters-handler>
+        <div layout="row" layout-sm="column" layout-align="center center" ng-show="!allowAddTIPs && filtersEnabled">
             <chips placeholder="TYPE ..." items="types" selected="selectedTypes"></chips>
             <chips placeholder="CITY ..." items="cities" selected="selectedCities"></chips>
-            <favourite-selector ng-if="isAuthFB()"></favourite-selector>
+            <favourite-selector ng-show="isAuthFB()"></favourite-selector>
             <social-chips ng-if="isAuthFB() && favouritedBy == 1" friends="friends"></social-chips>
         </div>
         <div layout="row" layout-align="center center" ng-if="allowAddTIPs">

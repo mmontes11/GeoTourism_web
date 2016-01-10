@@ -122,8 +122,6 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, m
 .btn-icon {
     font-size: 2em;
     margin: 0 0.5em;
-}
-.btn-icon {
     padding: 0;
     background: transparent;
     border-color: transparent;
@@ -198,7 +196,7 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, m
     .fab-position {
         position: absolute;
         bottom: 0;
-        margin-left: 75%;
+        margin-left: %;
         margin-bottom: 2%;
     }
 }
