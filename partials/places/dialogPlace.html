@@ -1,9 +1,9 @@
-<md-dialog flex="40">
+<md-dialog class="dialog">
     <md-toolbar>
-        <div class="md-toolbar-tools">
-            <h2>
+        <div class="md-toolbar-tools" layout="row">
+            <h3 class="md-title place-title">
                 {{tip.name}}
-            </h2>
+            </h3>
             <favourite favourited="tip.myFavourite" ng-if="isAuthFB()"></favourite>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="close()">
@@ -15,9 +15,9 @@
         <div ng-show="!edit">
             <md-tabs md-dynamic-height md-border-bottom>
                 <md-tab label="Details">
-                    <md-content class="md-padding" layout="row">
-                        <div layout="column" layout-align="center center" flex="50" flex-order="1">
-                            <h3 class="md-title">
+                    <md-content class="md-padding" layout="row" layout-sm="column" layout-align="center center">
+                        <div layout="column" layout-align="center center">
+                            <h3 class="md-headline">
                                 {{type.name}}
                             </h3>
                             <md-content layout-padding>
@@ -28,7 +28,7 @@
                                 + info <i class="mdl-color-text--blue-grey-400 material-icons"
                                           role="presentation">info</i>
                             </md-button>
-                            <h3 class="md-title">
+                            <h3 class="md-headline">
                                 Address
                             </h3>
                             <md-content layout-padding>
@@ -39,7 +39,7 @@
                                                role="presentation">map</i>
                             </md-button>
                         </div>
-                        <div flex="50" flex-order="2">
+                        <div layout="column" layout-align="center center">
                             <md-card>
                                 <img ng-src="{{tip.photoUrl}}" class="img-dialog">
                             </md-card>
@@ -49,25 +49,25 @@
                 <md-tab label="Social" ng-if="isAuthFB()">
                     <md-content class="md-padding">
                         <div layout="column">
-                            <div layout="row">
-                                <div flex="50">
+                            <div layout="row" layout-sm="column">
+                                <div flex-gt-sm="50">
                                     <div layout="column" layout-align="center center">
-                                        <h3 class="md-title">
+                                        <h3 class="md-headline">
                                             Average Rate:
                                         </h3>
                                         <star-rating rating="averageRate" readonly="true"></star-rating>
                                     </div>
                                     <div layout="column" layout-align="center center">
-                                        <h3 class="md-title">
+                                        <h3 class="md-headline">
                                             My Rate:
                                         </h3>
                                         <star-rating rating="myRate"
                                                      on-rating-select="rateSelected(rating)"></star-rating>
                                     </div>
                                 </div>
-                                <div flex="50">
+                                <div flex-gt-sm="50">
                                     <div layout="column" layout-align="center center">
-                                        <h3 class="md-title">
+                                        <h3 class="md-headline">
                                             Favourite of:
                                         </h3>
                                         <md-content class="list-dialog">
@@ -83,7 +83,7 @@
                                 </div>
                             </div>
                             <div layout="row" layout-align="center center">
-                                <h3 class="md-title">
+                                <h3 class="md-headline">
                                     Comments:
                                 </h3>
                             </div>
@@ -112,12 +112,14 @@
                                     </md-content>
                                 </div>
                             </div>
-                            <div layout="row" layout-align="center center">
-                                <md-input-container flex="90">
+                            <div layout="row">
+                                <md-input-container flex>
                                     <label>Comment</label>
                                     <textarea ng-model="comment" columns="1" md-maxlength="300"></textarea>
                                 </md-input-container>
-                                <md-button type="submit" class="md-primary" flex="5"
+                            </div>
+                            <div layout="row" layout-align="center center">
+                                <md-button type="submit" class="md-primary"
                                            ng-click="addComment(comment); comment = undefined;">
                                     <i class="material-icons">comment</i>
                                 </md-button>

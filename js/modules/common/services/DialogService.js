@@ -10,7 +10,7 @@ define([
                controller: 'DialogAddPlaceCtrl',
                templateUrl: 'partials/places/dialogAddPlace.html',
                parent: angular.element(document.body),
-               clickOutsideToClose: false,
+               clickOutsideToClose: false
            });
        };
 

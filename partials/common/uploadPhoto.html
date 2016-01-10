@@ -10,7 +10,7 @@
     <i ng-show="form.photo.$error.maxSize" class="error-message">File too large (2MB max.)</i>
 </div>
 <div class="row">
-    <div ngf-drop ng-model="photo" class="drop-box">Drop here your photo</div>
+    <div ngf-drop ng-model="photo" class="drop-box">Drop your photo here</div>
 </div>
 <md-progress-linear md-mode="indeterminate" ng-if="uploading"></md-progress-linear>
 <div layout="row" layout-align="center center" ng-if="form.photo.$valid && photo">

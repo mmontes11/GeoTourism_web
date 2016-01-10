@@ -1,16 +1,14 @@
 <form name="form" novalidate>
     <div layout="column">
-        <div layout="row">
-            <md-input-container flex="33">
+        <div layout="row" layout-sm="column">
+            <md-input-container flex-gt-sm="50">
                 <label>Name</label>
-                <input name="name" ng-model="place.name" required>
+                <input name="name" ng-model="place.name" maxlength="20" required>
                 <div ng-messages="form.name.$error" role="alert">
                     <div ng-message="required" class="my-message">Mandatory field</div>
                 </div>
             </md-input-container>
-        </div>
-        <div layout="row">
-            <md-input-container flex="33">
+            <md-input-container flex-gt-sm="50">
                 <label>Type</label>
                 <md-select name="type" ng-model="place.type" ng-required="!edit">
                     <md-option ng-repeat="type in types" value="{{type.id}}">
@@ -28,36 +26,40 @@
                 <textarea ng-model="place.description" columns="1" md-maxlength="150"></textarea>
             </md-input-container>
         </div>
-        <div layout="row">
-            <md-input-container flex="50">
-                <label>Info URL</label>
-                <input name="infoUrl" type="url" ng-model="place.infoUrl"/>
-                <div ng-messages="form.infoUrl.$error" role="alert">
-                    <div ng-message="url">
-                        Invalid URL
+        <div class="small-margin-top">
+            <div layout="row">
+                <md-input-container flex flex-gt-sm="60">
+                    <label>Info URL</label>
+                    <input name="infoUrl" type="url" ng-model="place.infoUrl"/>
+                    <div ng-messages="form.infoUrl.$error" role="alert">
+                        <div ng-message="url">
+                            Invalid URL
+                        </div>
                     </div>
-                </div>
-            </md-input-container>
+                </md-input-container>
+            </div>
+            <div layout="row">
+                <wikipedia-search flex flex-gt-sm="60" placeholder="Search Info in Wikipedia"
+                                  selectedsearchitem="selectedsearchitem">
+                </wikipedia-search>
+            </div>
         </div>
-        <div layout="row">
-            <wikipedia-search placeholder="Search Info in Wikipedia" selectedsearchitem="selectedsearchitem"
-                              flex="50">
-            </wikipedia-search>
-        </div>
-        <div layout="row">
-            <md-input-container flex="50">
-                <label>Photo URL</label>
-                <input name="photoUrl" type="url" ng-model="place.photoUrl">
-                <div ng-messages="form.photoUrl.$error" role="alert">
-                    <div ng-message="url">
-                        Invalid URL
+        <div class="small-margin-top">
+            <div layout="row">
+                <md-input-container flex flex-gt-sm="60">
+                    <label>Photo URL</label>
+                    <input name="photoUrl" type="url" ng-model="place.photoUrl">
+                    <div ng-messages="form.photoUrl.$error" role="alert">
+                        <div ng-message="url">
+                            Invalid URL
+                        </div>
                     </div>
-                </div>
-            </md-input-container>
-        </div>
-        <div layout="row">
-            <upload-photo uploadedurl="uploadedurl" form="form" flex="50">
-            </upload-photo>
+                </md-input-container>
+            </div>
+            <div layout="row">
+                <upload-photo flex flex-gt-sm="60" uploadedurl="uploadedurl" form="form">
+                </upload-photo>
+            </div>
         </div>
     </div>
 </form>
