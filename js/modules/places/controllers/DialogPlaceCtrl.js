@@ -14,7 +14,6 @@ define([
                     return AuthFBService.isAuthFB;
                 };
                 $scope.facebookUserId = FBStorageService.getUserID();
-
                 $scope.types = TIP.getTypes();
 
                 TIP.get({
@@ -125,6 +124,8 @@ define([
                         $scope.averageRate = Math.round(parseFloat(response.averageRate));
                     });
                 };
+
+                $scope.maxCommentSize = 300;
 
                 $scope.addComment = function(commentText){
                     TIP.comment({

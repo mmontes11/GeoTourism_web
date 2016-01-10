@@ -92,22 +92,23 @@
                                     <md-content class="list-dialog-big">
                                         <md-list-item class="md-3-line md-long-text"
                                                       ng-repeat="comment in tip.comments">
-                                            <img ng-src="{{comment.user.facebookProfilePhotoUrl}}" class="md-avatar"/>
-                                            <div class="md-list-item-text">
-                                                <md-button class="md-primary"
-                                                           ng-href="{{comment.user.facebookProfileUrl}}"
-                                                           target="_blank">
-                                                    {{comment.user.name}}
-                                                </md-button>
-                                                <p>
-                                                    {{comment.commentText}}
-                                                </p>
-                                            </div>
-                                            <div ng-if="comment.user.facebookUserId == facebookUserId">
-                                                <md-button class="md-warn" ng-click="deleteComment(comment.id)">
-                                                    <i class="material-icons">delete</i>
-                                                </md-button>
-                                            </div>
+                                                <img ng-src="{{comment.user.facebookProfilePhotoUrl}}"
+                                                     class="md-avatar"/>
+                                                <div class="md-list-item-text">
+                                                    <md-button class="md-primary"
+                                                               ng-href="{{comment.user.facebookProfileUrl}}"
+                                                               target="_blank">
+                                                        {{comment.user.name}}
+                                                    </md-button>
+                                                    <p>
+                                                        {{comment.commentText}}
+                                                    </p>
+                                                    <div ng-show="comment.user.facebookUserId == facebookUserId">
+                                                        <md-button class="md-warn" ng-click="deleteComment(comment.id)">
+                                                            <i class="material-icons">delete</i>
+                                                        </md-button>
+                                                    </div>
+                                                </div>
                                         </md-list-item>
                                     </md-content>
                                 </div>
@@ -115,11 +116,12 @@
                             <div layout="row">
                                 <md-input-container flex>
                                     <label>Comment</label>
-                                    <textarea ng-model="comment" columns="1" md-maxlength="300"></textarea>
+                                    <textarea ng-model="comment" columns="1" md-maxlength="maxCommentSize"></textarea>
                                 </md-input-container>
                             </div>
                             <div layout="row" layout-align="center center">
                                 <md-button type="submit" class="md-primary"
+                                           ng-disabled="!comment || comment.length > maxCommentSize"
                                            ng-click="addComment(comment); comment = undefined;">
                                     <i class="material-icons">comment</i>
                                 </md-button>
