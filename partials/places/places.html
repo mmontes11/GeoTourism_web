@@ -3,8 +3,8 @@
     <md-content class="md-padding map-overlay">
         <filters-handler filters-enabled="filtersEnabled" ng-show="!allowAddTIPs"></filters-handler>
         <div class="fade" layout="row" layout-sm="column" layout-align="center center" ng-if="!allowAddTIPs && filtersEnabled">
-            <chips placeholder="TYPE ..." items="types" selected="selectedTypes"></chips>
             <chips placeholder="CITY ..." items="cities" selected="selectedCities"></chips>
+            <chips placeholder="TYPE ..." items="types" selected="selectedTypes"></chips>
             <favourite-selector class="fade" ng-if="isAuthFB()"></favourite-selector>
             <social-chips class="fade" ng-if="isAuthFB() && favouritedBy == 1" friends="friends"></social-chips>
         </div>

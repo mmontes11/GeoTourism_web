@@ -2,21 +2,22 @@
      layerclicked='layerclicked' layerdelete="layerdelete">
     <md-content class="md-padding map-overlay">
         <filters-handler filters-enabled="filtersEnabled" ng-show="!allowAddRoutes"></filters-handler>
-        <div class="fade" layout="row" layout-align="center center" ng-if="!allowAddRoutes && filtersEnabled">
-            <div layout="column" >
-                <md-checkbox class="md-primary" ng-repeat="travelMode in travelModes"
-                            ng-checked="existsTravelMode(travelMode, selectedTravelModes)"
-                            ng-click="toggleTravelMode(travelMode, selectedTravelModes)">
-                    <i class="material-icons">{{travelMode | travelModeIcon}}</i>
-                </md-checkbox>
+        <div class="fade" layout="row" layout-sm="column" layout-align="center center"
+             ng-if="!allowAddRoutes && filtersEnabled">
+            <chips placeholder="CITY ..." items="cities" selected="selectedCities"></chips>
+            <div layout="row">
+                <div layout="column">
+                    <md-checkbox class="md-primary" ng-repeat="travelMode in travelModes"
+                                 ng-checked="existsTravelMode(travelMode, selectedTravelModes)"
+                                 ng-click="toggleTravelMode(travelMode, selectedTravelModes)">
+                        <i class="material-icons">{{travelMode | travelModeIcon}}</i>
+                    </md-checkbox>
+                </div>
+                <favourite-selector class="fade" ng-if="isAuthFB()"></favourite-selector>
             </div>
+            <social-chips class="fade" ng-if="isAuthFB() && favouritedBy == 1" friends="friends"></social-chips>
         </div>
         <div class="fade" layout="row" layout-align="center center" ng-if="allowAddRoutes">
-            <md-radio-group class="custom-selector" ng-model="travelModePreference">
-                <md-radio-button class="md-primary" ng-value="travelMode" ng-repeat="travelMode in travelModes">
-                    <i class="material-icons">{{travelMode | travelModeIcon}}</i>
-                </md-radio-button>
-            </md-radio-group>
             <div layout-sm="column">
                 <md-button class="md-raised md-primary" ng-click="createRoute()">
                     <strong>Create Route</strong>
@@ -28,6 +29,11 @@
                     <strong>Cancel</strong>
                 </md-button>
             </div>
+            <md-radio-group class="custom-selector" ng-model="travelModePreference">
+                <md-radio-button class="md-primary" ng-value="travelMode" ng-repeat="travelMode in travelModes">
+                    <i class="material-icons">{{travelMode | travelModeIcon}}</i>
+                </md-radio-button>
+            </md-radio-group>
             <md-button class="md-primary" ng-click="displayHelpMessage()">
                 <i class="material-icons">help</i>
             </md-button>

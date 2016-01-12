@@ -54,13 +54,13 @@ define([
                 }
             });
 
-            $scope.$watchCollection('selectedTypes', function (newVal, oldVal) {
-                if (ValidationService.arrayChanged(newVal,oldVal)) {
+            $scope.$watchCollection('selectedCities', function (newVal, oldVal) {
+                if (ValidationService.arrayChanged(newVal,oldVal)){
                     requestFeatures();
                 }
             });
-            $scope.$watchCollection('selectedCities', function (newVal, oldVal) {
-                if (ValidationService.arrayChanged(newVal,oldVal)){
+            $scope.$watchCollection('selectedTypes', function (newVal, oldVal) {
+                if (ValidationService.arrayChanged(newVal,oldVal)) {
                     requestFeatures();
                 }
             });

@@ -22,9 +22,11 @@ define([
             that.loading = true;
             LogInFacebookService.logInFB().promise
                 .then(function(response){
-                    that.loading = false;
                     that.userName = response.userName;
                     that.profilePhotoURL = response.profilePhotoURL;
+                })
+                .finally(function(){
+                    that.loading = false;
                 });
         };
         this.logOutFB = function(){
