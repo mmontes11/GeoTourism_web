@@ -196,7 +196,7 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, m
     .fab-position {
         position: absolute;
         bottom: 0;
-        margin-left: %;
+        margin-left: 75%;
         margin-bottom: 2%;
     }
 }

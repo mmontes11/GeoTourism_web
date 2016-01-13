@@ -19,13 +19,13 @@
     </md-content>
 </map>
 <div layout="row" layout-align="center center" class="fab-position">
-    <fab class="fade" ng-if="isAuthenticated() && !loading">
+    <fab class="fade" ng-show="isAuthenticated() && !loading">
         <md-fab-actions>
             <md-button class="md-fab md-raised md-mini" ng-click="addTIP()">
                 <i class="material-icons">place</i>
             </md-button>
         </md-fab-actions>
     </fab>
-    <md-progress-circular class="fade" ng-if="loading" md-mode="indeterminate" md-diameter="75"></md-progress-circular>
+    <md-progress-circular class="fade" ng-show="loading" md-mode="indeterminate" md-diameter="75"></md-progress-circular>
 </div>
 

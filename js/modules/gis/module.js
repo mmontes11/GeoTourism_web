@@ -3,5 +3,5 @@
 define([
     'angular'
 ], function(angular){
-    return angular.module('app.map',[]);
+    return angular.module('app.gis',[]);
 });

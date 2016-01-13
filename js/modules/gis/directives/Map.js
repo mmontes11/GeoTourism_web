@@ -12,7 +12,7 @@ define([
             restrict: 'E',
             replace: true,
             transclude: true,
-            templateUrl: 'partials/map/map.html',
+            templateUrl: 'partials/gis/map.html',
             scope: {
                 boundschanged: "=",
                 locationclicked: "=",
