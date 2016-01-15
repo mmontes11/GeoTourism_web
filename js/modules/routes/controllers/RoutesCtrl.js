@@ -23,6 +23,7 @@ define([
             $scope.friends = [];
             $scope.allowAddRoutes = false;
             $scope.loading = false;
+            $scope.selectectedTIPs = [];
 
             $scope.toggleTravelMode = function (item, list) {
                 var idx = list.indexOf(item);
@@ -43,6 +44,10 @@ define([
 
             };
 
+            $scope.resetRoute = function(){
+                $scope.selectectedTIPs = [];
+            };
+
             $scope.finishAddRoutes = function () {
                 $scope.allowAddRoutes = false;
             };
@@ -53,6 +58,9 @@ define([
 
             $scope.$watch('isAuthFB() && getFBUserId()', function(newVal){
                 if (angular.isDefined(newVal) && newVal){
+                    if (!angular.isDefined($scope.maxWayPoints)){
+                        $scope.maxWayPoints = Route.getMaxWayPoints({facebookUserId: FBStorageService.getUserID()});
+                    }
                     $scope.allowAddRoutes = false;
                     User.getFriends({facebookUserId: FBStorageService.getUserID()}).$promise
                         .then(function(friends){
@@ -134,7 +142,14 @@ define([
             };
 
             $scope.$watch('layerclicked', function (layer) {
-                if (angular.isDefined(layer)) {
+                if (angular.isDefined(layer) && $scope.allowAddRoutes) {
+                    if (layer.customFeature.type == "Point"){
+                        if (_.contains($scope.selectectedTIPs,layer)){
+                            NotificationService.displayMessage("This TIP is already in the new Route");
+                        }else{
+                            $scope.selectectedTIPs.push(layer);
+                        }
+                    }
                     $scope.layerclicked = undefined;
                 }
             });

@@ -23,6 +23,10 @@ define([
                 getShortestPath: {
                     method: 'GET',
                     url: Config.API_ROOT_URL + '/social/route/geom'
+                },
+                getMaxWayPoints: {
+                    method: 'GET',
+                    url: Config.API_ROOT_URL + '/social/route/maxwaypoints'
                 }
             }
         );
