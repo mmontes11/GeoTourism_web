@@ -4,7 +4,7 @@ define([
     '../module'
 ], function (module) {
     module.controller('PlacesCtrl', ['$scope', '$q', 'FeatureService', 'Cities', 'City', 'TIPs', 'TIP', 'User',
-        'FBStorageService', 'AuthAdminService', 'AuthFBService', 'NotificationService', 'DialogService','ValidationService',
+        'FBStorageService', 'AuthAdminService', 'AuthFBService', 'NotificationService', 'DialogService', 'ValidationService',
         function ($scope, $q, FeatureService, Cities, City, TIPs, TIP, User,
                   FBStorageService, AuthAdminService, AuthFBService, NotificationService, DialogService, ValidationService) {
 
@@ -14,7 +14,7 @@ define([
             $scope.isAuthFB = function () {
                 return AuthFBService.isAuthFB;
             };
-            $scope.getFBUserId = function() {
+            $scope.getFBUserId = function () {
                 return FBStorageService.getUserID();
             };
             $scope.filtersEnabled = false;
@@ -36,7 +36,7 @@ define([
                 $scope.allowAddTIPs = false;
             };
 
-            $scope.displayHelpMessage = function(){
+            $scope.displayHelpMessage = function () {
                 NotificationService.displayMessage("Click on the map to create Places");
             };
 
@@ -45,22 +45,22 @@ define([
                     $scope.allowAddTIPs = false;
                 }
             });
-            $scope.$watch('isAuthFB() && getFBUserId()', function(newVal){
-                if (angular.isDefined(newVal) && newVal){
+            $scope.$watch('isAuthFB() && getFBUserId()', function (newVal) {
+                if (angular.isDefined(newVal) && newVal) {
                     User.getFriends({facebookUserId: FBStorageService.getUserID()}).$promise
-                        .then(function(friends){
+                        .then(function (friends) {
                             $scope.friends = friends;
                         });
                 }
             });
 
             $scope.$watchCollection('selectedCities', function (newVal, oldVal) {
-                if (ValidationService.arrayChanged(newVal,oldVal)){
+                if (ValidationService.arrayChanged(newVal, oldVal)) {
                     requestFeatures();
                 }
             });
             $scope.$watchCollection('selectedTypes', function (newVal, oldVal) {
-                if (ValidationService.arrayChanged(newVal,oldVal)) {
+                if (ValidationService.arrayChanged(newVal, oldVal)) {
                     requestFeatures();
                 }
             });
@@ -85,7 +85,7 @@ define([
                     types: types,
                     cities: cities
                 };
-                if ($scope.isAuthFB()){
+                if ($scope.isAuthFB()) {
                     URLparams["favouritedBy"] = $scope.favouritedBy;
                     URLparams["facebookUserId"] = FBStorageService.getUserID();
                     if (angular.isDefined($scope.favouritedBy) && $scope.favouritedBy == 1 && !_.isEmpty($scope.selectedFriends)) {
@@ -93,7 +93,7 @@ define([
                             return friend.facebookUserId;
                         });
                     }
-                }else{
+                } else {
                     URLparams["favouritedBy"] = undefined;
                     URLparams["facebookUserId"] = undefined;
                     URLparams["friends"] = undefined;
@@ -111,42 +111,42 @@ define([
 
             $scope.$watch('boundschanged', function (bounds, boundsOld) {
                 if (angular.isDefined(bounds) && angular.isDefined(boundsOld)) {
-                    $scope.bounds = FeatureService.toWKT(bounds);
+                    $scope.bounds = FeatureService.layer2WKT(bounds);
                     requestFeatures();
                 }
             });
 
-            var activateLoading = function(){
+            var activateLoading = function () {
                 $scope.loading = true;
             };
 
-            var disableLoading = function(){
+            var disableLoading = function () {
                 $scope.loading = false;
             };
 
             $scope.$watch('locationclicked', function (location) {
                 if ($scope.isAuthenticated() && $scope.allowAddTIPs && angular.isDefined(location)) {
-                    var locationFeature = FeatureService.toWKT(location);
+                    var locationFeature = FeatureService.toLayer2WKT(location);
 
                     activateLoading();
                     City.get({location: locationFeature}).$promise.finally(disableLoading)
-                        .then(function(){
+                        .then(function () {
                             return DialogService.showAddPlaceDialog()
-                        }, function(){
+                        }, function () {
                             NotificationService.displayMessage("The place should be located in a existing city");
                             return $q.reject();
                         })
-                        .then(function(place){
+                        .then(function (place) {
                             place["geometry"] = locationFeature;
                             activateLoading();
                             return TIP.save(place).$promise.finally(disableLoading)
-                        }, function(){
+                        }, function () {
                             return $q.reject();
                         })
-                        .then(function(){
+                        .then(function () {
                             requestFeatures();
                             NotificationService.displayMessage("Place created!");
-                        }, function(response){
+                        }, function (response) {
                             if (response && response.status == 500) {
                                 NotificationService.displayMessage("Error creating Place");
                             }
@@ -158,30 +158,30 @@ define([
                 var feature = layer.customFeature;
 
                 DialogService.showPlaceDialog(feature)
-                    .then(function(operation){
-                        if (operation === "Delete"){
+                    .then(function (operation) {
+                        if (operation === "Delete") {
                             return DialogService.showConfirmDialog("Delete Place", "Are you sure?", "Yes", "Cancel");
-                        }else{
+                        } else {
                             return $q.reject();
                         }
-                    }, function(error){
-                       return $q.reject(error);
-                    })
-                    .then(function(){
-                        activateLoading();
-                        return TIP.delete({id: feature.id}).$promise.finally(disableLoading)
-                    }, function(error){
+                    }, function (error) {
                         return $q.reject(error);
                     })
-                    .then(function(){
+                    .then(function () {
+                        activateLoading();
+                        return TIP.delete({id: feature.id}).$promise.finally(disableLoading)
+                    }, function (error) {
+                        return $q.reject(error);
+                    })
+                    .then(function () {
                         $scope.layerdelete = layer;
                         NotificationService.displayMessage("Place deleted!");
-                    }, function(error){
+                    }, function (error) {
                         if (error) {
-                            if (error.status == 500){
+                            if (error.status == 500) {
                                 NotificationService.displayMessage("Error deleting Place");
                             }
-                            if (error.confirm == false){
+                            if (error.confirm == false) {
                                 $scope.showPlaceDialog(layer);
                             }
                         }
@@ -190,7 +190,7 @@ define([
             };
 
             $scope.$watch('layerclicked', function (layer) {
-                if (angular.isDefined(layer)) {
+                if (angular.isDefined(layer) && layer.customFeature.type == "Point") {
                     $scope.showPlaceDialog(layer);
                     $scope.layerclicked = undefined;
                 }

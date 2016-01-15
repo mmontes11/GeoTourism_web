@@ -4,10 +4,9 @@ define([
     '../module',
     'underscore',
     'leaflet',
-    'leaflet-omnivore',
     'leaflet-providers'
-], function(module,_,L,omnivore){
-    module.directive('map',['Config', function(Config){
+], function(module,_,L){
+    module.directive('map',['Config', 'FeatureService', function(Config,FeatureService){
         return {
             restrict: 'E',
             replace: true,
@@ -24,11 +23,11 @@ define([
 
                 var tileLayer = L.tileLayer.provider(Config.TILE_LAYER);
 
-                var markers = L.layerGroup([]);
+                var featuresLayers = L.layerGroup([]);
 
                 var map = L.map('map', {
                     minZoom: 5,
-                    layers: [tileLayer,markers]
+                    layers: [tileLayer,featuresLayers]
                 });
 
                 var fireBoundsChanged = function(){
@@ -55,17 +54,18 @@ define([
 
                 scope.$watch('features', function(features){
                     if (angular.isDefined(features)){
-                        markers.clearLayers();
+                        featuresLayers.clearLayers();
                         angular.forEach(features, function(feature){
                             if (angular.isDefined(feature)){
-                                var layer = omnivore.wkt.parse(feature.geom);
+                                var layer = FeatureService.WKT2layer(feature.geom);
                                 layer.customFeature = feature.toJSON();
                                 layer.on('click',function(e){
                                     scope.$apply(function(){
+                                        e.target.customFeature = _.extend(e.target.customFeature,{type: e.layer.feature.geometry.type});
                                         scope.layerclicked = e.target;
                                     });
                                 });
-                                markers.addLayer(layer);
+                                featuresLayers.addLayer(layer);
                             }
                         });
                     }
@@ -73,7 +73,7 @@ define([
 
                 scope.$watch('layerdelete', function(layer){
                     if (angular.isDefined(layer)){
-                        markers.removeLayer(layer);
+                        featuresLayers.removeLayer(layer);
                     }
                 });
             }

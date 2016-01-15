@@ -19,8 +19,8 @@ require.config({
         md5: '../bower_components/angular-md5/angular-md5.min',
         base64: '../bower_components/angular-base64/angular-base64',
         leaflet: '../bower_components/leaflet/dist/leaflet',
-        'leaflet-omnivore': '../bower_components/leaflet-omnivore/leaflet-omnivore.min',
-        'leaflet-providers': '../bower_components/leaflet-providers/leaflet-providers'
+        'leaflet-providers': '../bower_components/leaflet-providers/leaflet-providers',
+        wellknown: '../bower_components/wellknown/wellknown'
     },
     shim: {
         jquery: {
@@ -65,10 +65,6 @@ require.config({
         },
         base64: {
             deps: ['angular']
-        },
-        'leaflet-omnivore': {
-            deps: ['leaflet'],
-            exports: 'omnivore'
         },
         'leaflet-providers': {
             deps: ['leaflet']

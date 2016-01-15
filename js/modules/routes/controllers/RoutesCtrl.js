@@ -3,9 +3,9 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('RoutesCtrl', ['$scope', 'AuthFBService', 'FBStorageService', 'Route', 'Cities', 'User', 'TIPs', 'TravelModes',
+    module.controller('RoutesCtrl', ['$scope', 'AuthFBService', 'FBStorageService', 'Route', 'Routes', 'Cities', 'User', 'TIPs', 'TravelModes',
         'NotificationService','ValidationService', 'FeatureService',
-        function ($scope, AuthFBService, FBStorageService, Route, Cities, User, TIPs, TravelModes,
+        function ($scope, AuthFBService, FBStorageService, Route, Routes, Cities, User, TIPs, TravelModes,
                   NotificationService,ValidationService,FeatureService) {
 
             $scope.isAuthFB = function () {
@@ -84,10 +84,10 @@ define([
                 var cities = _.map($scope.selectedCities, function (city) {
                     return city.id;
                 });
-
                 var URLparams = {
                     bounds: $scope.bounds,
-                    cities: cities
+                    cities: cities,
+                    travelModes: $scope.selectedTravelModes
                 };
 
                 if ($scope.isAuthFB()){
@@ -112,11 +112,15 @@ define([
                             NotificationService.displayMessage("Error retrieving TIPS");
                         }
                     });
+
+                Routes.query(URLparams).$promise
+                    .then(function (resultFeatures){
+                    });
             };
 
             $scope.$watch('boundschanged', function (bounds, boundsOld) {
                 if (angular.isDefined(bounds) && angular.isDefined(boundsOld)) {
-                    $scope.bounds = FeatureService.toWKT(bounds);
+                    $scope.bounds = FeatureService.layer2WKT(bounds);
                     requestFeatures();
                 }
             });
