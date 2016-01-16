@@ -52,6 +52,7 @@ define([
                 angular.forEach($scope.selectectedTIPLayers, function (TIPlayer) {
                     var customIcon = MarkerIconService.getMarkerIcon(TIPlayer.customFeature.icon);
                     TIPlayer.setIcon(customIcon);
+                    TIPlayer.avoidDelete = false;
                 });
                 $scope.selectectedTIPLayers = [];
             };
@@ -99,6 +100,12 @@ define([
                 $scope.selectedFriends = selectedFriends;
                 requestFeatures();
             });
+
+            var TIPIdsFromTIPLayers = function(TIPLayers){
+                return _.map(TIPLayers, function(TIPLayer){
+                    return TIPLayer.customFeature.id;
+                });
+            };
 
             var requestFeatures = function () {
                 var cities = _.map($scope.selectedCities, function (city) {
@@ -157,19 +164,27 @@ define([
                 if (angular.isDefined(layer) && angular.isDefined(layer.customFeature) && $scope.allowAddRoutes) {
                     if (layer.customFeature.type == "Point") {
                         if (_.contains($scope.selectectedTIPLayers, layer)) {
-                            NotificationService.displayMessage("This TIP is already in the new Route");
+                            NotificationService.displayMessage("This Place is already in the new Route");
                         } else {
                             if (($scope.selectectedTIPLayers.length+1)>$scope.maxWayPoints){
                                 NotificationService.displayMessage("The maximum number of Places per Route is "+$scope.maxWayPoints);
                             }else{
-                                var customIcon = MarkerIconService.getMarkerIcon(layer.customFeature.icon, 'green');
+                                var customIcon = MarkerIconService.getMarkerIcon(layer.customFeature.icon, 'green-light');
                                 layer.setIcon(customIcon);
+                                layer.avoidDelete = true;
                                 $scope.selectectedTIPLayers.push(layer);
                             }
                         }
                     }
                     $scope.layerclicked = undefined;
                 }
+            });
+
+            $scope.$watchCollection('selectectedTIPLayers',function(selectectedTIPLayers){
+               if (angular.isDefined(selectectedTIPLayers) && selectectedTIPLayers.length > 1){
+                   var TIPIds = TIPIdsFromTIPLayers(selectectedTIPLayers);
+                   console.log(TIPIds);
+               }
             });
         }]);
 });

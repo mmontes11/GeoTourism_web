@@ -72,8 +72,9 @@ define([
                 $scope.selectedFriends = selectedFriends;
                 requestFeatures();
             });
-
+            $scope.deletelayers = undefined;
             var requestFeatures = function () {
+                $scope.deletelayers = null;
                 var types = _.map($scope.selectedTypes, function (type) {
                     return type.id;
                 });
@@ -107,6 +108,7 @@ define([
                             NotificationService.displayMessage("Error retrieving TIPS");
                         }
                     });
+                $scope.deletelayers = undefined;
             };
 
             $scope.$watch('boundschanged', function (bounds, boundsOld) {
@@ -172,7 +174,7 @@ define([
                         return $q.reject(error);
                     })
                     .then(function () {
-                        $scope.layerdelete = layer;
+                        $scope.deletelayer = layer;
                         NotificationService.displayMessage("Place deleted!");
                     }, function (error) {
                         if (error) {
