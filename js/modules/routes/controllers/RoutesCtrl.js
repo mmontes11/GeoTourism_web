@@ -4,9 +4,9 @@ define([
     '../module'
 ], function (module) {
     module.controller('RoutesCtrl', ['$scope', 'AuthFBService', 'FBStorageService', 'Route', 'Routes', 'Cities', 'User', 'TIPs', 'TravelModes',
-        'NotificationService','ValidationService', 'FeatureService', 'MarkerIconService',
+        'NotificationService', 'ValidationService', 'FeatureService', 'MarkerIconService',
         function ($scope, AuthFBService, FBStorageService, Route, Routes, Cities, User, TIPs, TravelModes,
-                  NotificationService,ValidationService,FeatureService,MarkerIconService) {
+                  NotificationService, ValidationService, FeatureService, MarkerIconService) {
 
             $scope.isAuthFB = function () {
                 return AuthFBService.isAuthFB;
@@ -15,7 +15,11 @@ define([
                 return FBStorageService.getUserID();
             };
             $scope.filtersEnabled = false;
-            $scope.travelModes = TravelModes.query();
+            TravelModes.query().$promise
+                .then(function (travelModes) {
+                    $scope.travelModes = travelModes;
+                    $scope.travelModePreference = travelModes[0]
+                });
             $scope.selectedTravelModes = [];
             $scope.cities = Cities.query();
             $scope.selectedCities = [];
@@ -44,43 +48,46 @@ define([
 
             };
 
-            $scope.resetRoute = function(){
-
-                angular.forEach($scope.selectectedTIPLayers, function(TIPlayer){
+            $scope.resetRoute = function () {
+                angular.forEach($scope.selectectedTIPLayers, function (TIPlayer) {
                     var customIcon = MarkerIconService.getMarkerIcon(TIPlayer.customFeature.icon);
                     TIPlayer.setIcon(customIcon);
                 });
                 $scope.selectectedTIPLayers = [];
             };
 
-            $scope.finishAddRoutes = function () {
+            $scope.cancelAddRoutes = function () {
+                $scope.resetRoute();
                 $scope.allowAddRoutes = false;
             };
 
-            $scope.displayHelpMessage = function(){
+            $scope.displayHelpMessage = function () {
                 NotificationService.displayMessage("Click on the places in order to create Routes");
             };
 
-            $scope.$watch('isAuthFB() && getFBUserId()', function(newVal){
-                if (angular.isDefined(newVal) && newVal){
-                    if (!angular.isDefined($scope.maxWayPoints)){
-                        $scope.maxWayPoints = Route.getMaxWayPoints({facebookUserId: FBStorageService.getUserID()});
+            $scope.$watch('isAuthFB() && getFBUserId()', function (newVal) {
+                if (angular.isDefined(newVal) && newVal) {
+                    if (!angular.isDefined($scope.maxWayPoints)) {
+                        Route.getMaxWayPoints({facebookUserId: FBStorageService.getUserID()}).$promise
+                            .then(function(data){
+                                $scope.maxWayPoints = data.value;
+                            });
                     }
                     $scope.allowAddRoutes = false;
                     User.getFriends({facebookUserId: FBStorageService.getUserID()}).$promise
-                        .then(function(friends){
+                        .then(function (friends) {
                             $scope.friends = friends;
                         });
                 }
             });
 
             $scope.$watchCollection('selectedCities', function (newVal, oldVal) {
-                if (ValidationService.arrayChanged(newVal,oldVal)){
+                if (ValidationService.arrayChanged(newVal, oldVal)) {
                     requestFeatures();
                 }
             });
-            $scope.$watchCollection('selectedTravelModes', function (newVal,oldVal){
-                if (ValidationService.arrayChanged(newVal,oldVal)){
+            $scope.$watchCollection('selectedTravelModes', function (newVal, oldVal) {
+                if (ValidationService.arrayChanged(newVal, oldVal)) {
                     requestFeatures();
                 }
             });
@@ -93,7 +100,7 @@ define([
                 requestFeatures();
             });
 
-            var requestFeatures = function(){
+            var requestFeatures = function () {
                 var cities = _.map($scope.selectedCities, function (city) {
                     return city.id;
                 });
@@ -103,7 +110,7 @@ define([
                     travelModes: $scope.selectedTravelModes
                 };
 
-                if ($scope.isAuthFB()){
+                if ($scope.isAuthFB()) {
                     URLparams["favouritedBy"] = $scope.favouritedBy;
                     URLparams["facebookUserId"] = FBStorageService.getUserID();
                     if (angular.isDefined($scope.favouritedBy) && $scope.favouritedBy == 1 && !_.isEmpty($scope.selectedFriends)) {
@@ -111,7 +118,7 @@ define([
                             return friend.facebookUserId;
                         });
                     }
-                }else{
+                } else {
                     URLparams["favouritedBy"] = undefined;
                     URLparams["facebookUserId"] = undefined;
                     URLparams["friends"] = undefined;
@@ -127,7 +134,7 @@ define([
                     });
 
                 Routes.query(URLparams).$promise
-                    .then(function (resultFeatures){
+                    .then(function (resultFeatures) {
                     });
             };
 
@@ -138,24 +145,27 @@ define([
                 }
             });
 
-            var activateLoading = function(){
+            var activateLoading = function () {
                 $scope.loading = true;
             };
 
-            var disableLoading = function(){
+            var disableLoading = function () {
                 $scope.loading = false;
             };
 
             $scope.$watch('layerclicked', function (layer) {
-                console.log(layer);
                 if (angular.isDefined(layer) && angular.isDefined(layer.customFeature) && $scope.allowAddRoutes) {
-                    if (layer.customFeature.type == "Point"){
-                        if (_.contains($scope.selectectedTIPLayers,layer)){
+                    if (layer.customFeature.type == "Point") {
+                        if (_.contains($scope.selectectedTIPLayers, layer)) {
                             NotificationService.displayMessage("This TIP is already in the new Route");
-                        }else{
-                            var customIcon = MarkerIconService.getMarkerIcon(layer.customFeature.icon,'green');
-                            layer.setIcon(customIcon);
-                            $scope.selectectedTIPLayers.push(layer);
+                        } else {
+                            if (($scope.selectectedTIPLayers.length+1)>$scope.maxWayPoints){
+                                NotificationService.displayMessage("The maximum number of Places per Route is "+$scope.maxWayPoints);
+                            }else{
+                                var customIcon = MarkerIconService.getMarkerIcon(layer.customFeature.icon, 'green');
+                                layer.setIcon(customIcon);
+                                $scope.selectectedTIPLayers.push(layer);
+                            }
                         }
                     }
                     $scope.layerclicked = undefined;
