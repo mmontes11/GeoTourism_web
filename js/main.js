@@ -20,6 +20,7 @@ require.config({
         base64: '../bower_components/angular-base64/angular-base64',
         leaflet: '../bower_components/leaflet/dist/leaflet',
         'leaflet-providers': '../bower_components/leaflet-providers/leaflet-providers',
+        'leaflet-markers': '../bower_components/leaflet-markers/src/leaflet.extra-markers',
         wellknown: '../bower_components/wellknown/wellknown'
     },
     shim: {
@@ -67,6 +68,9 @@ require.config({
             deps: ['angular']
         },
         'leaflet-providers': {
+            deps: ['leaflet']
+        },
+        'leaflet-markers': {
             deps: ['leaflet']
         }
     },

@@ -4,9 +4,9 @@ define([
     '../module'
 ], function (module) {
     module.controller('RoutesCtrl', ['$scope', 'AuthFBService', 'FBStorageService', 'Route', 'Routes', 'Cities', 'User', 'TIPs', 'TravelModes',
-        'NotificationService','ValidationService', 'FeatureService',
+        'NotificationService','ValidationService', 'FeatureService', 'MarkerIconService',
         function ($scope, AuthFBService, FBStorageService, Route, Routes, Cities, User, TIPs, TravelModes,
-                  NotificationService,ValidationService,FeatureService) {
+                  NotificationService,ValidationService,FeatureService,MarkerIconService) {
 
             $scope.isAuthFB = function () {
                 return AuthFBService.isAuthFB;
@@ -23,7 +23,7 @@ define([
             $scope.friends = [];
             $scope.allowAddRoutes = false;
             $scope.loading = false;
-            $scope.selectectedTIPs = [];
+            $scope.selectectedTIPLayers = [];
 
             $scope.toggleTravelMode = function (item, list) {
                 var idx = list.indexOf(item);
@@ -45,7 +45,12 @@ define([
             };
 
             $scope.resetRoute = function(){
-                $scope.selectectedTIPs = [];
+
+                angular.forEach($scope.selectectedTIPLayers, function(TIPlayer){
+                    var customIcon = MarkerIconService.getMarkerIcon(TIPlayer.customFeature.icon);
+                    TIPlayer.setIcon(customIcon);
+                });
+                $scope.selectectedTIPLayers = [];
             };
 
             $scope.finishAddRoutes = function () {
@@ -142,12 +147,15 @@ define([
             };
 
             $scope.$watch('layerclicked', function (layer) {
-                if (angular.isDefined(layer) && $scope.allowAddRoutes) {
+                console.log(layer);
+                if (angular.isDefined(layer) && angular.isDefined(layer.customFeature) && $scope.allowAddRoutes) {
                     if (layer.customFeature.type == "Point"){
-                        if (_.contains($scope.selectectedTIPs,layer)){
+                        if (_.contains($scope.selectectedTIPLayers,layer)){
                             NotificationService.displayMessage("This TIP is already in the new Route");
                         }else{
-                            $scope.selectectedTIPs.push(layer);
+                            var customIcon = MarkerIconService.getMarkerIcon(layer.customFeature.icon,'green');
+                            layer.setIcon(customIcon);
+                            $scope.selectectedTIPLayers.push(layer);
                         }
                     }
                     $scope.layerclicked = undefined;

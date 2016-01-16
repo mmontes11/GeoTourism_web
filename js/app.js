@@ -6,6 +6,7 @@ define([
     'angularResource',
     'angularAnimate',
     'material',
+    'underscore',
     './modules/common/index',
     './modules/admin/index',
     './modules/places/index',

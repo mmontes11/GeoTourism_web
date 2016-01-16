@@ -19,10 +19,10 @@
         </div>
         <div class="fade" layout="row" layout-align="center center" ng-if="allowAddRoutes">
             <div layout-sm="column">
-                <md-button class="md-raised md-primary" ng-if="selectectedTIPs.length > 1" ng-click="createRoute()">
+                <md-button class="md-raised md-primary" ng-if="selectectedTIPLayers.length > 1" ng-click="createRoute()">
                     <strong>Create Route</strong>
                 </md-button>
-                <md-button class="md-raised" ng-if="selectectedTIPs.length > 1" ng-click="resetRoute()">
+                <md-button class="md-raised" ng-if="selectectedTIPLayers.length > 1" ng-click="resetRoute()">
                     <strong>Reset Route</strong>
                 </md-button>
                 <md-button class="md-raised md-warn" ng-click="finishAddRoutes()">

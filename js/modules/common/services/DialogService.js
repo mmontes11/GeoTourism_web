@@ -10,7 +10,7 @@ define([
                controller: 'DialogAddPlaceCtrl',
                templateUrl: 'partials/places/dialogAddPlace.html',
                parent: angular.element(document.body),
-               clickOutsideToClose: false
+               clickOutsideToClose: true
            });
        };
 
@@ -19,7 +19,7 @@ define([
                controller: 'DialogPlaceCtrl',
                templateUrl: 'partials/places/dialogPlace.html',
                parent: angular.element(document.body),
-               clickOutsideToClose: false,
+               clickOutsideToClose: true,
                mdIsFullscreen: 'sm,md',
                locals: {
                    feature: feature

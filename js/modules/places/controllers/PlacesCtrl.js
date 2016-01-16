@@ -126,7 +126,7 @@ define([
 
             $scope.$watch('locationclicked', function (location) {
                 if ($scope.isAuthenticated() && $scope.allowAddTIPs && angular.isDefined(location)) {
-                    var locationFeature = FeatureService.toLayer2WKT(location);
+                    var locationFeature = FeatureService.layer2WKT(location);
 
                     activateLoading();
                     City.get({location: locationFeature}).$promise.finally(disableLoading)
@@ -155,9 +155,7 @@ define([
             });
 
             $scope.showPlaceDialog = function (layer) {
-                var feature = layer.customFeature;
-
-                DialogService.showPlaceDialog(feature)
+                DialogService.showPlaceDialog(layer.customFeature)
                     .then(function (operation) {
                         if (operation === "Delete") {
                             return DialogService.showConfirmDialog("Delete Place", "Are you sure?", "Yes", "Cancel");
@@ -169,7 +167,7 @@ define([
                     })
                     .then(function () {
                         activateLoading();
-                        return TIP.delete({id: feature.id}).$promise.finally(disableLoading)
+                        return TIP.delete({id: layer.customFeature.id}).$promise.finally(disableLoading)
                     }, function (error) {
                         return $q.reject(error);
                     })
@@ -190,7 +188,7 @@ define([
             };
 
             $scope.$watch('layerclicked', function (layer) {
-                if (angular.isDefined(layer) && layer.customFeature.type == "Point") {
+                if (angular.isDefined(layer) && angular.isDefined(layer.customFeature) && layer.customFeature.type == "Point") {
                     $scope.showPlaceDialog(layer);
                     $scope.layerclicked = undefined;
                 }

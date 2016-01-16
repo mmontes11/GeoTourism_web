@@ -2,14 +2,22 @@
 
 define([
     '../module',
-    'wellknown'
-], function(module,wellknown){
-    module.service('FeatureService',  function(){
+    'wellknown',
+    'leaflet',
+    'leaflet-markers'
+], function(module,wellknown,L){
+    module.service('FeatureService', ['MarkerIconService',function(MarkerIconService){
         this.layer2WKT = function (layer) {
             return wellknown.stringify(layer.toGeoJSON());
         };
-        this.WKT2layer = function(WKT){
-            return L.geoJson(wellknown.parse(WKT));
+        this.feature2layer = function(customFeature){
+            return L.geoJson(wellknown.parse(customFeature.geom),
+                {
+                    pointToLayer: function(feature, latlng) {
+                        var customIcon = MarkerIconService.getMarkerIcon(customFeature.icon);
+                        return new L.Marker(latlng, {icon: customIcon});
+                    }
+                });
         };
-    });
+    }]);
 });

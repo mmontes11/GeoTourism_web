@@ -57,12 +57,18 @@ define([
                         featuresLayers.clearLayers();
                         angular.forEach(features, function(feature){
                             if (angular.isDefined(feature)){
-                                var layer = FeatureService.WKT2layer(feature.geom);
-                                layer.customFeature = feature.toJSON();
+                                var layer = FeatureService.feature2layer(feature);
                                 layer.on('click',function(e){
+                                    var type = e.layer.feature.geometry.type;
+                                    var customFeature = _.extend(feature.toJSON(),{type:type});
+                                    var customLayer = _.extend(layer,{customFeature: customFeature});
+                                    if (type == "Point"){
+                                        customLayer.setIcon = function(icon){
+                                            e.layer.setIcon(icon);
+                                        };
+                                    }
                                     scope.$apply(function(){
-                                        e.target.customFeature = _.extend(e.target.customFeature,{type: e.layer.feature.geometry.type});
-                                        scope.layerclicked = e.target;
+                                        scope.layerclicked = customLayer;
                                     });
                                 });
                                 featuresLayers.addLayer(layer);
