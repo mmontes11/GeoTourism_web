@@ -6,7 +6,7 @@ define([
     'leaflet',
     'leaflet-markers'
 ], function(module,wellknown,L){
-    module.service('FeatureService', ['MarkerIconService',function(MarkerIconService){
+    module.service('FeatureService', ['FeatureStyleService',function(FeatureStyleService){
         this.layer2WKT = function (layer) {
             return wellknown.stringify(layer.toGeoJSON());
         };
@@ -14,9 +14,10 @@ define([
             return L.geoJson(wellknown.parse(customFeature.geom),
                 {
                     pointToLayer: function(feature, latlng) {
-                        var customIcon = MarkerIconService.getMarkerIcon(customFeature.icon);
+                        var customIcon = FeatureStyleService.getMarkerIcon(customFeature.icon);
                         return new L.Marker(latlng, {icon: customIcon});
-                    }
+                    },
+                    style: FeatureStyleService.getFeatureStyle(customFeature.color)
                 });
         };
     }]);

@@ -3,10 +3,10 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('RoutesCtrl', ['$scope', 'AuthFBService', 'FBStorageService', 'Route', 'Routes', 'Cities', 'User', 'TIPs', 'TravelModes',
-        'NotificationService', 'ValidationService', 'FeatureService', 'MarkerIconService',
-        function ($scope, AuthFBService, FBStorageService, Route, Routes, Cities, User, TIPs, TravelModes,
-                  NotificationService, ValidationService, FeatureService, MarkerIconService) {
+    module.controller('RoutesCtrl', ['$scope', '$q', 'AuthFBService', 'FBStorageService', 'Route', 'Routes', 'Cities', 'User', 'TIPs', 'TravelModes',
+        'NotificationService', 'ValidationService', 'FeatureService', 'FeatureStyleService', 'DialogService',
+        function ($scope, $q, AuthFBService, FBStorageService, Route, Routes, Cities, User, TIPs, TravelModes,
+                  NotificationService, ValidationService, FeatureService, FeatureStyleService,DialogService) {
 
             $scope.isAuthFB = function () {
                 return AuthFBService.isAuthFB;
@@ -18,7 +18,7 @@ define([
             TravelModes.query().$promise
                 .then(function (travelModes) {
                     $scope.travelModes = travelModes;
-                    $scope.travelModePreference = travelModes[0]
+                    $scope.travelModePreference = {selected: travelModes[0]};
                 });
             $scope.selectedTravelModes = [];
             $scope.cities = Cities.query();
@@ -28,6 +28,7 @@ define([
             $scope.allowAddRoutes = false;
             $scope.loading = false;
             $scope.selectectedTIPLayers = [];
+            $scope.partialRouteGeoms = [];
 
             $scope.toggleTravelMode = function (item, list) {
                 var idx = list.indexOf(item);
@@ -39,23 +40,44 @@ define([
                 return list.indexOf(item) > -1;
             };
 
+            $scope.selectTravelModePreference = function(travelMode){
+                $scope.travelModePreference = travelMode;
+            };
+
             $scope.enableAddRoutes = function () {
                 $scope.displayHelpMessage();
                 $scope.allowAddRoutes = true;
             };
 
             $scope.createRoute = function () {
+                var TIPIds = TIPIdsFromTIPLayers($scope.selectectedTIPLayers);
+                DialogService.showAddRouteDialog($scope.travelModePreference.selected,TIPIds)
+                    .then(function(){
+                        $scope.resetRoute();
+                    }, function(error){
+                        return $q.reject(error);
+                    });
 
+            };
+
+            $scope.resetLastRoutePlace = function(){
+                var TIPlayer = _.last($scope.selectectedTIPLayers,1)[0];
+                $scope.selectectedTIPLayers.splice(_.indexOf($scope.selectectedTIPLayers,TIPlayer),1);
+                $scope.permanentlayers.removeLayer(TIPlayer);
+                var customIcon = FeatureStyleService.getMarkerIcon(TIPlayer.customFeature.icon);
+                TIPlayer.setIcon(customIcon);
+                $scope.boundingboxlayers.addLayer(TIPlayer);
             };
 
             $scope.resetRoute = function () {
                 $scope.permanentlayers.clearLayers();
                 angular.forEach($scope.selectectedTIPLayers, function (TIPlayer) {
-                    var customIcon = MarkerIconService.getMarkerIcon(TIPlayer.customFeature.icon);
+                    var customIcon = FeatureStyleService.getMarkerIcon(TIPlayer.customFeature.icon);
                     TIPlayer.setIcon(customIcon);
                     $scope.boundingboxlayers.addLayer(TIPlayer);
                 });
                 $scope.selectectedTIPLayers = [];
+                $scope.partialRouteGeoms = [];
             };
 
             $scope.cancelAddRoutes = function () {
@@ -159,6 +181,11 @@ define([
                 $scope.loading = false;
             };
 
+            $scope.$watch('travelModePreference.selected',function(newVal,oldVal){
+                if (angular.isDefined(newVal) && angular.isDefined(oldVal) && newVal != oldVal){
+                    $scope.resetRoute();
+                }
+            });
 
             $scope.$watch('layerclicked', function (layerClicked) {
                 if (angular.isDefined(layerClicked) && $scope.allowAddRoutes) {
@@ -171,7 +198,7 @@ define([
                             if (($scope.selectectedTIPLayers.length + 1) > $scope.maxRoutePoints) {
                                 NotificationService.displayMessage("The maximum number of Places per Route is " + $scope.maxRoutePoints);
                             } else {
-                                var customIcon = MarkerIconService.getMarkerIcon(layer.customFeature.icon, 'green-light');
+                                var customIcon = FeatureStyleService.getMarkerIcon(layer.customFeature.icon, 'green');
                                 layer.setIcon(customIcon);
                                 $scope.boundingboxlayers.removeLayer(layer);
                                 $scope.permanentlayers.addLayer(layer);
@@ -184,22 +211,30 @@ define([
                 }
             });
 
-            $scope.$watchCollection('selectectedTIPLayers', function (selectectedTIPLayers) {
-                if (angular.isDefined(selectectedTIPLayers) && selectectedTIPLayers.length > 1) {
-                    var TIPIds = TIPIdsFromTIPLayers(selectectedTIPLayers);
-
+            $scope.$watchCollection('selectectedTIPLayers', function (selectectedTIPlayers,oldTIPlayers) {
+                var newTIPlayers = _.difference(selectectedTIPlayers,oldTIPlayers);
+                if (angular.isDefined(selectectedTIPlayers) &&
+                    selectectedTIPlayers.length > 1 && _.intersection(selectectedTIPlayers,newTIPlayers).length > 0) {
+                    var TIPIds = TIPIdsFromTIPLayers(selectectedTIPlayers);
                     var lastTIPIds = _.last(TIPIds, 2);
                     var origin = lastTIPIds[0];
                     var destination = lastTIPIds[1];
-
                     var urlParams = {
                         origin: origin,
                         destination: destination,
-                        travelMode: $scope.travelModePreference
+                        travelMode: $scope.travelModePreference.selected
                     };
                     Route.getShortestPath(urlParams).$promise
                         .then(function(response){
-                            $scope.permanentfeatures = [{geom:response.geom}];
+                            var feature = {
+                                geom: response.geom,
+                                color: 'green'
+                            };
+                            $scope.permanentfeatures = [feature];
+                            $scope.partialRouteGeoms.push(feature.geom);
+                        }, function(){
+                            $scope.resetLastRoutePlace();
+                            NotificationService.displayMessage("There is no possible Route between that Places");
                         });
                 }
             });

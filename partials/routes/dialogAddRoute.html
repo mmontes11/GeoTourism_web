@@ -1,0 +1,23 @@
+<md-dialog class="dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h3 class="md-headline">
+                New Route
+            </h3>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="close()">
+                <i class="material-icons">close</i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content class="md-dialog-content">
+    </md-dialog-content>
+    <div class="md-actions" layout="row" layout-align="start center">
+        <md-button class="md-primary" ng-disabled="formDialog.$invalid" ng-click="save()">
+            <i class="material-icons">save</i>
+        </md-button>
+        <md-button class="md-warn" ng-click="close()">
+            <i class="material-icons">cancel</i>
+        </md-button>
+    </div>
+</md-dialog>

@@ -20,9 +20,21 @@ define([
                templateUrl: 'partials/places/dialogPlace.html',
                parent: angular.element(document.body),
                clickOutsideToClose: true,
-               mdIsFullscreen: 'sm,md',
                locals: {
                    feature: feature
+               }
+           });
+       };
+
+       this.showAddRouteDialog = function(travelMode,TIPIds){
+           return $mdDialog.show({
+               controller: 'DialogAddRouteCtrl',
+               templateUrl: 'partials/routes/dialogAddRoute.html',
+               parent: angular.element(document.body),
+               clickOutsideToClose: true,
+               locals: {
+                   travelMode: travelMode,
+                   TIPIds: TIPIds
                }
            });
        };

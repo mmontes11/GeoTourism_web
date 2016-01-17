@@ -24,7 +24,6 @@ define([
             link: function (scope) {
 
                 var tileLayer = L.tileLayer.provider(Config.TILE_LAYER);
-
                 scope.boundingboxlayers = L.layerGroup([]);
                 scope.permanentlayers = L.layerGroup([]);
 

@@ -19,7 +19,8 @@
         </div>
         <div class="fade" layout="row" layout-align="center center" ng-if="allowAddRoutes">
             <div layout-sm="column">
-                <md-button class="md-raised md-primary" ng-if="selectectedTIPLayers.length > 1" ng-click="createRoute()">
+                <md-button class="md-raised md-primary" ng-if="selectectedTIPLayers.length > 1"
+                           ng-click="createRoute()">
                     <strong>Create Route</strong>
                 </md-button>
                 <md-button class="md-raised" ng-if="selectectedTIPLayers.length > 1" ng-click="resetRoute()">
@@ -29,7 +30,7 @@
                     <strong>Cancel</strong>
                 </md-button>
             </div>
-            <md-radio-group class="custom-selector" ng-model="travelModePreference">
+            <md-radio-group class="custom-selector" ng-model="travelModePreference.selected">
                 <md-radio-button class="md-primary" ng-value="travelMode" ng-repeat="travelMode in travelModes">
                     <i class="material-icons">{{travelMode | travelModeIcon}}</i>
                 </md-radio-button>
