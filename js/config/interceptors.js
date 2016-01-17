@@ -8,11 +8,15 @@ define([
         return {
             request: function(config){
                 config.headers = config.headers || {};
+                config.params = config.params || {};
                 if (angular.isDefined(BrowserService.getStorage('token'))){
                     config.headers.Authorization = 'Bearer ' + BrowserService.getStorage('token');
                 }
                 if (angular.isDefined(FBStorageService.getAccessToken())){
                     config.headers.AuthorizationFB = FBStorageService.getAccessToken();
+                }
+                if (angular.isDefined(FBStorageService.getUserID())){
+                    config.params.facebookUserId = FBStorageService.getUserID();
                 }
                 return config || $q.when(config);
             },

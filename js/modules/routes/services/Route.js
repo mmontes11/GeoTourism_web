@@ -9,24 +9,27 @@ define([
             Config.API_ROOT_URL + '/social/route/:id',
             //Default Parameters
             {
-                id: '@id'
+                id: '@id',
+                origin: '@origin',
+                destination: '@destination',
+                travelMode: '@travelMode'
             },
             //Actions
             {
                 get: {
                     method: 'GET',
-                    url: Config.API_ROOT_URL + '/route/:id?facebookUserId=:facebookUserId'
+                    url: Config.API_ROOT_URL + '/route/:id'
                 },
                 patch: {
                     method: 'PATCH'
                 },
-                getShortestPath: {
-                    method: 'GET',
-                    url: Config.API_ROOT_URL + '/social/route/geom'
-                },
                 getMaxWayPoints: {
                     method: 'GET',
-                    url: Config.API_ROOT_URL + '/social/route/maxwaypoints'
+                    url: Config.API_ROOT_URL + '/social/route/maxpoints'
+                },
+                getShortestPath: {
+                    method: 'GET',
+                    url: Config.API_ROOT_URL + '/social/route/geom?origin=:origin&destination=:destination&travelMode=:travelMode'
                 }
             }
         );

@@ -15,19 +15,22 @@ define([
             scope: {
                 boundschanged: "=",
                 locationclicked: "=",
-                features: "=",
-                layerclicked: "=",
-                deletelayer: "="
+                boundingboxfeatures: "=",
+                boundingboxlayers: "=",
+                permanentfeatures: "=",
+                permanentlayers: "=",
+                layerclicked: "="
             },
             link: function (scope) {
 
                 var tileLayer = L.tileLayer.provider(Config.TILE_LAYER);
 
-                var featuresLayers = L.layerGroup([]);
+                scope.boundingboxlayers = L.layerGroup([]);
+                scope.permanentlayers = L.layerGroup([]);
 
                 var map = L.map('map', {
                     minZoom: 5,
-                    layers: [tileLayer, featuresLayers]
+                    layers: [tileLayer, scope.boundingboxlayers, scope.permanentlayers]
                 });
 
                 var fireBoundsChanged = function () {
@@ -52,48 +55,55 @@ define([
                     });
                 });
 
-                var updateLayers = function(features) {
-                    featuresLayers.eachLayer(function(layer){
-                        if(!layer.avoidDelete){
-                            featuresLayers.removeLayer(layer);
-                        }else{
-                            features = _.filter(features,function(feature){
-                                return (feature.id != layer.customFeature.id || feature.geom != layer.customFeature.geom);
-                            });
-                        }
+                var updateBBLayers = function(features) {
+                    scope.boundingboxlayers.clearLayers();
+                    features = _.filter(features,function(feature){
+                        var filteredLayers = _.filter(scope.permanentlayers.getLayers(),function(layer){
+                            return (feature.id == layer.customFeature.id || feature.geom == layer.customFeature.geom);
+                        });
+                        return (filteredLayers.length == 0);
                     });
                     return features;
                 };
 
-                scope.$watchCollection('features', function (features) {
+                var feature2layer = function(feature){
+                    var layer = FeatureService.feature2layer(feature);
+                    layer.customFeature = feature;
+                    layer.on('click', function (e) {
+                        var type = e.layer.feature.geometry.type;
+                        if (type == "Point") {
+                            layer.setIcon = function (icon) {
+                                e.layer.setIcon(icon);
+                            };
+                        }
+                        scope.$apply(function () {
+                            scope.layerclicked = {
+                                typeClicked: type,
+                                layer: layer
+                            };
+                        });
+                    });
+                    return layer;
+                };
+
+                scope.$watchCollection('boundingboxfeatures', function (features) {
                     if (angular.isDefined(features)) {
-                        features = updateLayers(features);
+                        features = updateBBLayers(features);
                         angular.forEach(features, function (feature) {
                             if (angular.isDefined(feature)) {
-                                var layer = FeatureService.feature2layer(feature);
-                                layer.avoidDelete = false;
-                                layer.on('click', function (e) {
-                                    var type = e.layer.feature.geometry.type;
-                                    var customFeature = _.extend(feature.toJSON(), {type: type});
-                                    var customLayer = _.extend(layer, {customFeature: customFeature});
-                                    if (type == "Point") {
-                                        customLayer.setIcon = function (icon) {
-                                            e.layer.setIcon(icon);
-                                        };
-                                    }
-                                    scope.$apply(function () {
-                                        scope.layerclicked = customLayer;
-                                    });
-                                });
-                                featuresLayers.addLayer(layer);
+                                var layer = feature2layer(feature);
+                                scope.boundingboxlayers.addLayer(layer);
                             }
                         });
                     }
                 });
 
-                scope.$watch('deletelayer', function (layer) {
-                    if (angular.isDefined(layer)) {
-                        featuresLayers.removeLayer(layer);
+                scope.$watch('permanentfeatures', function(features){
+                    if (angular.isDefined(features)){
+                        angular.forEach(features, function(feature){
+                            var layer = feature2layer(feature);
+                            scope.permanentlayers.addLayer(layer);
+                        });
                     }
                 });
             }

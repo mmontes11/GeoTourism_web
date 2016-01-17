@@ -12,7 +12,6 @@ define([
                 id: '@id',
                 commentId: '@commentId',
                 type: '@type',
-                facebookUserId: '@facebookUserId',
                 favouriteValue: '@favouriteValue',
                 ratingValue: '@ratingValue',
                 commentText: '@commentText'
@@ -37,21 +36,21 @@ define([
                 },
                 favourite: {
                     method: 'POST',
-                    url: Config.API_ROOT_URL + '/social/tip/:id/favourite?facebookUserId=:facebookUserId&favouriteValue=:favouriteValue',
+                    url: Config.API_ROOT_URL + '/social/tip/:id/favourite?favouriteValue=:favouriteValue',
                     isArray: true
                 },
                 rate: {
                     method: 'POST',
-                    url: Config.API_ROOT_URL + '/social/tip/:id/rating?facebookUserId=:facebookUserId&ratingValue=:ratingValue'
+                    url: Config.API_ROOT_URL + '/social/tip/:id/rating?ratingValue=:ratingValue'
                 },
                 comment: {
                     method: 'POST',
-                    url: Config.API_ROOT_URL + '/social/tip/:id/comment?facebookUserId=:facebookUserId&commentText=:commentText',
+                    url: Config.API_ROOT_URL + '/social/tip/:id/comment?&commentText=:commentText',
                     isArray: true
                 },
                 deleteComment: {
                     method: 'DELETE',
-                    url: Config.API_ROOT_URL + '/social/tip/:id/comment/:commentId?facebookUserId=:facebookUserId',
+                    url: Config.API_ROOT_URL + '/social/tip/:id/comment/:commentId',
                     isArray: true
                 }
             }

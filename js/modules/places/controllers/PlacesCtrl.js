@@ -47,10 +47,7 @@ define([
             });
             $scope.$watch('isAuthFB() && getFBUserId()', function (newVal) {
                 if (angular.isDefined(newVal) && newVal) {
-                    User.getFriends({facebookUserId: FBStorageService.getUserID()}).$promise
-                        .then(function (friends) {
-                            $scope.friends = friends;
-                        });
+                    $scope.friends = User.getFriends();
                 }
             });
 
@@ -88,7 +85,6 @@ define([
                 };
                 if ($scope.isAuthFB()) {
                     URLparams["favouritedBy"] = $scope.favouritedBy;
-                    URLparams["facebookUserId"] = FBStorageService.getUserID();
                     if (angular.isDefined($scope.favouritedBy) && $scope.favouritedBy == 1 && !_.isEmpty($scope.selectedFriends)) {
                         URLparams["friends"] = _.map($scope.selectedFriends, function (friend) {
                             return friend.facebookUserId;
@@ -96,13 +92,12 @@ define([
                     }
                 } else {
                     URLparams["favouritedBy"] = undefined;
-                    URLparams["facebookUserId"] = undefined;
                     URLparams["friends"] = undefined;
                 }
 
                 TIPs.query(URLparams).$promise
                     .then(function (resultFeatures) {
-                        $scope.features = resultFeatures;
+                        $scope.boundingboxfeatures = resultFeatures;
                     }, function (response) {
                         if (response.status == 500) {
                             NotificationService.displayMessage("Error retrieving TIPS");
@@ -175,6 +170,7 @@ define([
                     })
                     .then(function () {
                         $scope.deletelayer = layer;
+                        $scope.boundingboxlayers.removeLayer(layer);
                         NotificationService.displayMessage("Place deleted!");
                     }, function (error) {
                         if (error) {
@@ -189,10 +185,14 @@ define([
 
             };
 
-            $scope.$watch('layerclicked', function (layer) {
-                if (angular.isDefined(layer) && angular.isDefined(layer.customFeature) && layer.customFeature.type == "Point") {
-                    $scope.showPlaceDialog(layer);
-                    $scope.layerclicked = undefined;
+            $scope.$watch('layerclicked', function (layerClicked) {
+                if (angular.isDefined(layerClicked)) {
+                    var typeClicked = layerClicked.typeClicked;
+                    var layer = layerClicked.layer;
+                    if (typeClicked == "Point"){
+                        $scope.showPlaceDialog(layer);
+                        $scope.layerclicked = undefined;
+                    }
                 }
             });
         }]);

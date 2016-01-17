@@ -49,10 +49,11 @@ define([
             };
 
             $scope.resetRoute = function () {
+                $scope.permanentlayers.clearLayers();
                 angular.forEach($scope.selectectedTIPLayers, function (TIPlayer) {
                     var customIcon = MarkerIconService.getMarkerIcon(TIPlayer.customFeature.icon);
                     TIPlayer.setIcon(customIcon);
-                    TIPlayer.avoidDelete = false;
+                    $scope.boundingboxlayers.addLayer(TIPlayer);
                 });
                 $scope.selectectedTIPLayers = [];
             };
@@ -68,17 +69,14 @@ define([
 
             $scope.$watch('isAuthFB() && getFBUserId()', function (newVal) {
                 if (angular.isDefined(newVal) && newVal) {
-                    if (!angular.isDefined($scope.maxWayPoints)) {
-                        Route.getMaxWayPoints({facebookUserId: FBStorageService.getUserID()}).$promise
-                            .then(function(data){
-                                $scope.maxWayPoints = data.value;
+                    if (!angular.isDefined($scope.maxRoutePoints)) {
+                        Route.getMaxWayPoints().$promise
+                            .then(function (data) {
+                                $scope.maxRoutePoints = data.value;
                             });
                     }
                     $scope.allowAddRoutes = false;
-                    User.getFriends({facebookUserId: FBStorageService.getUserID()}).$promise
-                        .then(function (friends) {
-                            $scope.friends = friends;
-                        });
+                    $scope.friends = User.getFriends();
                 }
             });
 
@@ -101,8 +99,8 @@ define([
                 requestFeatures();
             });
 
-            var TIPIdsFromTIPLayers = function(TIPLayers){
-                return _.map(TIPLayers, function(TIPLayer){
+            var TIPIdsFromTIPLayers = function (TIPLayers) {
+                return _.map(TIPLayers, function (TIPLayer) {
                     return TIPLayer.customFeature.id;
                 });
             };
@@ -133,7 +131,7 @@ define([
 
                 TIPs.query(URLparams).$promise
                     .then(function (resultFeatures) {
-                        $scope.features = resultFeatures;
+                        $scope.boundingboxfeatures = resultFeatures;
                     }, function (response) {
                         if (response.status == 500) {
                             NotificationService.displayMessage("Error retrieving TIPS");
@@ -142,6 +140,7 @@ define([
 
                 Routes.query(URLparams).$promise
                     .then(function (resultFeatures) {
+
                     });
             };
 
@@ -160,19 +159,24 @@ define([
                 $scope.loading = false;
             };
 
-            $scope.$watch('layerclicked', function (layer) {
-                if (angular.isDefined(layer) && angular.isDefined(layer.customFeature) && $scope.allowAddRoutes) {
-                    if (layer.customFeature.type == "Point") {
+
+            $scope.$watch('layerclicked', function (layerClicked) {
+                if (angular.isDefined(layerClicked) && $scope.allowAddRoutes) {
+                    var typeClicked = layerClicked.typeClicked;
+                    var layer = layerClicked.layer;
+                    if (typeClicked == "Point") {
                         if (_.contains($scope.selectectedTIPLayers, layer)) {
                             NotificationService.displayMessage("This Place is already in the new Route");
                         } else {
-                            if (($scope.selectectedTIPLayers.length+1)>$scope.maxWayPoints){
-                                NotificationService.displayMessage("The maximum number of Places per Route is "+$scope.maxWayPoints);
-                            }else{
+                            if (($scope.selectectedTIPLayers.length + 1) > $scope.maxRoutePoints) {
+                                NotificationService.displayMessage("The maximum number of Places per Route is " + $scope.maxRoutePoints);
+                            } else {
                                 var customIcon = MarkerIconService.getMarkerIcon(layer.customFeature.icon, 'green-light');
                                 layer.setIcon(customIcon);
-                                layer.avoidDelete = true;
+                                $scope.boundingboxlayers.removeLayer(layer);
+                                $scope.permanentlayers.addLayer(layer);
                                 $scope.selectectedTIPLayers.push(layer);
+
                             }
                         }
                     }
@@ -180,11 +184,24 @@ define([
                 }
             });
 
-            $scope.$watchCollection('selectectedTIPLayers',function(selectectedTIPLayers){
-               if (angular.isDefined(selectectedTIPLayers) && selectectedTIPLayers.length > 1){
-                   var TIPIds = TIPIdsFromTIPLayers(selectectedTIPLayers);
-                   console.log(TIPIds);
-               }
+            $scope.$watchCollection('selectectedTIPLayers', function (selectectedTIPLayers) {
+                if (angular.isDefined(selectectedTIPLayers) && selectectedTIPLayers.length > 1) {
+                    var TIPIds = TIPIdsFromTIPLayers(selectectedTIPLayers);
+
+                    var lastTIPIds = _.last(TIPIds, 2);
+                    var origin = lastTIPIds[0];
+                    var destination = lastTIPIds[1];
+
+                    var urlParams = {
+                        origin: origin,
+                        destination: destination,
+                        travelMode: $scope.travelModePreference
+                    };
+                    Route.getShortestPath(urlParams).$promise
+                        .then(function(response){
+                            $scope.permanentfeatures = [{geom:response.geom}];
+                        });
+                }
             });
         }]);
 });
