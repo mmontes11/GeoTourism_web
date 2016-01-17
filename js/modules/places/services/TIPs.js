@@ -10,7 +10,13 @@ define([
             //Default Parameters
             {},
             //Actions
-            {}
+            {
+                getTIPMinDtos: {
+                    url: Config.API_ROOT_URL + '/tips/min',
+                    method: 'GET',
+                    isArray: true
+                }
+            }
         );
     }]);
 });
