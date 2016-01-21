@@ -6,5 +6,6 @@ define([
     './services/Route',
     './services/Routes',
     './services/TravelModes',
-    './filters/TravelModeIcon'
+    './filters/TravelModeIcon',
+    './directives/FormRoute'
 ], function(){});

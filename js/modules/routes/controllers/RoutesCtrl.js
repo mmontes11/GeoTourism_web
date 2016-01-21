@@ -51,7 +51,7 @@ define([
 
             $scope.createRoute = function () {
                 var TIPIds = TIPIdsFromTIPLayers($scope.selectectedTIPLayers);
-                DialogService.showAddRouteDialog($scope.travelModePreference.selected,TIPIds)
+                DialogService.showAddRouteDialog($scope.travelModePreference.selected,$scope.travelModes,TIPIds)
                     .then(function(){
                         $scope.resetRoute();
                     }, function(error){

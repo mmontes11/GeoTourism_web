@@ -1,0 +1,26 @@
+<form name="form" novalidate>
+    <div layout="column">
+        <div layout="row">
+            <md-input-container flex-gt-sm="50">
+                <label>Name</label>
+                <input name="name" ng-model="route.name" maxlength="20" required>
+                <div ng-messages="form.name.$error" role="alert">
+                    <div ng-message="required" class="my-message">Mandatory field</div>
+                </div>
+            </md-input-container>
+            <md-input-container layout-align="center center" flex-gt-sm="50">
+                <md-radio-group class="custom-selector" ng-model="route.travelMode">
+                    <md-radio-button class="md-primary" ng-value="travelmode" ng-repeat="travelmode in travelmodes">
+                        <i class="material-icons">{{travelmode | travelModeIcon}}</i>
+                    </md-radio-button>
+                </md-radio-group>
+            </md-input-container>
+        </div>
+        <div layout="row">
+            <md-input-container flex>
+                <label>Description</label>
+                <textarea ng-model="place.description" columns="1" md-maxlength="300"></textarea>
+            </md-input-container>
+        </div>
+    </div>
+</form>

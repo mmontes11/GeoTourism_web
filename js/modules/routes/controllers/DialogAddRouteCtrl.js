@@ -3,13 +3,14 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('DialogAddRouteCtrl', ['$scope', '$mdDialog', 'travelMode', 'TIPIds', 'TIPs', 'TravelModes',
-        function ($scope, $mdDialog, travelMode, TIPIds, TIPs, TravelModes) {
+    module.controller('DialogAddRouteCtrl', ['$scope', '$mdDialog', 'travelModes', 'travelMode', 'TIPIds', 'TIPs',
+        function ($scope, $mdDialog, travelModes, travelMode, TIPIds, TIPs) {
 
+            console.log(travelModes);
             console.log(travelMode);
             console.log(TIPIds);
 
-            $scope.travelModes = TravelModes.query();
+            $scope.travelModes = travelModes;
 
             var urlParams = {
                 TIPIds: TIPIds

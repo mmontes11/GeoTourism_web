@@ -26,7 +26,7 @@ define([
            });
        };
 
-       this.showAddRouteDialog = function(travelMode,TIPIds){
+       this.showAddRouteDialog = function(travelMode,travelModes,TIPIds){
            return $mdDialog.show({
                controller: 'DialogAddRouteCtrl',
                templateUrl: 'partials/routes/dialogAddRoute.html',
@@ -34,6 +34,7 @@ define([
                clickOutsideToClose: true,
                locals: {
                    travelMode: travelMode,
+                   travelModes: travelModes,
                    TIPIds: TIPIds
                }
            });
