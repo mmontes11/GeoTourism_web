@@ -51,6 +51,22 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, m
     max-height: 25%;
 }
 
+.list-dialog-huge{
+    max-height: 40%;
+}
+
+.list-item .md-item-text {
+    margin-bottom: 3%;
+    background: #f0f0f0;
+    border-radius: 3%
+}
+
+.as-sortable-placeholder {
+    border: 1px dashed rgb(0,188,212);
+    box-sizing: border-box;
+    background-color: rgba(0, 188, 212, 0.4);
+}
+
 .error-message,.favourite,.close {
     color: rgb(244,67,54);
 }
@@ -240,4 +256,8 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, m
 .fade.ng-leave,
 .fade.ng-enter.ng-enter-active {
     opacity:1;
+}
+
+.sv-sorting-in-progress {
+    bottom:0;
 }

@@ -13,6 +13,7 @@ require.config({
         angularMessages: '../bower_components/angular-messages/angular-messages.min',
         angularFacebook: '../bower_components/angular-facebook/lib/angular-facebook',
         ngFileUpload: '../bower_components/ng-file-upload/ng-file-upload.min',
+        ngSortable: '../bower_components/ng-sortable/dist/ng-sortable.min',
         material: '../bower_components/material-design-lite/material.min',
         require: '../bower_components/requirejs/require',
         domReady: '../bower_components/requirejs-domready/domReady',
@@ -59,6 +60,9 @@ require.config({
             deps: ['angular']
         },
         ngFileUpload: {
+            deps: ['angular']
+        },
+        ngSortable: {
             deps: ['angular']
         },
         md5: {

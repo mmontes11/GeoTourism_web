@@ -5,6 +5,7 @@ define([
     'angularMaterial',
     'angularResource',
     'angularAnimate',
+    'ngSortable',
     'material',
     'underscore',
     './modules/common/index',
@@ -17,6 +18,6 @@ define([
     './modules/social/index'
 ], function(angular){
     return  angular.module('app', ['app.common','app.admin','app.places','app.routes','app.gis','app.wikipedia','app.facebook', 'app.social',
-                                    'ngMaterial','ngResource','ngAnimate','ui.router']);
+                                    'ngMaterial','ngResource','ngAnimate','as.sortable','ui.router']);
 });
 

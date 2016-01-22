@@ -22,5 +22,32 @@
                 <textarea ng-model="place.description" columns="1" md-maxlength="300"></textarea>
             </md-input-container>
         </div>
+        <div layout="row" layout-align="center center">
+            <h3 class="md-headline">
+                Places:
+            </h3>
+        </div>
+        <div layout="row" layout-align="center center">
+            <md-content class="list-dialog-huge list-item">
+                <md-list ng-model="tips" as-sortable>
+                    <md-list-item ng-repeat="tip in tips" as-sortable-item>
+                        <div class="md-item-text md-whiteframe-z1" layout="row" layout-padding flex as-sortable-item-handle>
+                            <h3 class="md-headline" layout="row" layout-align="center center">
+                                <i class="fa {{tip.icon}}"></i>
+                                <md-button class="md-primary"
+                                           ng-href="{{tip.googleMapsUrl}}"
+                                           target="_blank">
+                                    {{tip.name}}
+                                </md-button>
+                            </h3>
+                            <span flex></span>
+                            <md-button class="md-warn" ng-click="removePlace(tip)">
+                                <i class="material-icons">close</i>
+                            </md-button>
+                        </div>
+                    </md-list-item>
+                </md-list>
+            </md-content>
+        </div>
     </div>
 </form>

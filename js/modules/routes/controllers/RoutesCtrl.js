@@ -238,5 +238,18 @@ define([
                         });
                 }
             });
+
+            $scope.items = [
+                "Hotel Riazor","O fogar do santiso","Catedral de Santiago"
+            ];
+
+            $scope.removePlace = function(place){
+                var index = $scope.items.indexOf(place);
+                if (index > -1){
+                    $scope.items.splice(index,1);
+                }else{
+                    DialogService.displayMessage("Place not found");
+                }
+            };
         }]);
 });
