@@ -1,14 +1,14 @@
 <form name="form" novalidate>
     <div layout="column">
         <div layout="row">
-            <md-input-container flex-gt-sm="50">
+            <md-input-container flex="50">
                 <label>Name</label>
                 <input name="name" ng-model="route.name" maxlength="20" required>
                 <div ng-messages="form.name.$error" role="alert">
                     <div ng-message="required" class="my-message">Mandatory field</div>
                 </div>
             </md-input-container>
-            <md-input-container layout-align="center center" flex-gt-sm="50">
+            <md-input-container layout-align="center center" flex="50">
                 <md-radio-group class="custom-selector" ng-model="route.travelMode">
                     <md-radio-button class="md-primary" ng-value="travelmode" ng-repeat="travelmode in travelmodes">
                         <i class="material-icons">{{travelmode | travelModeIcon}}</i>
@@ -26,6 +26,12 @@
             <h3 class="md-headline">
                 Places:
             </h3>
+        </div>
+        <div layout="row" layout-align="center center" ng-show="tipschanged">
+            <md-button class="md-primary" layout="row" ng-click="resetPlaces()">
+                <i class="material-icons">place</i>
+                Reset Places
+            </md-button>
         </div>
         <div layout="row" layout-align="center center">
             <md-content class="list-dialog-huge list-item">
