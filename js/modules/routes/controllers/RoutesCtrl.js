@@ -150,27 +150,18 @@ define([
                 var cities = _.map($scope.selectedCities, function (city) {
                     return city.id;
                 });
-                var URLparams = {
+                var TIPparams = {
                     bounds: $scope.bounds,
-                    cities: cities,
-                    travelModes: $scope.selectedTravelModes
+                    cities: cities
                 };
 
                 if ($scope.isAuthFB()) {
-                    URLparams["favouritedBy"] = $scope.favouritedBy;
-                    URLparams["facebookUserId"] = FBStorageService.getUserID();
-                    if (angular.isDefined($scope.favouritedBy) && $scope.favouritedBy == 1 && !_.isEmpty($scope.selectedFriends)) {
-                        URLparams["friends"] = _.map($scope.selectedFriends, function (friend) {
-                            return friend.facebookUserId;
-                        });
-                    }
+
                 } else {
-                    URLparams["favouritedBy"] = undefined;
-                    URLparams["facebookUserId"] = undefined;
-                    URLparams["friends"] = undefined;
+
                 }
 
-                TIPs.query(URLparams).$promise
+                TIPs.query(TIPparams).$promise
                     .then(function (resultFeatures) {
                         $scope.boundingboxfeatures = resultFeatures;
                     }, function (response) {
@@ -178,11 +169,11 @@ define([
                             NotificationService.displayMessage("Error retrieving TIPS");
                         }
                     });
-
-                Routes.query(URLparams).$promise
+                /*
+                Routes.query(TIPparams).$promise
                     .then(function (resultFeatures) {
 
-                    });
+                    });*/
             };
 
             $scope.$watch('boundschanged', function (bounds, boundsOld) {

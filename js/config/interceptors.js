@@ -16,7 +16,7 @@ define([
                     config.headers.AuthorizationFB = FBStorageService.getAccessToken();
                 }
                 if (angular.isDefined(FBStorageService.getUserID())){
-                    config.params.facebookUserId = FBStorageService.getUserID();
+                    config.headers.FacebookUserId = FBStorageService.getUserID();
                 }
                 return config || $q.when(config);
             },

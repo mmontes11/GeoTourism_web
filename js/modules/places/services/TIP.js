@@ -20,7 +20,7 @@ define([
             {
                 get: {
                     method: 'GET',
-                    url: Config.API_ROOT_URL + '/tip/:id?facebookUserId=:facebookUserId'
+                    url: Config.API_ROOT_URL + '/tip/:id'
                 },
                 patch: {
                     method: 'PATCH'
