@@ -1,10 +1,9 @@
-body{
-    overflow:hidden;
+.mdl-layout--fixed-drawer>.mdl-layout__content {
+    overflow-y: hidden;
 }
 
 #map {
     height: 95%;
-
 }
 
 .map-overlay {
@@ -45,17 +44,20 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, m
 
 .list-dialog {
     max-height: 12%;
+    overflow-x: hidden;
 }
 
 .list-dialog-big {
     max-height: 25%;
+    overflow-x: hidden;
 }
 
 .list-dialog-huge{
     max-height: 40%;
+    overflow-x: hidden;
 }
 
-.list-item .md-item-text {
+.list-item {
     margin-bottom: 3%;
     background: #f0f0f0;
     border-radius: 3%
