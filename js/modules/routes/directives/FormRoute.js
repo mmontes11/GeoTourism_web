@@ -11,10 +11,9 @@ define([
             scope: {
                 form: '=',
                 route: "=",
-                tips: "=",
                 travelmodes: '=',
-                tipschanged: '=',
-                travelmodechanged: '='
+                travelmodechanged: '=',
+                tipschanged: '='
             },
             link: function (scope, element, attrs) {
                 scope.route = scope.route || {};
@@ -23,9 +22,9 @@ define([
                 var initialTravelMode = angular.copy(scope.route.travelMode);
 
                 scope.removePlace = function (tip) {
-                    var index = scope.tips.indexOf(tip);
+                    var index = scope.route.tips.indexOf(tip);
                     if (index > -1) {
-                        scope.tips.splice(index, 1);
+                        scope.route.tips.splice(index, 1);
                     }
                 };
 
@@ -48,11 +47,11 @@ define([
                     return true;
                 };
 
-                scope.tips.$promise.then(function (tips) {
+                scope.route.tips.$promise.then(function (tips) {
                     scope.resetPlaces = function () {
-                        scope.tips = angular.copy(scope.tipsCopy);
+                        scope.route.tips = angular.copy(scope.tipsCopy);
                     };
-                    scope.$watchCollection('tips', function (newVal,oldVal) {
+                    scope.$watchCollection('route.tips', function (newVal,oldVal) {
                         if (scope.tipsCopy == undefined) {
                             scope.tipsCopy = angular.copy(oldVal);
                         } else {

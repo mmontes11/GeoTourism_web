@@ -8,8 +8,8 @@
             <social-chips class="fade" ng-if="isAuthFB() && favouritedBy == 1" friends="friends"></social-chips>
         </div>
         <div class="fade" layout="row" layout-align="center center" ng-if="allowAddTIPs">
-            <md-button class="md-raised md-warn" ng-click="finishAddTIPs()">
-                <strong>Cancel</strong>
+            <md-button class="md-warn" ng-click="finishAddTIPs()">
+                <i class="material-icons">cancel</i>
             </md-button>
             <md-button class="md-primary" ng-click="displayHelpMessage();$event.stopPropagation();">
                 <i class="material-icons">help</i>

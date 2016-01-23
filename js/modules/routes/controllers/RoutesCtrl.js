@@ -49,15 +49,35 @@ define([
                 $scope.allowAddRoutes = true;
             };
 
+            var activateLoading = function () {
+                $scope.loading = true;
+            };
+
+            var disableLoading = function () {
+                $scope.loading = false;
+            };
+
             $scope.createRoute = function () {
                 var TIPIds = TIPIdsFromTIPLayers($scope.selectectedTIPLayers);
                 DialogService.showAddRouteDialog($scope.travelModePreference.selected,$scope.travelModes,TIPIds)
-                    .then(function(){
+                    .then(function(response){
+                        if (!response.changed){
+                            response.route['lineStrings'] = $scope.partialRouteGeoms;
+                        }
                         $scope.resetRoute();
-                    }, function(error){
-                        return $q.reject(error);
+                        activateLoading();
+                        return Route.save(response.route).$promise.finally(disableLoading)
+                    }, function(){
+                        return $q.reject();
+                    })
+                    .then(function(route){
+                        console.log(route);
+                        NotificationService.displayMessage("Route created!");
+                    }, function(response){
+                        if (response && response.status == 500){
+                            NotificationService.displayMessage("Error creating Route");
+                        }
                     });
-
             };
 
             $scope.resetLastRoutePlace = function(){
@@ -173,14 +193,6 @@ define([
                 }
             });
 
-            var activateLoading = function () {
-                $scope.loading = true;
-            };
-
-            var disableLoading = function () {
-                $scope.loading = false;
-            };
-
             $scope.$watch('travelModePreference.selected',function(newVal,oldVal){
                 if (angular.isDefined(newVal) && angular.isDefined(oldVal) && newVal != oldVal){
                     $scope.resetRoute();
@@ -238,18 +250,5 @@ define([
                         });
                 }
             });
-
-            $scope.items = [
-                "Hotel Riazor","O fogar do santiso","Catedral de Santiago"
-            ];
-
-            $scope.removePlace = function(place){
-                var index = $scope.items.indexOf(place);
-                if (index > -1){
-                    $scope.items.splice(index,1);
-                }else{
-                    DialogService.displayMessage("Place not found");
-                }
-            };
         }]);
 });

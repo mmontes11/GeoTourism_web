@@ -6,19 +6,17 @@ define([
     module.controller('DialogAddRouteCtrl', ['$scope', '$mdDialog', 'travelModes', 'travelMode', 'TIPIds', 'TIPs',
         function ($scope, $mdDialog, travelModes, travelMode, TIPIds, TIPs) {
 
-            console.log(travelModes);
-            console.log(travelMode);
-            console.log(TIPIds);
-
             $scope.travelModes = travelModes;
+            $scope.travelModeChanged = false;
+            $scope.tipsChanged = false;
 
             var urlParams = {
                 TIPIds: TIPIds
             };
-            $scope.TIPMinDtos = TIPs.getTIPMinDtos(urlParams);
 
             $scope.route = {
-                travelMode: travelMode
+                travelMode: travelMode,
+                tips: TIPs.getTIPMinDtos(urlParams)
             };
 
             $scope.close = function () {
@@ -26,7 +24,18 @@ define([
             };
 
             $scope.save = function () {
-                $mdDialog.hide($scope.route);
+                var response = {
+                    route: {
+                        name: $scope.route.name,
+                        description: $scope.route.description,
+                        travelMode: $scope.route.travelMode,
+                        tipIds: _.map($scope.route.tips, function (tip) {
+                            return tip.id;
+                        })
+                    },
+                    changed: ($scope.travelModeChanged || $scope.tipsChanged)
+                };
+                $mdDialog.hide(response);
             };
         }]);
 });

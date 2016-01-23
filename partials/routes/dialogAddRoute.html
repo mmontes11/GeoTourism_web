@@ -11,10 +11,12 @@
         </div>
     </md-toolbar>
     <md-dialog-content class="md-dialog-content">
-        <form-route form="formRoute" route="route" tips="TIPMinDtos" travelmodes="travelModes"></form-route>
+        <form-route form="formRoute" route="route" travelmodes="travelModes"
+                    travelmodechanged="travelModeChanged" tipschanged="tipsChanged">
+        </form-route>
     </md-dialog-content>
     <div class="md-actions" layout="row" layout-align="start center">
-        <md-button class="md-primary" ng-disabled="formRoute.$invalid" ng-click="save()">
+        <md-button class="md-primary" ng-disabled="formRoute.$invalid || route.tips.length < 2" ng-click="save()">
             <i class="material-icons">save</i>
         </md-button>
         <md-button class="md-warn" ng-click="close()">

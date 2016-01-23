@@ -25,7 +25,8 @@
                             </md-content>
                             <md-button class="md-primary" g-href="{{tip.infoUrl}}" target="_blank"
                                        ng-if="tip.infoUrl && !allowEdit">
-                                <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">info</i> info
+                                <i class="material-icons">info</i>
+                                Info
                             </md-button>
                             <h3 class="md-headline">
                                 Address
@@ -33,8 +34,9 @@
                             <md-content layout-padding>
                                 <p>{{tip.address}}</p>
                             </md-content>
-                            <md-button class="md-primary" ng-href="{{tip.googleMapsUrl}}" target="_blank">
-                                <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">map</i> Google Maps
+                            <md-button class="md-primary" layout="row" ng-href="{{tip.googleMapsUrl}}" target="_blank">
+                                <i class="material-icons">map</i>
+                                Google Maps
                             </md-button>
                         </div>
                         <div layout="column" layout-align="center center">
