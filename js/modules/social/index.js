@@ -3,7 +3,7 @@
 define([
     './services/User',
     './directive/Favourite',
-    './directive/FavouriteSelector',
+    './directive/PeopleSelector',
     './directive/Rating',
     './directive/SocialChips'
 ],function(){});

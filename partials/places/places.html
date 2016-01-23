@@ -4,7 +4,7 @@
         <div class="fade" layout="row" layout-sm="column" layout-align="center center" ng-if="!allowAddTIPs && filtersEnabled">
             <chips placeholder="CITY ..." items="cities" selected="selectedCities"></chips>
             <chips placeholder="TYPE ..." items="types" selected="selectedTypes"></chips>
-            <favourite-selector class="fade" ng-if="isAuthFB()"></favourite-selector>
+            <people-selector class="fade" icon="favorite" iconclass="favorite" ng-if="isAuthFB()"></people-selector>
             <social-chips class="fade" ng-if="isAuthFB() && favouritedBy == 1" friends="friends"></social-chips>
         </div>
         <div class="fade" layout="row" layout-align="center center" ng-if="allowAddTIPs">

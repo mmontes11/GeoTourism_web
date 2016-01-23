@@ -3,10 +3,15 @@
 define([
     '../module'
 ], function (module) {
-    module.directive('favouriteSelector', ['ValidationService', function(ValidationService){
+    module.directive('peopleSelector', ['ValidationService', function(ValidationService){
         return {
             restrict: 'E',
-            templateUrl: 'partials/social/favouriteSelector.html',
+            replace: false,
+            templateUrl: 'partials/social/peopleSelector.html',
+            scope: {
+                icon: "@",
+                iconclass: "@",
+            },
             link: function(scope) {
                 scope.people = [
                     {
@@ -18,9 +23,9 @@ define([
                         text: "My Friends"
                     }
                 ];
-                scope.$watch('favouritedBy',function(newVal,oldVal){
+                scope.$watch('personSelected',function(newVal,oldVal){
                     if (ValidationService.valueChanged(newVal,oldVal)){
-                        scope.$emit('favouriteSelector.favouritedBy',newVal);
+                        scope.$emit('peopleSelector.value',newVal);
                     }
                 });
             }

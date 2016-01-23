@@ -61,7 +61,7 @@ define([
                     requestFeatures();
                 }
             });
-            $scope.$on('favouriteSelector.favouritedBy', function (event, favouritedBy) {
+            $scope.$on('peopleSelector.value', function (event, favouritedBy) {
                 $scope.favouritedBy = favouritedBy;
                 requestFeatures();
             });

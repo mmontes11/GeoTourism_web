@@ -69,8 +69,12 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, m
     background-color: rgba(0, 188, 212, 0.4);
 }
 
-.error-message,.favourite,.close {
+.error-message,.favorite,.close,.cancel {
     color: rgb(244,67,54);
+}
+
+.cyan {
+    color: rgb(0,188,212);
 }
 
 .chips ::-webkit-input-placeholder{
@@ -131,10 +135,6 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, m
 
 #file-input {
     display: none;
-}
-
-.error-message,.cancel {
-    color: rgb(244,67,54)
 }
 
 .btn-icon {
