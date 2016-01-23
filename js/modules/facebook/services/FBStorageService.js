@@ -24,7 +24,6 @@ define([
             return BrowserService.getStorage('FBUserID');
         };
         this.handleLogIn = function(userID,userName,profilePhotoURL){
-            this.storeUserID(userID);
             BrowserService.setStorage('FBUserName',userName);
             BrowserService.setStorage('FBProfilePhoto',profilePhotoURL);
         };

@@ -16,10 +16,8 @@ define([
                         var accessToken = response.authResponse.accessToken,
                             userID = response.authResponse.userID;
                         FBStorageService.storeAccessToken(accessToken);
-                        var user = {
-                            facebookUserId: userID
-                        };
-                        User.createOrRetrieve(user).$promise
+                        FBStorageService.storeUserID(userID);
+                        User.createOrRetrieve().$promise
                             .then(function (response) {
                                 var userName = response.name || "Anonymous",
                                     profilePhotoURL = response.facebookProfilePhotoUrl || "img/user.jpg";
