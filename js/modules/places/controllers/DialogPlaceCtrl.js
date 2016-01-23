@@ -5,7 +5,7 @@ define([
 ], function (module) {
     module.controller('DialogPlaceCtrl',
         ['$scope', '$mdDialog', 'AuthAdminService', 'DialogService', 'NotificationService', 'feature', 'TIP', 'AuthFBService', 'FBStorageService',
-            function ($scope, $mdDialog, AuthAdminService, DialogService, NotificationService, feature, TIP, AuthFBService, FBStorageService) {
+            function ($scope, $mdDialog, AuthAdminService, DialogService, NotificationService, feature, TIP, AuthFBService,FBStorageService) {
 
                 $scope.isAuthenticated = function () {
                     return AuthAdminService.isAuthenticated;
@@ -13,12 +13,11 @@ define([
                 $scope.isAuthFB = function () {
                     return AuthFBService.isAuthFB;
                 };
-                $scope.facebookUserId = FBStorageService.getUserID();
                 $scope.types = TIP.getTypes();
+                $scope.facebookUserId = FBStorageService.getUserID();
 
                 TIP.get({
                     id: feature.id,
-                    facebookUserId: $scope.facebookUserId
                 }).$promise
                     .then(function (tip) {
                         $scope.tip = tip;
@@ -53,12 +52,8 @@ define([
                         $scope.tip.photoName = $scope.tip.photo.name;
                     }
 
-                    var parameters = {
-                            id: $scope.tip.id,
-                            facebookUserId: $scope.facebookUserId
-                        },
-                        patchPayload = _.pick($scope.tip, 'type', 'name', 'description', 'infoUrl', 'address', 'photoUrl');
-                    TIP.patch(parameters, patchPayload).$promise
+                    var patchPayload = _.pick($scope.tip, 'type', 'name', 'description', 'infoUrl', 'address', 'photoUrl');
+                    TIP.patch({id:$scope.tip.id}, patchPayload).$promise
                         .then(function (tip) {
                             $scope.tip = tip;
                             $scope.copy = angular.copy(tip);
@@ -91,7 +86,6 @@ define([
                     if (angular.isDefined(favourite) && angular.isDefined(favouriteOld) && _.isBoolean(favourite)) {
                         TIP.favourite({
                             id: feature.id,
-                            facebookUserId: $scope.facebookUserId,
                             favouriteValue: favourite
                         }).$promise.then(function(response){
                             if (favourite == true){
@@ -117,7 +111,6 @@ define([
                 $scope.rateSelected = function(ratingValue) {
                     TIP.rate({
                         id: feature.id,
-                        facebookUserId: $scope.facebookUserId,
                         ratingValue: ratingValue
                     }).$promise.then(function(response){
                         NotificationService.displayMessage("Place rated!");
@@ -130,7 +123,6 @@ define([
                 $scope.addComment = function(commentText){
                     TIP.comment({
                         id: feature.id,
-                        facebookUserId: $scope.facebookUserId,
                         commentText: commentText
                     }).$promise.then(function(response){
                         NotificationService.displayMessage("Place commented!");
@@ -141,7 +133,6 @@ define([
                 $scope.deleteComment = function(commentId){
                     TIP.deleteComment({
                         id: feature.id,
-                        facebookUserId: $scope.facebookUserId,
                         commentId: commentId
                     }).$promise.then(function(response){
                         NotificationService.displayMessage("Comment deleted!");
