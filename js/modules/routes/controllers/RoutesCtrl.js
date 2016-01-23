@@ -71,7 +71,6 @@ define([
                         return $q.reject();
                     })
                     .then(function(route){
-                        console.log(route);
                         NotificationService.displayMessage("Route created!");
                     }, function(response){
                         if (response && response.status == 500){
