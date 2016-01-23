@@ -1,10 +1,11 @@
 <div class="chips">
     <md-chips class="chips" ng-model="selected" filter-selected="true"
               md-transform-chip="ctrl.transformChip($chip)" md-require-match="true" md-highlight-flags="i">
-        <md-autocomplete md-selected-item="ctrl.selectedItem"
-                         md-search-text="ctrl.searchText"
-                         md-items="item in ctrl.querySearch(ctrl.searchText)" md-item-text="item.name"
-                         placeholder="{{placeholder}}">
+        <md-autocomplete
+                md-selected-item="ctrl.selectedItem"
+                md-search-text="ctrl.searchText"
+                md-items="item in ctrl.querySearch(ctrl.searchText)" md-item-text="item.name"
+                placeholder="{{placeholder}}">
             <span md-highlight-text="ctrl.searchText">{{item.name}}</span>
         </md-autocomplete>
         <md-chip-template>

@@ -6,14 +6,14 @@
     </md-button>
     <input type="file" id="file-input" name="photo" ng-model="photo" ngf-select
            accept="image/*" ngf-max-size="2MB" ng-click="resetUpload()">
-    <span ng-show="form.photo.$valid">{{photo.name}}</span>
-    <i ng-show="form.photo.$error.maxSize" class="error-message">File too large (2MB max.)</i>
+    <span class="fade" ng-show="form.photo.$valid">{{photo.name}}</span>
+    <i class="fade" ng-show="form.photo.$error.maxSize" class="error-message">File too large (2MB max.)</i>
 </div>
 <div class="row">
-    <div ngf-drop ng-model="photo" class="drop-box">Drop your photo here</div>
+    <div class="drop-box" ngf-drop ng-model="photo" >Drop your photo here</div>
 </div>
-<md-progress-linear md-mode="indeterminate" ng-if="uploading"></md-progress-linear>
-<div layout="row" layout-align="center center" ng-if="form.photo.$valid && photo">
+<md-progress-linear class="fade" md-mode="indeterminate" ng-if="uploading"></md-progress-linear>
+<div class="fade" layout="row" layout-align="center center" ng-if="form.photo.$valid && photo">
     <md-button class="md-primary" ng-click="upload()">
         <i class="material-icons"><i class="material-icons">cloud_upload</i></i>
     </md-button>

@@ -4,7 +4,7 @@
             <h3 class="md-title place-title">
                 {{tip.name}}
             </h3>
-            <favourite favourited="tip.myFavourite" ng-if="isAuthFB()"></favourite>
+            <favourite class="fade" favourited="tip.myFavourite" ng-if="isAuthFB()"></favourite>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="close()">
                 <i class="material-icons">close</i>
@@ -23,7 +23,7 @@
                             <md-content layout-padding>
                                 <p>{{tip.description}}</p>
                             </md-content>
-                            <md-button class="md-primary" ng-href="{{tip.infoUrl}}" target="_blank"
+                            <md-button class="md-primary" g-href="{{tip.infoUrl}}" target="_blank"
                                        ng-if="tip.infoUrl && !allowEdit">
                                 <i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">info</i> info
                             </md-button>
@@ -69,7 +69,7 @@
                                             Favourite of:
                                         </h3>
                                         <md-content class="list-dialog">
-                                            <md-list-item class="md-2-line" ng-repeat="user in tip.favouritedBy">
+                                            <md-list-item class="md-2-line fade" ng-repeat="user in tip.favouritedBy">
                                                 <img ng-src="{{user.facebookProfilePhotoUrl}}" class="md-avatar"/>
                                                 <md-button class="md-primary" ng-href="{{user.facebookProfileUrl}}"
                                                            target="_blank">
@@ -88,7 +88,7 @@
                             <div layout="row" layout-align="center center">
                                 <div class="column">
                                     <md-content class="list-dialog-big">
-                                        <md-list-item class="md-3-line md-long-text"
+                                        <md-list-item class="md-3-line md-long-text fade"
                                                       ng-repeat="comment in tip.comments">
                                                 <img ng-src="{{comment.user.facebookProfilePhotoUrl}}"
                                                      class="md-avatar"/>
@@ -101,7 +101,7 @@
                                                     <p>
                                                         {{comment.commentText}}
                                                     </p>
-                                                    <div ng-show="comment.user.facebookUserId == facebookUserId">
+                                                    <div class="fade" ng-if="comment.user.facebookUserId == facebookUserId">
                                                         <md-button class="md-warn" ng-click="deleteComment(comment.id)">
                                                             <i class="material-icons">delete</i>
                                                         </md-button>
