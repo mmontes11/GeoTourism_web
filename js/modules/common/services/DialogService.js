@@ -40,6 +40,18 @@ define([
            });
        };
 
+       this.showRouteDialog = function(feature){
+           return $mdDialog.show({
+               controller: 'DialogRouteCtrl',
+               templateUrl: 'partials/places/dialogRoute.html',
+               parent: angular.element(document.body),
+               clickOutsideToClose: true,
+               locals: {
+                   feature: feature
+               }
+           });
+       };
+
        this.showConfirmDialog = function(title,content,ok,cancel){
            var confirm = $mdDialog.confirm()
                .title(title)

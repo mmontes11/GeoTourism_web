@@ -3,6 +3,7 @@
 define([
     './controllers/RoutesCtrl',
     './controllers/DialogAddRouteCtrl',
+    './controllers/DialogRouteCtrl',
     './services/Route',
     './services/Routes',
     './services/TravelModes',

@@ -83,12 +83,15 @@ define([
                     cities: cities
                 };
                 if ($scope.isAuthFB()) {
-                    URLparams["favouritedBy"] = $scope.favouritedBy;
-                    if (angular.isDefined($scope.favouritedBy) && $scope.favouritedBy == 1 && !_.isEmpty($scope.selectedFriends)) {
+                    URLparams["createdBy"] = $scope.createdBy;
+                    if (angular.isDefined($scope.createdBy) && $scope.createdBy == 1 && !_.isEmpty($scope.selectedFriends)) {
                         URLparams["friends"] = _.map($scope.selectedFriends, function (friend) {
                             return friend.facebookUserId;
                         });
                     }
+                } else {
+                    URLparams["createdBy"] = undefined;
+                    URLparams["friends"] = undefined;
                 }
 
                 TIPs.query(URLparams).$promise
