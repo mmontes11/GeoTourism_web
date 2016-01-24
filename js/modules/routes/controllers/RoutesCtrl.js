@@ -6,7 +6,7 @@ define([
     module.controller('RoutesCtrl', ['$scope', '$q', 'AuthFBService', 'FBStorageService', 'Route', 'Routes', 'Cities', 'User', 'TIPs', 'TravelModes',
         'NotificationService', 'ValidationService', 'FeatureService', 'FeatureStyleService', 'DialogService',
         function ($scope, $q, AuthFBService, FBStorageService, Route, Routes, Cities, User, TIPs, TravelModes,
-                  NotificationService, ValidationService, FeatureService, FeatureStyleService,DialogService) {
+                  NotificationService, ValidationService, FeatureService, FeatureStyleService, DialogService) {
 
             $scope.isAuthFB = function () {
                 return AuthFBService.isAuthFB;
@@ -40,7 +40,7 @@ define([
                 return list.indexOf(item) > -1;
             };
 
-            $scope.selectTravelModePreference = function(travelMode){
+            $scope.selectTravelModePreference = function (travelMode) {
                 $scope.travelModePreference = travelMode;
             };
 
@@ -59,29 +59,30 @@ define([
 
             $scope.createRoute = function () {
                 var TIPIds = TIPIdsFromTIPLayers($scope.selectectedTIPLayers);
-                DialogService.showAddRouteDialog($scope.travelModePreference.selected,$scope.travelModes,TIPIds)
-                    .then(function(response){
-                        if (!response.changed){
+                DialogService.showAddRouteDialog($scope.travelModePreference.selected, $scope.travelModes, TIPIds)
+                    .then(function (response) {
+                        if (!response.changed) {
                             response.route['lineStrings'] = $scope.partialRouteGeoms;
                         }
                         $scope.resetRoute();
                         activateLoading();
                         return Route.save(response.route).$promise.finally(disableLoading)
-                    }, function(){
+                    }, function () {
                         return $q.reject();
                     })
-                    .then(function(route){
+                    .then(function () {
+                        requestFeatures();
                         NotificationService.displayMessage("Route created!");
-                    }, function(response){
-                        if (response && response.status == 500){
+                    }, function (response) {
+                        if (response && response.status == 500) {
                             NotificationService.displayMessage("Error creating Route");
                         }
                     });
             };
 
-            $scope.resetLastRoutePlace = function(){
-                var TIPlayer = _.last($scope.selectectedTIPLayers,1)[0];
-                $scope.selectectedTIPLayers.splice(_.indexOf($scope.selectectedTIPLayers,TIPlayer),1);
+            $scope.resetLastRoutePlace = function () {
+                var TIPlayer = _.last($scope.selectectedTIPLayers, 1)[0];
+                $scope.selectectedTIPLayers.splice(_.indexOf($scope.selectectedTIPLayers, TIPlayer), 1);
                 $scope.permanentlayers.removeLayer(TIPlayer);
                 var customIcon = FeatureStyleService.getMarkerIcon(TIPlayer.customFeature.icon);
                 TIPlayer.setIcon(customIcon);
@@ -150,30 +151,35 @@ define([
                 var cities = _.map($scope.selectedCities, function (city) {
                     return city.id;
                 });
-                var TIPparams = {
+                var TIPParams = {
                     bounds: $scope.bounds,
                     cities: cities
                 };
+                var RouteParams = {
+                    bounds: $scope.bounds,
+                    cities: cities,
+                    travelModes: $scope.selectedTravelModes
+                };
 
                 if ($scope.isAuthFB()) {
-
-                } else {
-
+                    RouteParams["createdBy"] = $scope.createdBy;
+                    if (angular.isDefined($scope.createdBy) && $scope.createdBy == 1 && !_.isEmpty($scope.selectedFriends)) {
+                        RouteParams["friends"] = _.map($scope.selectedFriends, function (friend) {
+                            return friend.facebookUserId;
+                        });
+                    }
                 }
 
-                TIPs.query(TIPparams).$promise
-                    .then(function (resultFeatures) {
-                        $scope.boundingboxfeatures = resultFeatures;
-                    }, function (response) {
-                        if (response.status == 500) {
-                            NotificationService.displayMessage("Error retrieving TIPS");
-                        }
-                    });
-                /*
-                Routes.query(TIPparams).$promise
-                    .then(function (resultFeatures) {
-
-                    });*/
+                $q.all({
+                    tips: TIPs.query(TIPParams).$promise,
+                    routes: Routes.query(RouteParams).$promise
+                }).then(function (features) {
+                    $scope.boundingboxfeatures = _.union(features.tips,features.routes);
+                }, function (response) {
+                    if (response.status == 500) {
+                        NotificationService.displayMessage("Error retrieving TIPS or Routes");
+                    }
+                });
             };
 
             $scope.$watch('boundschanged', function (bounds, boundsOld) {
@@ -183,8 +189,8 @@ define([
                 }
             });
 
-            $scope.$watch('travelModePreference.selected',function(newVal,oldVal){
-                if (angular.isDefined(newVal) && angular.isDefined(oldVal) && newVal != oldVal){
+            $scope.$watch('travelModePreference.selected', function (newVal, oldVal) {
+                if (angular.isDefined(newVal) && angular.isDefined(oldVal) && newVal != oldVal) {
                     $scope.resetRoute();
                 }
             });
@@ -213,10 +219,10 @@ define([
                 }
             });
 
-            $scope.$watchCollection('selectectedTIPLayers', function (selectectedTIPlayers,oldTIPlayers) {
-                var newTIPlayers = _.difference(selectectedTIPlayers,oldTIPlayers);
+            $scope.$watchCollection('selectectedTIPLayers', function (selectectedTIPlayers, oldTIPlayers) {
+                var newTIPlayers = _.difference(selectectedTIPlayers, oldTIPlayers);
                 if (angular.isDefined(selectectedTIPlayers) &&
-                    selectectedTIPlayers.length > 1 && _.intersection(selectectedTIPlayers,newTIPlayers).length > 0) {
+                    selectectedTIPlayers.length > 1 && _.intersection(selectectedTIPlayers, newTIPlayers).length > 0) {
                     var TIPIds = TIPIdsFromTIPLayers(selectectedTIPlayers);
                     var lastTIPIds = _.last(TIPIds, 2);
                     var origin = lastTIPIds[0];
@@ -227,14 +233,14 @@ define([
                         travelMode: $scope.travelModePreference.selected
                     };
                     Route.getShortestPath(urlParams).$promise
-                        .then(function(response){
+                        .then(function (response) {
                             var feature = {
                                 geom: response.geom,
                                 color: 'green'
                             };
                             $scope.permanentfeatures = [feature];
                             $scope.partialRouteGeoms.push(feature.geom);
-                        }, function(){
+                        }, function () {
                             $scope.resetLastRoutePlace();
                             NotificationService.displayMessage("There is no possible Route between that Places");
                         });
@@ -243,11 +249,11 @@ define([
 
             $scope.$on('peopleSelector.value', function (event, createdBy) {
                 $scope.createdBy = createdBy;
-                //requestFeatures();
+                requestFeatures();
             });
             $scope.$on('socialChips.selectedFriends', function (event, selectedFriends) {
                 $scope.selectedFriends = selectedFriends;
-                //requestFeatures();
+                requestFeatures();
             });
         }]);
 });
