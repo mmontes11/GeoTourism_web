@@ -131,8 +131,8 @@ define([
                     requestFeatures();
                 }
             });
-            $scope.$on('favouriteSelector.favouritedBy', function (event, favouritedBy) {
-                $scope.favouritedBy = favouritedBy;
+            $scope.$on('favouriteSelector.createdBy', function (event, favouritedBy) {
+                $scope.createdBy = createdBy;
                 requestFeatures();
             });
             $scope.$on('socialChips.selectedFriends', function (event, selectedFriends) {
@@ -239,6 +239,15 @@ define([
                             NotificationService.displayMessage("There is no possible Route between that Places");
                         });
                 }
+            });
+
+            $scope.$on('peopleSelector.value', function (event, createdBy) {
+                $scope.createdBy = createdBy;
+                //requestFeatures();
+            });
+            $scope.$on('socialChips.selectedFriends', function (event, selectedFriends) {
+                $scope.selectedFriends = selectedFriends;
+                //requestFeatures();
             });
         }]);
 });

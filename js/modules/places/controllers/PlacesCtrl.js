@@ -69,9 +69,8 @@ define([
                 $scope.selectedFriends = selectedFriends;
                 requestFeatures();
             });
-            $scope.deletelayers = undefined;
+
             var requestFeatures = function () {
-                $scope.deletelayers = null;
                 var types = _.map($scope.selectedTypes, function (type) {
                     return type.id;
                 });
@@ -85,7 +84,7 @@ define([
                 };
                 if ($scope.isAuthFB()) {
                     URLparams["favouritedBy"] = $scope.favouritedBy;
-                    if (angular.isDefined($scope.favouritedBy) && $scope.favouritedBy == 1 && !_.isEmpty($scope.selectedFriends)) {
+                    if (angular.isDefined($scope.createdBy) && $scope.favouritedBy == 1 && !_.isEmpty($scope.selectedFriends)) {
                         URLparams["friends"] = _.map($scope.selectedFriends, function (friend) {
                             return friend.facebookUserId;
                         });
@@ -103,7 +102,6 @@ define([
                             NotificationService.displayMessage("Error retrieving TIPS");
                         }
                     });
-                $scope.deletelayers = undefined;
             };
 
             $scope.$watch('boundschanged', function (bounds, boundsOld) {
@@ -169,7 +167,6 @@ define([
                         return $q.reject(error);
                     })
                     .then(function () {
-                        $scope.deletelayer = layer;
                         $scope.boundingboxlayers.removeLayer(layer);
                         NotificationService.displayMessage("Place deleted!");
                     }, function (error) {
