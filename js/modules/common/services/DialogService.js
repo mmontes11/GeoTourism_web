@@ -43,7 +43,7 @@ define([
        this.showRouteDialog = function(feature){
            return $mdDialog.show({
                controller: 'DialogRouteCtrl',
-               templateUrl: 'partials/places/dialogRoute.html',
+               templateUrl: 'partials/routes/dialogRoute.html',
                parent: angular.element(document.body),
                clickOutsideToClose: true,
                locals: {

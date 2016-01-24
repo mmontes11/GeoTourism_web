@@ -1,0 +1,18 @@
+<md-dialog class="dialog">
+    <md-toolbar>
+        <div class="md-toolbar-tools" layout="row">
+            <h3 class="md-title place-title">
+                {{route.name}}
+            </h3>
+            <favourite class="fade" favourited="tip.myFavourite" ng-if="isAuthFB()"></favourite>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="close()">
+                <i class="material-icons">close</i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content class="md-dialog-content">
+    </md-dialog-content>
+    <div class="md-actions" layout="row">
+    </div>
+</md-dialog>

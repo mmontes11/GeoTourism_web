@@ -17,14 +17,17 @@ define([
                 $scope.facebookUserId = FBStorageService.getUserID();
 
                 TIP.get({
-                    id: feature.id,
-                }).$promise
-                    .then(function (tip) {
+                    id: feature.id
+                }).$promise.then(
+                    function (tip) {
                         $scope.tip = tip;
                         $scope.copy = angular.copy(tip);
                     }, function (response) {
                         if (response.status === 404) {
                             NotificationService.displayMessage("Place not found");
+                        }
+                        if (response.status = 500){
+                            NotificationService.displayMessage("Error retrieving Place")
                         }
                         $scope.close();
                     });

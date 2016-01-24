@@ -132,13 +132,93 @@ define([
                     requestFeatures();
                 }
             });
-            $scope.$on('favouriteSelector.createdBy', function (event, favouritedBy) {
+            $scope.$on('favouriteSelector.createdBy', function (event, createdBy) {
                 $scope.createdBy = createdBy;
                 requestFeatures();
             });
             $scope.$on('socialChips.selectedFriends', function (event, selectedFriends) {
                 $scope.selectedFriends = selectedFriends;
                 requestFeatures();
+            });
+
+            $scope.$watch('boundschanged', function (bounds, boundsOld) {
+                if (angular.isDefined(bounds) && angular.isDefined(boundsOld)) {
+                    $scope.bounds = FeatureService.layer2WKT(bounds);
+                    requestFeatures();
+                }
+            });
+
+            $scope.$watch('travelModePreference.selected', function (newVal, oldVal) {
+                if (angular.isDefined(newVal) && angular.isDefined(oldVal) && newVal != oldVal) {
+                    $scope.resetRoute();
+                }
+            });
+
+            $scope.$on('peopleSelector.value', function (event, createdBy) {
+                $scope.createdBy = createdBy;
+                requestFeatures();
+            });
+            $scope.$on('socialChips.selectedFriends', function (event, selectedFriends) {
+                $scope.selectedFriends = selectedFriends;
+                requestFeatures();
+            });
+
+            $scope.$watchCollection('selectectedTIPLayers', function (selectectedTIPlayers, oldTIPlayers) {
+                var newTIPlayers = _.difference(selectectedTIPlayers, oldTIPlayers);
+                if (angular.isDefined(selectectedTIPlayers) &&
+                    selectectedTIPlayers.length > 1 && _.intersection(selectectedTIPlayers, newTIPlayers).length > 0) {
+                    var TIPIds = TIPIdsFromTIPLayers(selectectedTIPlayers);
+                    var lastTIPIds = _.last(TIPIds, 2);
+                    var origin = lastTIPIds[0];
+                    var destination = lastTIPIds[1];
+                    var urlParams = {
+                        origin: origin,
+                        destination: destination,
+                        travelMode: $scope.travelModePreference.selected
+                    };
+                    Route.getShortestPath(urlParams).$promise
+                        .then(function (response) {
+                            var feature = {
+                                geom: response.geom,
+                                color: 'green'
+                            };
+                            $scope.permanentfeatures = [feature];
+                            $scope.partialRouteGeoms.push(feature.geom);
+                        }, function () {
+                            $scope.resetLastRoutePlace();
+                            NotificationService.displayMessage("There is no possible Route between that Places");
+                        });
+                }
+            });
+
+            $scope.showRouteDialog = function(layer){
+                DialogService.showRouteDialog(layer.customFeature);
+            };
+
+            $scope.$watch('layerclicked', function (layerClicked) {
+                if (angular.isDefined(layerClicked)) {
+                    var typeClicked = layerClicked.typeClicked;
+                    var layer = layerClicked.layer;
+                    if (!$scope.allowAddRoutes && (typeClicked == "LineString" || typeClicked == "MultiLineString")){
+                        $scope.showRouteDialog(layer);
+                    }
+                    if ($scope.allowAddRoutes && typeClicked == "Point") {
+                        if (_.contains($scope.selectectedTIPLayers, layer)) {
+                            NotificationService.displayMessage("This Place is already in the new Route");
+                        } else {
+                            if (($scope.selectectedTIPLayers.length + 1) > $scope.maxRoutePoints) {
+                                NotificationService.displayMessage("The maximum number of Places per Route is " + $scope.maxRoutePoints);
+                            } else {
+                                var customIcon = FeatureStyleService.getMarkerIcon(layer.customFeature.icon, 'green');
+                                layer.setIcon(customIcon);
+                                $scope.boundingboxlayers.removeLayer(layer);
+                                $scope.permanentlayers.addLayer(layer);
+                                $scope.selectectedTIPLayers.push(layer);
+                            }
+                        }
+                    }
+                    $scope.layerclicked = undefined;
+                }
             });
 
             var TIPIdsFromTIPLayers = function (TIPLayers) {
@@ -174,86 +254,12 @@ define([
                     tips: TIPs.query(TIPParams).$promise,
                     routes: Routes.query(RouteParams).$promise
                 }).then(function (features) {
-                    $scope.boundingboxfeatures = _.union(features.tips,features.routes);
+                    $scope.boundingboxfeatures = _.union(features.tips, features.routes);
                 }, function (response) {
                     if (response.status == 500) {
                         NotificationService.displayMessage("Error retrieving TIPS or Routes");
                     }
                 });
             };
-
-            $scope.$watch('boundschanged', function (bounds, boundsOld) {
-                if (angular.isDefined(bounds) && angular.isDefined(boundsOld)) {
-                    $scope.bounds = FeatureService.layer2WKT(bounds);
-                    requestFeatures();
-                }
-            });
-
-            $scope.$watch('travelModePreference.selected', function (newVal, oldVal) {
-                if (angular.isDefined(newVal) && angular.isDefined(oldVal) && newVal != oldVal) {
-                    $scope.resetRoute();
-                }
-            });
-
-            $scope.$watch('layerclicked', function (layerClicked) {
-                if (angular.isDefined(layerClicked) && $scope.allowAddRoutes) {
-                    var typeClicked = layerClicked.typeClicked;
-                    var layer = layerClicked.layer;
-                    if (typeClicked == "Point") {
-                        if (_.contains($scope.selectectedTIPLayers, layer)) {
-                            NotificationService.displayMessage("This Place is already in the new Route");
-                        } else {
-                            if (($scope.selectectedTIPLayers.length + 1) > $scope.maxRoutePoints) {
-                                NotificationService.displayMessage("The maximum number of Places per Route is " + $scope.maxRoutePoints);
-                            } else {
-                                var customIcon = FeatureStyleService.getMarkerIcon(layer.customFeature.icon, 'green');
-                                layer.setIcon(customIcon);
-                                $scope.boundingboxlayers.removeLayer(layer);
-                                $scope.permanentlayers.addLayer(layer);
-                                $scope.selectectedTIPLayers.push(layer);
-
-                            }
-                        }
-                    }
-                    $scope.layerclicked = undefined;
-                }
-            });
-
-            $scope.$watchCollection('selectectedTIPLayers', function (selectectedTIPlayers, oldTIPlayers) {
-                var newTIPlayers = _.difference(selectectedTIPlayers, oldTIPlayers);
-                if (angular.isDefined(selectectedTIPlayers) &&
-                    selectectedTIPlayers.length > 1 && _.intersection(selectectedTIPlayers, newTIPlayers).length > 0) {
-                    var TIPIds = TIPIdsFromTIPLayers(selectectedTIPlayers);
-                    var lastTIPIds = _.last(TIPIds, 2);
-                    var origin = lastTIPIds[0];
-                    var destination = lastTIPIds[1];
-                    var urlParams = {
-                        origin: origin,
-                        destination: destination,
-                        travelMode: $scope.travelModePreference.selected
-                    };
-                    Route.getShortestPath(urlParams).$promise
-                        .then(function (response) {
-                            var feature = {
-                                geom: response.geom,
-                                color: 'green'
-                            };
-                            $scope.permanentfeatures = [feature];
-                            $scope.partialRouteGeoms.push(feature.geom);
-                        }, function () {
-                            $scope.resetLastRoutePlace();
-                            NotificationService.displayMessage("There is no possible Route between that Places");
-                        });
-                }
-            });
-
-            $scope.$on('peopleSelector.value', function (event, createdBy) {
-                $scope.createdBy = createdBy;
-                requestFeatures();
-            });
-            $scope.$on('socialChips.selectedFriends', function (event, selectedFriends) {
-                $scope.selectedFriends = selectedFriends;
-                requestFeatures();
-            });
         }]);
 });

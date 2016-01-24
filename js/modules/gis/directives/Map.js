@@ -54,10 +54,10 @@ define([
                     });
                 });
 
-                var updateBBLayers = function(features) {
+                var updateBBLayers = function (features) {
                     scope.boundingboxlayers.clearLayers();
-                    features = _.filter(features,function(feature){
-                        var filteredLayers = _.filter(scope.permanentlayers.getLayers(),function(layer){
+                    features = _.filter(features, function (feature) {
+                        var filteredLayers = _.filter(scope.permanentlayers.getLayers(), function (layer) {
                             return (feature.id == layer.customFeature.id || feature.geom == layer.customFeature.geom);
                         });
                         return (filteredLayers.length == 0);
@@ -65,11 +65,20 @@ define([
                     return features;
                 };
 
-                var feature2layer = function(feature){
+                var getType = function (layer) {
+                    if (layer.feature != undefined) {
+                        return layer.feature.geometry.type;
+                    } else if (layer.feature == undefined && layer._latlngs.length > 1) {
+                        return "MultiLineString";
+                    }
+                    return undefined;
+                };
+
+                var feature2layer = function (feature) {
                     var layer = FeatureService.feature2layer(feature);
                     layer.customFeature = feature;
                     layer.on('click', function (e) {
-                        var type = e.layer.feature.geometry.type;
+                        var type = getType(e.layer);
                         if (type == "Point") {
                             layer.setIcon = function (icon) {
                                 e.layer.setIcon(icon);
@@ -97,9 +106,9 @@ define([
                     }
                 });
 
-                scope.$watch('permanentfeatures', function(features){
-                    if (angular.isDefined(features)){
-                        angular.forEach(features, function(feature){
+                scope.$watch('permanentfeatures', function (features) {
+                    if (angular.isDefined(features)) {
+                        angular.forEach(features, function (feature) {
                             var layer = feature2layer(feature);
                             scope.permanentlayers.addLayer(layer);
                         });
