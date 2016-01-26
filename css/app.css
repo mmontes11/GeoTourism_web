@@ -223,8 +223,12 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, m
     min-width: 50%;
 }
 
+.dialog-route {
+    min-width: 30%;
+}
+
 @media screen and (max-width: 760px){
-    .dialog {
+    .dialog,.dialog-route  {
         width:100%;
         max-height:100%;
         max-width: 100%;

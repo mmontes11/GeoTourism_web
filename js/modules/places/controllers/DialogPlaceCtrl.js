@@ -64,7 +64,7 @@ define([
                             NotificationService.displayMessage("Place updated!");
                         }, function (response) {
                             if (response.status == 500) {
-                                NotificationService.displayMessage("Error updating place");
+                                NotificationService.displayMessage("Error updating Place");
                             }
                             $scope.close();
                         });

@@ -192,7 +192,35 @@ define([
             });
 
             $scope.showRouteDialog = function(layer){
-                DialogService.showRouteDialog(layer.customFeature);
+                DialogService.showRouteDialog(layer.customFeature)
+                    .then(function(operation){
+                        if (operation === "Delete") {
+                            return DialogService.showConfirmDialog("Delete Route", "Are you sure?", "Yes", "Cancel");
+                        } else {
+                            return $q.reject();
+                        }
+                    }, function(error){
+                        return $q.reject(error);
+                    })
+                    .then(function () {
+                        activateLoading();
+                        return Route.delete({id: layer.customFeature.id}).$promise.finally(disableLoading)
+                    }, function (error) {
+                        return $q.reject(error);
+                    })
+                    .then(function () {
+                        $scope.boundingboxlayers.removeLayer(layer);
+                        NotificationService.displayMessage("Route deleted!");
+                    }, function (error) {
+                        if (error) {
+                            if (error.status == 500) {
+                                NotificationService.displayMessage("Error deleting Route");
+                            }
+                            if (error.confirm == false) {
+                                $scope.showRouteDialog(layer);
+                            }
+                        }
+                    });
             };
 
             $scope.$watch('layerclicked', function (layerClicked) {

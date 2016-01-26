@@ -4,7 +4,6 @@
             <h3 class="md-title place-title">
                 {{route.name}}
             </h3>
-            <favourite class="fade" favourited="tip.myFavourite" ng-if="isAuthFB()"></favourite>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="close()">
                 <i class="material-icons">close</i>
@@ -12,7 +11,89 @@
         </div>
     </md-toolbar>
     <md-dialog-content class="md-dialog-content">
+        <div ng-show="!edit">
+            <md-content class="md-padding" >
+                <div layout="row" layout-sm="column" layout-align="center center">
+                    <div layout="column" layout-align="center center" flex="50">
+                        <div layout="row" layout-align="center center" ng-if="route.travelMode">
+                            <h3 class="md-headline">
+                                Travel Mode:
+                            </h3>
+                            <span flex="5"></span>
+                            <i class="material-icons">{{route.travelMode | travelModeIcon}}</i>
+                        </div>
+                        <div layout="row" layout-align="center center" ng-if="isAuthFB()">
+                            <h3 class="md-headline">
+                                Creator:
+                            </h3>
+                            <span flex="5"></span>
+                            <div layout="row">
+                                <img ng-src="{{route.creator.facebookProfilePhotoUrl}}"
+                                     class="demo-avatar"/>
+                                <md-button class="md-primary"
+                                           ng-href="{{route.creator.facebookProfileUrl}}"
+                                           target="_blank">
+                                    {{route.creator.name}}
+                                </md-button>
+                            </div>
+                        </div>
+                        <md-button class="md-primary" layout="row" ng-href="{{route.googleMapsUrl}}" target="_blank">
+                            <i class="material-icons">map</i>
+                            Google Maps
+                        </md-button>
+                    </div>
+                    <div layout="column" layout-align="center center" flex="50">
+                        <div layout="row">
+                            <h3 class="md-headline">
+                                Places:
+                            </h3>
+                        </div>
+                        <div layout="row" layout-align="center center">
+                            <md-content class="list-dialog-huge">
+                                <md-list ng-model="route.tips">
+                                    <md-list-item class="fade" ng-repeat="tip in route.tips">
+                                        <div layout="row">
+                                            <h3 class="md-headline" layout="row" layout-align="center center">
+                                                <i class="fa {{tip.icon}}"></i>
+                                                <md-button class="md-primary"
+                                                           ng-href="{{tip.googleMapsUrl}}"
+                                                           target="_blank">
+                                                    {{tip.name}}
+                                                </md-button>
+                                            </h3>
+                                        </div>
+                                    </md-list-item>
+                                </md-list>
+                            </md-content>
+                        </div>
+                    </div>
+                </div>
+                <div layout="row" layout-align="center center">
+                    <md-content layout-padding>
+                        <p>{{route.description}}</p>
+                    </md-content>
+                </div>
+            </md-content>
+        </div>
+        <div ng-show="edit">
+            <form-route form="formRoute" route="route" travelmodes="travelModes"
+                        travelmodechanged="travelModeChanged" tipschanged="tipsChanged">
+            </form-route>
+        </div>
     </md-dialog-content>
     <div class="md-actions" layout="row">
+        <md-button class="md-primary" ng-if="isAuthFB() && !edit" ng-click="enableEdit()">
+            <i class="material-icons">edit</i>
+        </md-button>
+        <md-button class="md-primary" ng-if="isAuthFB() && edit && formValidAndDirty(formRoute)"
+                   ng-click="saveChanges()">
+            <i class="material-icons">save</i>
+        </md-button>
+        <md-button class="md-warn" ng-if="isAuthFB() && edit" ng-click="disableEdit(true)">
+            <i class="material-icons">cancel</i>
+        </md-button>
+        <md-button class="md-warn" ng-if="isAuthFB()" ng-click="delete()">
+            <i class="material-icons">delete</i>
+        </md-button>
     </div>
 </md-dialog>
