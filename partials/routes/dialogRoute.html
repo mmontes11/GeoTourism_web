@@ -75,24 +75,24 @@
                 </div>
             </md-content>
         </div>
-        <div ng-show="edit">
+        <div ng-show="isAuthFB() && edit">
             <form-route form="formRoute" route="route" travelmodes="travelModes"
                         travelmodechanged="travelModeChanged" tipschanged="tipsChanged">
             </form-route>
         </div>
     </md-dialog-content>
-    <div class="md-actions" layout="row">
-        <md-button class="md-primary" ng-if="isAuthFB() && !edit" ng-click="enableEdit()">
+    <div class="md-actions" layout="row" ng-if="isAuthFB() && route.creator.facebookUserId == facebookUserId ">
+        <md-button class="md-primary" ng-if="!edit" ng-click="enableEdit()">
             <i class="material-icons">edit</i>
         </md-button>
-        <md-button class="md-primary" ng-if="isAuthFB() && edit && formValidAndDirty(formRoute)"
+        <md-button class="md-primary" ng-if="edit && formValidAndDirty(formRoute)"
                    ng-click="saveChanges()">
             <i class="material-icons">save</i>
         </md-button>
-        <md-button class="md-warn" ng-if="isAuthFB() && edit" ng-click="disableEdit(true)">
+        <md-button class="md-warn" ng-if="edit" ng-click="disableEdit(true)">
             <i class="material-icons">cancel</i>
         </md-button>
-        <md-button class="md-warn" ng-if="isAuthFB()" ng-click="delete()">
+        <md-button class="md-warn" ng-click="delete()">
             <i class="material-icons">delete</i>
         </md-button>
     </div>

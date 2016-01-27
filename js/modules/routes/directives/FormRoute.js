@@ -52,6 +52,8 @@ define([
                 };
 
                 scope.$watchCollection('route.tips', function (newVal, oldVal) {
+                    console.log('newVal: '+newVal);
+                    console.log('oldVal: '+oldVal);
                     if (newVal != undefined && (newVal.$promise == undefined || (newVal.$promise && newVal.$promise.$resolved))){
                         if (scope.tipsCopy == undefined) {
                             scope.tipsCopy = angular.copy(oldVal);

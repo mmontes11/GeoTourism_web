@@ -96,7 +96,7 @@ define([
                             }else{
                                 NotificationService.displayMessage("Place unfavourited!");
                             }
-                            $scope.tip.createdBy = response;
+                            $scope.tip.favouritedBy = response;
                         });
                     }
                 });

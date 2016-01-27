@@ -3,13 +3,13 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('DialogRouteCtrl', ['$scope', '$mdDialog', 'feature', 'Route', 'AuthFBService', 'NotificationService', 'TravelModes',
-        function ($scope, $mdDialog, feature, Route, AuthFBService, NotificationService, TravelModes) {
+    module.controller('DialogRouteCtrl', ['$scope', '$mdDialog', 'feature', 'Route', 'AuthFBService', 'FBStorageService', 'NotificationService', 'TravelModes',
+        function ($scope, $mdDialog, feature, Route, AuthFBService, FBStorageService, NotificationService, TravelModes) {
 
             $scope.isAuthFB = function () {
                 return AuthFBService.isAuthFB;
             };
-
+            $scope.facebookUserId = FBStorageService.getUserID();
             Route.get({
                 id: feature.id
             }).$promise.then(
@@ -46,6 +46,8 @@ define([
 
             $scope.saveChanges = function () {
                 var patchPayload = _.pick($scope.route, 'name', 'description', 'travelMode');
+                console.log('travelModeChanged: '+$scope.travelModeChanged );
+                console.log('tipsChanged: '+$scope.tipsChanged);
                 if ($scope.travelModeChanged || $scope.tipsChanged){
                     patchPayload["tipIds"] = _.map($scope.route.tips, function(tip){
                         return tip.id;
