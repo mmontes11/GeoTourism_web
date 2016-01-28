@@ -52,18 +52,17 @@ define([
                 };
 
                 scope.$watchCollection('route.tips', function (newVal, oldVal) {
-                    console.log('newVal: '+newVal);
-                    console.log('oldVal: '+oldVal);
-                    if (newVal != undefined && (newVal.$promise == undefined || (newVal.$promise && newVal.$promise.$resolved))){
-                        if (scope.tipsCopy == undefined) {
-                            scope.tipsCopy = angular.copy(oldVal);
-                        } else {
+                    if (scope.tipsCopy == undefined && oldVal != undefined && !_.isEmpty(oldVal)){
+                        scope.tipsCopy = angular.copy(oldVal);
+                    }
+                    if (newVal != undefined && (newVal.$promise == undefined || (newVal.$promise && newVal.$resolved))) {
+                        if (scope.tipsCopy != undefined){
                             scope.tipschanged = !sameArrays(newVal, scope.tipsCopy);
                         }
                     }
                 });
 
-                scope.$watch('route.travelMode', function (newVal,oldVal) {
+                scope.$watch('route.travelMode', function (newVal, oldVal) {
                     scope.travelmodechanged = (oldVal != undefined && newVal != undefined && newVal != initialTravelMode);
                 });
             }

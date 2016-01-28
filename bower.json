@@ -23,7 +23,7 @@
     "leaflet-providers": "~1.1.6",
     "angular-facebook": "~0.2.3",
     "ng-sortable": "~1.3.2",
-    "wellknown": "latest"
+    "wellknown": "~0.4.0"
   },
   "resolutions": {
     "angular": "1.4.7"

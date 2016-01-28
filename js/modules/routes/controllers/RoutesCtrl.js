@@ -4,12 +4,15 @@ define([
     '../module'
 ], function (module) {
     module.controller('RoutesCtrl', ['$scope', '$q', 'AuthFBService', 'Route', 'Routes', 'Cities', 'User', 'TIPs', 'TravelModes',
-        'NotificationService', 'ValidationService', 'FeatureService', 'FeatureStyleService', 'DialogService',
-        function ($scope, $q, AuthFBService, Route, Routes, Cities, User, TIPs, TravelModes,
+        'FBStorageService','NotificationService', 'ValidationService', 'FeatureService', 'FeatureStyleService', 'DialogService',
+        function ($scope, $q, AuthFBService, Route, Routes, Cities, User, TIPs, TravelModes, FBStorageService,
                   NotificationService, ValidationService, FeatureService, FeatureStyleService, DialogService) {
 
             $scope.isAuthFB = function () {
                 return AuthFBService.isAuthFB;
+            };
+            $scope.getFBUserId = function () {
+                return FBStorageService.getUserID();
             };
             $scope.filtersEnabled = false;
             TravelModes.query().$promise

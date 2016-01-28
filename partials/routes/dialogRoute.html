@@ -85,7 +85,7 @@
         <md-button class="md-primary" ng-if="!edit" ng-click="enableEdit()">
             <i class="material-icons">edit</i>
         </md-button>
-        <md-button class="md-primary" ng-if="edit && formValidAndDirty(formRoute)"
+        <md-button class="md-primary" ng-if="edit && formValidAndDirty(formRoute)" ng-disabled="formRoute.$invalid || route.tips.length < 2"
                    ng-click="saveChanges()">
             <i class="material-icons">save</i>
         </md-button>
