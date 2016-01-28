@@ -11,6 +11,7 @@ define([
             scope: {
                 icon: "@",
                 iconclass: "@",
+                person: "="
             },
             link: function(scope) {
                 scope.people = [
@@ -26,7 +27,9 @@ define([
                 scope.$watch('personSelected',function(newVal,oldVal){
                     if (ValidationService.valueChanged(newVal,oldVal)){
                         scope.$emit('peopleSelector.value',newVal);
+
                     }
+                    scope.person = newVal;
                 });
             }
         };
