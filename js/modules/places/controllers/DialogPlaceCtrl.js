@@ -15,8 +15,6 @@ define([
                 };
                 $scope.types = TIP.getTypes();
                 $scope.facebookUserId = FBStorageService.getUserID();
-                $scope.edited = false;
-
                 TIP.get({
                     id: feature.id
                 }).$promise.then(
@@ -32,7 +30,7 @@ define([
                         }
                         $scope.close();
                     });
-
+                $scope.edited = false;
                 $scope.edit = false;
                 $scope.enableEdit = function () {
                     $scope.edit = true;

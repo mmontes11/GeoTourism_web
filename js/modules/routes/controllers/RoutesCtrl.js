@@ -4,7 +4,7 @@ define([
     '../module'
 ], function (module) {
     module.controller('RoutesCtrl', ['$scope', '$q', 'AuthFBService', 'Route', 'Routes', 'Cities', 'User', 'TIPs', 'TravelModes',
-        'FBStorageService','NotificationService', 'ValidationService', 'FeatureService', 'FeatureStyleService', 'DialogService',
+        'FBStorageService', 'NotificationService', 'ValidationService', 'FeatureService', 'FeatureStyleService', 'DialogService',
         function ($scope, $q, AuthFBService, Route, Routes, Cities, User, TIPs, TravelModes, FBStorageService,
                   NotificationService, ValidationService, FeatureService, FeatureStyleService, DialogService) {
 
@@ -163,6 +163,11 @@ define([
                 requestFeatures();
             });
 
+            $scope.$on("Route.AddPlaces", function(event,args){
+                console.log(event);
+                console.log(args);
+            });
+
             $scope.$watchCollection('selectectedTIPLayers', function (selectectedTIPlayers, oldTIPlayers) {
                 var newTIPlayers = _.difference(selectectedTIPlayers, oldTIPlayers);
                 if (angular.isDefined(selectectedTIPlayers) &&
@@ -191,20 +196,29 @@ define([
                 }
             });
 
-            $scope.showRouteDialog = function(layer){
+            $scope.showRouteDialog = function (layer) {
                 DialogService.showRouteDialog(layer.customFeature)
-                    .then(function(operation){
-                        if (operation === "Delete") {
-                            return DialogService.showConfirmDialog("Delete Route", "Are you sure?", "Yes", "Cancel");
-                        } else {
-                            return $q.reject();
+                    .then(function (operation) {
+                            if (operation.delete != undefined && operation.delete) {
+                                return DialogService.showConfirmDialog("Delete Route", "Are you sure?", "Yes", "Cancel");
+                            } else if (operation.edit != undefined && operation.edit) {
+                                return {edit:operation.edit};
+                            } else {
+                                return $q.reject();
+                            }
+                        }, function (error) {
+                            return $q.reject(error);
                         }
-                    }, function(error){
-                        return $q.reject(error);
-                    })
-                    .then(function () {
-                        activateLoading();
-                        return Route.delete({id: layer.customFeature.id}).$promise.finally(disableLoading)
+                    )
+                    .then(function (operation){
+                        if (operation.edit == undefined){
+                            activateLoading();
+                            return Route.delete({id: layer.customFeature.id}).$promise.finally(disableLoading);
+                        }else{
+                            if (operation.edit){
+                                requestFeatures();
+                            }
+                        }
                     }, function (error) {
                         return $q.reject(error);
                     })
@@ -227,7 +241,7 @@ define([
                 if (angular.isDefined(layerClicked)) {
                     var typeClicked = layerClicked.typeClicked;
                     var layer = layerClicked.layer;
-                    if (!$scope.allowAddRoutes && (typeClicked == "LineString" || typeClicked == "MultiLineString")){
+                    if (!$scope.allowAddRoutes && (typeClicked == "LineString" || typeClicked == "MultiLineString")) {
                         $scope.showRouteDialog(layer);
                     }
                     if ($scope.allowAddRoutes && typeClicked == "Point") {
@@ -289,5 +303,7 @@ define([
                     }
                 });
             };
-        }]);
-});
+        }])
+    ;
+})
+;

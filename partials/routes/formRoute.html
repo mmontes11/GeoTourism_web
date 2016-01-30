@@ -27,10 +27,12 @@
                 Places:
             </h3>
         </div>
-        <div layout="row" layout-align="center center" ng-show="tipschanged">
-            <md-button class="md-primary" layout="row" ng-click="resetPlaces()">
-                <i class="material-icons">place</i>
-                Reset Places
+        <div layout="row" layout-align="center center">
+            <md-button class="md-primary" layout="row" ng-click="addPlaces()">
+                <i class="material-icons">add_circle</i>
+            </md-button>
+            <md-button class="md-primary" layout="row" ng-show="tipschanged" ng-click="resetPlaces()">
+                <i class="material-icons">replay</i>
             </md-button>
         </div>
         <div layout="row" layout-align="center center">

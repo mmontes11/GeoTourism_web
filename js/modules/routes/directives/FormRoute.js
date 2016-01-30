@@ -3,7 +3,7 @@
 define([
     '../module'
 ], function (module) {
-    module.directive('formRoute', function () {
+    module.directive('formRoute', ['$rootScope', function ($rootScope) {
         return {
             restrict: 'E',
             replace: true,
@@ -47,6 +47,13 @@ define([
                     return true;
                 };
 
+                scope.addPlaces = function(){
+                    var eventData = {
+                        routeID: scope.route
+                    };
+                    $rootScope.$broadcast("Route.AddPlaces",eventData);
+                };
+
                 scope.resetPlaces = function () {
                     scope.route.tips = angular.copy(scope.tipsCopy);
                 };
@@ -67,5 +74,5 @@ define([
                 });
             }
         };
-    });
+    }]);
 });

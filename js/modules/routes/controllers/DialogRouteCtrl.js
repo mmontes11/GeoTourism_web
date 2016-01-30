@@ -27,7 +27,7 @@ define([
                 }
             );
             $scope.travelModes = TravelModes.query();
-
+            $scope.edited = false;
             $scope.edit = false;
             $scope.enableEdit = function () {
                 $scope.edit = true;
@@ -46,8 +46,6 @@ define([
 
             $scope.saveChanges = function () {
                 var patchPayload = _.pick($scope.route, 'name', 'description', 'travelMode');
-                console.log('travelModeChanged: '+$scope.travelModeChanged );
-                console.log('tipsChanged: '+$scope.tipsChanged);
                 if ($scope.travelModeChanged || $scope.tipsChanged){
                     patchPayload["tipIds"] = _.map($scope.route.tips, function(tip){
                         return tip.id;
@@ -57,6 +55,7 @@ define([
                     .then(function (route) {
                         $scope.route = route;
                         $scope.route = angular.copy(route);
+                        $scope.edited = true;
                         $scope.disableEdit(false);
                         NotificationService.displayMessage("Route updated!");
                     }, function (response) {
@@ -69,11 +68,16 @@ define([
 
             $scope.delete = function () {
                 $scope.disableEdit();
-                $mdDialog.hide("Delete");
+                $mdDialog.hide({delete:true});
             };
 
             $scope.close = function () {
-                $mdDialog.cancel();
+                $mdDialog.hide({edit:$scope.edited});
+                $scope.edited = false;
             };
+
+            $scope.$on("Route.AddPlaces", function(){
+                $scope.close();
+            });
         }]);
 });

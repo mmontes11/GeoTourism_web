@@ -37,5 +37,9 @@ define([
                 };
                 $mdDialog.hide(response);
             };
+
+            $scope.$on("Route.AddPlaces", function(){
+                $scope.close();
+            });
         }]);
 });
