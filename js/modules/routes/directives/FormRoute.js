@@ -49,7 +49,7 @@ define([
 
                 scope.addPlaces = function(){
                     var eventData = {
-                        routeID: scope.route
+                        route: scope.route
                     };
                     $rootScope.$broadcast("Route.AddPlaces",eventData);
                 };

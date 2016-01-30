@@ -163,9 +163,12 @@ define([
                 requestFeatures();
             });
 
-            $scope.$on("Route.AddPlaces", function(event,args){
-                console.log(event);
-                console.log(args);
+            var setEditingRoute = function(route){
+                $scope.allowAddRoutes = true;
+            };
+
+            $scope.$on("Route.AddPlaces", function(event,route){
+                setEditingRoute(route);
             });
 
             $scope.$watchCollection('selectectedTIPLayers', function (selectectedTIPlayers, oldTIPlayers) {
@@ -215,16 +218,21 @@ define([
                             activateLoading();
                             return Route.delete({id: layer.customFeature.id}).$promise.finally(disableLoading);
                         }else{
-                            if (operation.edit){
-                                requestFeatures();
-                            }
+                            return {edit:operation.edit};
                         }
                     }, function (error) {
                         return $q.reject(error);
                     })
-                    .then(function () {
-                        $scope.boundingboxlayers.removeLayer(layer);
-                        NotificationService.displayMessage("Route deleted!");
+                    .then(function (operation) {
+                        if (operation.edit == undefined){
+                            $scope.boundingboxlayers.removeLayer(layer);
+                            NotificationService.displayMessage("Route deleted!");
+                        }else{
+                            if (operation.edit){
+                                requestFeatures();
+                            }
+                        }
+
                     }, function (error) {
                         if (error) {
                             if (error.status == 500) {
