@@ -15,6 +15,7 @@ define([
                 };
                 $scope.types = TIP.getTypes();
                 $scope.facebookUserId = FBStorageService.getUserID();
+                $scope.edited = false;
 
                 TIP.get({
                     id: feature.id
@@ -60,6 +61,7 @@ define([
                         .then(function (tip) {
                             $scope.tip = tip;
                             $scope.copy = angular.copy(tip);
+                            $scope.edited = true;
                             $scope.disableEdit(false);
                             NotificationService.displayMessage("Place updated!");
                         }, function (response) {
@@ -71,12 +73,13 @@ define([
                 };
 
                 $scope.delete = function () {
-                    $mdDialog.hide("Delete");
+                    $mdDialog.hide({delete:true});
                 };
 
                 $scope.close = function () {
                     $scope.disableEdit();
-                    $mdDialog.cancel();
+                    $mdDialog.hide({edit:$scope.edited});
+                    $scope.edited = false;
                 };
 
                 $scope.$watch('tip.type', function (typeID) {

@@ -152,23 +152,33 @@ define([
             $scope.showPlaceDialog = function (layer) {
                 DialogService.showPlaceDialog(layer.customFeature)
                     .then(function (operation) {
-                        if (operation === "Delete") {
+                        if (operation.delete != undefined && operation.delete) {
                             return DialogService.showConfirmDialog("Delete Place", "Are you sure?", "Yes", "Cancel");
+                        } else if (operation.edit != undefined) {
+                            return {edit:operation.edit};
                         } else {
                             return $q.reject();
+                        }
+                    })
+                    .then(function (operation) {
+                        if (operation.edit == undefined){
+                            activateLoading();
+                            return TIP.delete({id: layer.customFeature.id}).$promise.finally(disableLoading)
+                        }else{
+                            return {edit:operation.edit};
                         }
                     }, function (error) {
                         return $q.reject(error);
                     })
-                    .then(function () {
-                        activateLoading();
-                        return TIP.delete({id: layer.customFeature.id}).$promise.finally(disableLoading)
-                    }, function (error) {
-                        return $q.reject(error);
-                    })
-                    .then(function () {
-                        $scope.boundingboxlayers.removeLayer(layer);
-                        NotificationService.displayMessage("Place deleted!");
+                    .then(function (operation) {
+                        if (operation.edit == undefined){
+                            $scope.boundingboxlayers.removeLayer(layer);
+                            NotificationService.displayMessage("Place deleted!");
+                        }else{
+                            if (operation.edit){
+                                requestFeatures();
+                            }
+                        }
                     }, function (error) {
                         if (error) {
                             if (error.status == 500) {
