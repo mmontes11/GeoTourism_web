@@ -92,6 +92,7 @@ define([
             $scope.resetRoute = function () {
                 $scope.selectectedTIPLayers = [];
                 $scope.partialRouteGeoms = [];
+                $scope.permanentlayers.clearLayers();
                 requestFeatures();
             };
 
