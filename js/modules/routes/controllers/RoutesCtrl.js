@@ -92,14 +92,7 @@ define([
             $scope.resetRoute = function () {
                 $scope.selectectedTIPLayers = [];
                 $scope.partialRouteGeoms = [];
-                angular.forEach($scope.permanentlayers.getLayers(), function(layer){
-                    $scope.permanentlayers.removeLayer(layer);
-                    if (layer.setIcon){
-                        layer.setIcon(FeatureStyleService.getMarkerIcon(layer.customFeature.icon));
-                        $scope.boundingboxlayers.addLayer(layer);
-                    }
-                });
-
+                requestFeatures();
             };
 
             $scope.cancelAddRoutes = function () {
