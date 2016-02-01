@@ -14,7 +14,7 @@ define([
             return L.geoJson(wellknown.parse(customFeature.geom),
                 {
                     pointToLayer: function(feature, latlng) {
-                        var customIcon = FeatureStyleService.getMarkerIcon(customFeature.icon);
+                        var customIcon = FeatureStyleService.getMarkerIcon(customFeature.icon,customFeature.color);
                         return new L.Marker(latlng, {icon: customIcon});
                     },
                     style: FeatureStyleService.getFeatureStyle(customFeature.color)

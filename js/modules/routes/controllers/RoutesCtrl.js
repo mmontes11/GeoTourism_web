@@ -90,14 +90,16 @@ define([
             };
 
             $scope.resetRoute = function () {
-                $scope.permanentlayers.clearLayers();
-                angular.forEach($scope.selectectedTIPLayers, function (TIPlayer) {
-                    var customIcon = FeatureStyleService.getMarkerIcon(TIPlayer.customFeature.icon);
-                    TIPlayer.setIcon(customIcon);
-                    $scope.boundingboxlayers.addLayer(TIPlayer);
-                });
                 $scope.selectectedTIPLayers = [];
                 $scope.partialRouteGeoms = [];
+                angular.forEach($scope.permanentlayers.getLayers(), function(layer){
+                    $scope.permanentlayers.removeLayer(layer);
+                    if (layer.setIcon){
+                        layer.setIcon(FeatureStyleService.getMarkerIcon(layer.customFeature.icon));
+                        $scope.boundingboxlayers.addLayer(layer);
+                    }
+                });
+
             };
 
             $scope.cancelAddRoutes = function () {
@@ -165,10 +167,12 @@ define([
 
             var setEditingRoute = function(route){
                 $scope.allowAddRoutes = true;
+                var partialRouteFeature = _.find($scope.boundingboxlayers.getLayers(),{id:route.id,geom:route.geom});
+                partialRouteFeature["color"] = 'green';
             };
 
-            $scope.$on("Route.AddPlaces", function(event,route){
-                setEditingRoute(route);
+            $scope.$on("Route.AddPlaces", function(event,data){
+                setEditingRoute(data.route);
             });
 
             $scope.$watchCollection('selectectedTIPLayers', function (selectectedTIPlayers, oldTIPlayers) {
@@ -259,8 +263,7 @@ define([
                             if (($scope.selectectedTIPLayers.length + 1) > $scope.maxRoutePoints) {
                                 NotificationService.displayMessage("The maximum number of Places per Route is " + $scope.maxRoutePoints);
                             } else {
-                                var customIcon = FeatureStyleService.getMarkerIcon(layer.customFeature.icon, 'green');
-                                layer.setIcon(customIcon);
+                                layer.setIcon(FeatureStyleService.getMarkerIcon(layer.customFeature.icon, 'green'));
                                 $scope.boundingboxlayers.removeLayer(layer);
                                 $scope.permanentlayers.addLayer(layer);
                                 $scope.selectectedTIPLayers.push(layer);

@@ -106,7 +106,7 @@ define([
                     }
                 });
 
-                scope.$watch('permanentfeatures', function (features) {
+                scope.$watchCollection('permanentfeatures', function (features) {
                     if (angular.isDefined(features)) {
                         angular.forEach(features, function (feature) {
                             var layer = feature2layer(feature);
