@@ -5,7 +5,8 @@ define([
     './privateConfig'
 ], function(app,privateConfig){
     app.constant('Config', {
-        API_ROOT_URL: 'http://localhost:9090/',
+        //API_ROOT_URL: 'http://localhost:9090/',
+        API_ROOT_URL: 'http://geotourism-mmontes.rhcloud.com/',
 
         TILE_LAYER: 'OpenStreetMap.Mapnik',
 
