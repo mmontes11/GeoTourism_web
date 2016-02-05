@@ -31,6 +31,7 @@
                 GeoTourism
             </span>
             <div class="mdl-layout-spacer"></div>
+            {{isAuthAdmin()}}
             <md-button class="md-primary" ng-if="isAuthAdmin()" ng-click="logOut()">
                 <i class="fa fa-user-times"></i> Log Out
             </md-button>
