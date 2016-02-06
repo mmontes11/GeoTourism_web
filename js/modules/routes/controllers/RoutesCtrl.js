@@ -73,6 +73,7 @@ define([
                     .then(function () {
                         requestFeatures();
                         NotificationService.displayMessage("Route created!");
+                        $scope.allowAddRoutes = false;
                     }, function (response) {
                         if (response && response.status == 500) {
                             NotificationService.displayMessage("Error creating Route");
@@ -159,10 +160,29 @@ define([
                 requestFeatures();
             });
 
+            var findLayer = function(layers,customFeature){
+                var layer = _.filter(layers, function(layer){
+                    return layer.customFeature.id == customFeature.id && layer.customFeature.geom == customFeature.geom;
+                });
+                layer = layer.length > 0? layer[0] : undefined;
+                return layer;
+            };
+
             var setEditingRoute = function(route){
                 $scope.allowAddRoutes = true;
-                var partialRouteFeature = _.find($scope.boundingboxlayers.getLayers(),{id:route.id,geom:route.geom});
-                partialRouteFeature["color"] = 'green';
+                var layerRoute = findLayer($scope.boundingboxlayers.getLayers(), route);
+                layerRoute.setStyle(FeatureStyleService.getFeatureStyle('green'));
+                var TIPLayers = _.map(route.tips, function(tip){
+                    return findLayer($scope.boundingboxlayers.getLayers(),tip);
+                });
+                angular.forEach(TIPLayers, function(TIPLayer){
+                    var customIcon = FeatureStyleService.getMarkerIcon(TIPLayer.customFeature.icon,'green');
+                    var geoJsonLayer = TIPLayer._layers;
+                    geoJsonLayer[_.keys(geoJsonLayer)[0]].setIcon(customIcon);
+                });
+                //Move to Permanent layers
+                //$scope.boundingboxlayers.getLayers().splice(_.indexOf($scope.boundingboxlayers.getLayers(), layerRoute), 1);
+                //$scope.permanentlayers.addLayer(layerRoute);
             };
 
             $scope.$on("Route.AddPlaces", function(event,data){

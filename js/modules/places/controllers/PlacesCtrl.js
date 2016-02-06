@@ -141,6 +141,7 @@ define([
                         .then(function () {
                             requestFeatures();
                             NotificationService.displayMessage("Place created!");
+                            $scope.allowAddTIPs = false;
                         }, function (response) {
                             if (response && response.status == 500) {
                                 NotificationService.displayMessage("Error creating Place");

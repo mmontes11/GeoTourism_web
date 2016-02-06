@@ -23,7 +23,7 @@ define([
         this.getFeatureStyle = function(color){
             color = color || defaultColor;
             return {
-                weigth: 2,
+                weight: 10,
                 opacity: 0.5,
                 color: color
             }
