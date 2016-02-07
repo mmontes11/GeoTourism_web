@@ -18,7 +18,10 @@ define([
             TravelModes.query().$promise
                 .then(function (travelModes) {
                     $scope.travelModes = travelModes;
-                    $scope.travelModePreference = {selected: travelModes[0]};
+                    $scope.travelModePreference = {
+                        selected: travelModes[0],
+                        resetRoute: true
+                    };
                 });
             $scope.selectedTravelModes = [];
             $scope.cities = Cities.query();
@@ -40,10 +43,6 @@ define([
                 return list.indexOf(item) > -1;
             };
 
-            $scope.selectTravelModePreference = function (travelMode) {
-                $scope.travelModePreference = travelMode;
-            };
-
             $scope.enableAddRoutes = function () {
                 $scope.displayHelpMessage();
                 $scope.allowAddRoutes = true;
@@ -55,6 +54,12 @@ define([
 
             var disableLoading = function () {
                 $scope.loading = false;
+            };
+
+            var TIPIdsFromTIPLayers = function (TIPLayers) {
+                return _.map(TIPLayers, function (TIPLayer) {
+                    return TIPLayer.customFeature.id;
+                });
             };
 
             $scope.createRoute = function () {
@@ -98,6 +103,10 @@ define([
             };
 
             $scope.cancelAddRoutes = function () {
+                $scope.travelModePreference = {
+                    selected: $scope.travelModes[0],
+                    resetRoute: true
+                };
                 $scope.resetRoute();
                 $scope.allowAddRoutes = false;
             };
@@ -145,11 +154,17 @@ define([
                 }
             });
 
-            $scope.$watch('travelModePreference.selected', function (newVal, oldVal) {
+            $scope.$watch('travelModePreference', function (newVal, oldVal) {
                 if (angular.isDefined(newVal) && angular.isDefined(oldVal) && newVal != oldVal) {
-                    $scope.resetRoute();
+                    if (newVal.resetRoute == false) {
+                        $scope.travelModePreference.resetRoute = true;
+                    }else{
+                        if (newVal.selected != oldVal.selected){
+                            $scope.resetRoute();
+                        }
+                    }
                 }
-            });
+            }, true);
 
             $scope.$on('peopleSelector.value', function (event, createdBy) {
                 $scope.createdBy = createdBy;
@@ -160,39 +175,47 @@ define([
                 requestFeatures();
             });
 
-            var findLayer = function(layers,customFeature){
-                var layer = _.filter(layers, function(layer){
+            var findLayer = function (layers, customFeature) {
+                var layer = _.filter(layers, function (layer) {
                     return layer.customFeature.id == customFeature.id && layer.customFeature.geom == customFeature.geom;
                 });
-                layer = layer.length > 0? layer[0] : undefined;
+                layer = layer.length > 0 ? layer[0] : undefined;
                 return layer;
             };
 
-            var setEditingRoute = function(route){
+            var setEditingRoute = function (route, travelmodechanged) {
                 $scope.allowAddRoutes = true;
                 var layerRoute = findLayer($scope.boundingboxlayers.getLayers(), route);
                 layerRoute.setStyle(FeatureStyleService.getFeatureStyle('green'));
-                var TIPLayers = _.map(route.tips, function(tip){
-                    return findLayer($scope.boundingboxlayers.getLayers(),tip);
+                $scope.boundingboxlayers.removeLayer(layerRoute);
+                if (!travelmodechanged) {
+                    $scope.permanentlayers.addLayer(layerRoute);
+                    $scope.partialRouteGeoms.push(layerRoute.customFeature.geom);
+                }
+                var TIPLayers = _.map(route.tips, function (tip) {
+                    return findLayer($scope.boundingboxlayers.getLayers(), tip);
                 });
-                angular.forEach(TIPLayers, function(TIPLayer){
-                    var customIcon = FeatureStyleService.getMarkerIcon(TIPLayer.customFeature.icon,'green');
+                angular.forEach(TIPLayers, function (TIPLayer) {
+                    var customIcon = FeatureStyleService.getMarkerIcon(TIPLayer.customFeature.icon, 'green');
                     TIPLayer.getLayers()[0].setIcon(customIcon);
                     $scope.boundingboxlayers.removeLayer(TIPLayer);
                     $scope.permanentlayers.addLayer(TIPLayer);
                     $scope.selectectedTIPLayers.push(TIPLayer);
+                    if (travelmodechanged) {
+                        checkSelectedTIPLayers();
+                    }
                 });
-                $scope.boundingboxlayers.removeLayer(layerRoute);
-                $scope.permanentlayers.addLayer(layerRoute);
-                $scope.partialRouteGeoms.push(layerRoute);
             };
 
-            $scope.$on("Route.AddPlaces", function(event,data){
-                $scope.travelModePreference = {selected:data.route.travelMode};
-                setEditingRoute(data.route);
+            $scope.$on("Route.AddPlaces", function (event, data) {
+                $scope.travelModePreference = {
+                    selected: data.route.travelMode,
+                    resetRoute: false
+                };
+                setEditingRoute(data.route, data.travelmodechanged);
             });
 
-            var calculareRoute = function(originTIPId,destinationTIPId){
+            var calculareRoute = function (originTIPId, destinationTIPId) {
                 var urlParams = {
                     origin: originTIPId,
                     destination: destinationTIPId,
@@ -212,13 +235,23 @@ define([
                     });
             };
 
+            var checkSelectedTIPLayers = function(){
+                if ($scope.selectectedTIPLayers.length > 1) {
+                    var TIPIds = TIPIdsFromTIPLayers($scope.selectectedTIPLayers);
+                    var lastTIPIds = _.last(TIPIds, 2);
+                    var originTIPId = lastTIPIds[0];
+                    var destinationTIPId = lastTIPIds[1];
+                    calculareRoute(originTIPId, destinationTIPId);
+                }
+            };
+
             $scope.showRouteDialog = function (layer) {
                 DialogService.showRouteDialog(layer.customFeature)
                     .then(function (operation) {
                             if (operation.delete != undefined && operation.delete) {
                                 return DialogService.showConfirmDialog("Delete Route", "Are you sure?", "Yes", "Cancel");
                             } else if (operation.edit != undefined && operation.edit) {
-                                return {edit:operation.edit};
+                                return {edit: operation.edit};
                             } else {
                                 return $q.reject();
                             }
@@ -226,26 +259,25 @@ define([
                             return $q.reject(error);
                         }
                     )
-                    .then(function (operation){
-                        if (operation.edit == undefined){
+                    .then(function (operation) {
+                        if (operation.edit == undefined) {
                             activateLoading();
                             return Route.delete({id: layer.customFeature.id}).$promise.finally(disableLoading);
-                        }else{
-                            return {edit:operation.edit};
+                        } else {
+                            return {edit: operation.edit};
                         }
                     }, function (error) {
                         return $q.reject(error);
                     })
                     .then(function (operation) {
-                        if (operation.edit == undefined){
+                        if (operation.edit == undefined) {
                             $scope.boundingboxlayers.removeLayer(layer);
                             NotificationService.displayMessage("Route deleted!");
-                        }else{
-                            if (operation.edit){
+                        } else {
+                            if (operation.edit) {
                                 requestFeatures();
                             }
                         }
-
                     }, function (error) {
                         if (error) {
                             if (error.status == 500) {
@@ -276,25 +308,13 @@ define([
                                 $scope.boundingboxlayers.removeLayer(geoJsonLayer);
                                 $scope.permanentlayers.addLayer(geoJsonLayer);
                                 $scope.selectectedTIPLayers.push(geoJsonLayer);
-                                if ($scope.selectectedTIPLayers.length > 1){
-                                    var TIPIds = TIPIdsFromTIPLayers($scope.selectectedTIPLayers);
-                                    var lastTIPIds = _.last(TIPIds, 2);
-                                    var originTIPId = lastTIPIds[0];
-                                    var destinationTIPId = lastTIPIds[1];
-                                    calculareRoute(originTIPId,destinationTIPId);
-                                }
+                                checkSelectedTIPLayers();
                             }
                         }
                     }
                     $scope.layerclicked = undefined;
                 }
             });
-
-            var TIPIdsFromTIPLayers = function (TIPLayers) {
-                return _.map(TIPLayers, function (TIPLayer) {
-                    return TIPLayer.customFeature.id;
-                });
-            };
 
             var requestFeatures = function () {
                 var cities = _.map($scope.selectedCities, function (city) {

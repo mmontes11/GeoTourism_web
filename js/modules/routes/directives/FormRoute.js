@@ -49,7 +49,8 @@ define([
 
                 scope.addPlaces = function(){
                     var eventData = {
-                        route: scope.route
+                        route: scope.route,
+                        travelmodechanged: scope.travelmodechanged
                     };
                     $rootScope.$broadcast("Route.AddPlaces",eventData);
                 };

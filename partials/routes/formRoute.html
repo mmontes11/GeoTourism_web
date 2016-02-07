@@ -28,7 +28,7 @@
             </h3>
         </div>
         <div layout="row" layout-align="center center">
-            <md-button class="md-primary" layout="row" ng-click="addPlaces()">
+            <md-button class="md-primary" layout="row" ng-if="route.id != undefined" ng-click="addPlaces()">
                 <i class="material-icons">add_circle</i>
             </md-button>
             <md-button class="md-primary" layout="row" ng-show="tipschanged" ng-click="resetPlaces()">
