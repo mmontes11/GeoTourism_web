@@ -58,7 +58,7 @@ define([
                     scope.boundingboxlayers.clearLayers();
                     features = _.filter(features, function (feature) {
                         var filteredLayers = _.filter(scope.permanentlayers.getLayers(), function (layer) {
-                            return (feature.id == layer.customFeature.id || feature.geom == layer.customFeature.geom);
+                            return (feature.id == layer.customFeature.id && feature.geom == layer.customFeature.geom);
                         });
                         return (filteredLayers.length == 0);
                     });
@@ -79,11 +79,6 @@ define([
                     layer.customFeature = feature;
                     layer.on('click', function (e) {
                         var type = getType(e.layer);
-                        if (type == "Point") {
-                            layer.setIcon = function (icon) {
-                                e.layer.setIcon(icon);
-                            };
-                        }
                         scope.$apply(function () {
                             scope.layerclicked = {
                                 typeClicked: type,

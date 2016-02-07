@@ -86,7 +86,7 @@ define([
                 $scope.selectectedTIPLayers.splice(_.indexOf($scope.selectectedTIPLayers, TIPlayer), 1);
                 $scope.permanentlayers.removeLayer(TIPlayer);
                 var customIcon = FeatureStyleService.getMarkerIcon(TIPlayer.customFeature.icon);
-                TIPlayer.setIcon(customIcon);
+                TIPlayer.getLayers()[0].setIcon(customIcon);
                 $scope.boundingboxlayers.addLayer(TIPlayer);
             };
 
@@ -177,45 +177,40 @@ define([
                 });
                 angular.forEach(TIPLayers, function(TIPLayer){
                     var customIcon = FeatureStyleService.getMarkerIcon(TIPLayer.customFeature.icon,'green');
-                    var geoJsonLayer = TIPLayer._layers;
-                    geoJsonLayer[_.keys(geoJsonLayer)[0]].setIcon(customIcon);
+                    TIPLayer.getLayers()[0].setIcon(customIcon);
+                    $scope.boundingboxlayers.removeLayer(TIPLayer);
+                    $scope.permanentlayers.addLayer(TIPLayer);
+                    $scope.selectectedTIPLayers.push(TIPLayer);
                 });
-                //Move to Permanent layers
-                //$scope.boundingboxlayers.getLayers().splice(_.indexOf($scope.boundingboxlayers.getLayers(), layerRoute), 1);
-                //$scope.permanentlayers.addLayer(layerRoute);
+                $scope.boundingboxlayers.removeLayer(layerRoute);
+                $scope.permanentlayers.addLayer(layerRoute);
+                $scope.partialRouteGeoms.push(layerRoute);
             };
 
             $scope.$on("Route.AddPlaces", function(event,data){
+                $scope.travelModePreference = {selected:data.route.travelMode};
                 setEditingRoute(data.route);
             });
 
-            $scope.$watchCollection('selectectedTIPLayers', function (selectectedTIPlayers, oldTIPlayers) {
-                var newTIPlayers = _.difference(selectectedTIPlayers, oldTIPlayers);
-                if (angular.isDefined(selectectedTIPlayers) &&
-                    selectectedTIPlayers.length > 1 && _.intersection(selectectedTIPlayers, newTIPlayers).length > 0) {
-                    var TIPIds = TIPIdsFromTIPLayers(selectectedTIPlayers);
-                    var lastTIPIds = _.last(TIPIds, 2);
-                    var origin = lastTIPIds[0];
-                    var destination = lastTIPIds[1];
-                    var urlParams = {
-                        origin: origin,
-                        destination: destination,
-                        travelMode: $scope.travelModePreference.selected
-                    };
-                    Route.getShortestPath(urlParams).$promise
-                        .then(function (response) {
-                            var feature = {
-                                geom: response.geom,
-                                color: 'green'
-                            };
-                            $scope.permanentfeatures = [feature];
-                            $scope.partialRouteGeoms.push(feature.geom);
-                        }, function () {
-                            $scope.resetLastRoutePlace();
-                            NotificationService.displayMessage("There is no possible Route between that Places");
-                        });
-                }
-            });
+            var calculareRoute = function(originTIPId,destinationTIPId){
+                var urlParams = {
+                    origin: originTIPId,
+                    destination: destinationTIPId,
+                    travelMode: $scope.travelModePreference.selected
+                };
+                Route.getShortestPath(urlParams).$promise
+                    .then(function (response) {
+                        var feature = {
+                            geom: response.geom,
+                            color: 'green'
+                        };
+                        $scope.permanentfeatures = [feature];
+                        $scope.partialRouteGeoms.push(feature.geom);
+                    }, function () {
+                        $scope.resetLastRoutePlace();
+                        NotificationService.displayMessage("There is no possible Route between that Places");
+                    });
+            };
 
             $scope.showRouteDialog = function (layer) {
                 DialogService.showRouteDialog(layer.customFeature)
@@ -266,21 +261,28 @@ define([
             $scope.$watch('layerclicked', function (layerClicked) {
                 if (angular.isDefined(layerClicked)) {
                     var typeClicked = layerClicked.typeClicked;
-                    var layer = layerClicked.layer;
+                    var geoJsonLayer = layerClicked.layer;
                     if (!$scope.allowAddRoutes && (typeClicked == "LineString" || typeClicked == "MultiLineString")) {
-                        $scope.showRouteDialog(layer);
+                        $scope.showRouteDialog(geoJsonLayer);
                     }
                     if ($scope.allowAddRoutes && typeClicked == "Point") {
-                        if (_.contains($scope.selectectedTIPLayers, layer)) {
+                        if (_.contains($scope.selectectedTIPLayers, geoJsonLayer)) {
                             NotificationService.displayMessage("This Place is already in the new Route");
                         } else {
                             if (($scope.selectectedTIPLayers.length + 1) > $scope.maxRoutePoints) {
                                 NotificationService.displayMessage("The maximum number of Places per Route is " + $scope.maxRoutePoints);
                             } else {
-                                layer.setIcon(FeatureStyleService.getMarkerIcon(layer.customFeature.icon, 'green'));
-                                $scope.boundingboxlayers.removeLayer(layer);
-                                $scope.permanentlayers.addLayer(layer);
-                                $scope.selectectedTIPLayers.push(layer);
+                                geoJsonLayer.getLayers()[0].setIcon(FeatureStyleService.getMarkerIcon(geoJsonLayer.customFeature.icon, 'green'));
+                                $scope.boundingboxlayers.removeLayer(geoJsonLayer);
+                                $scope.permanentlayers.addLayer(geoJsonLayer);
+                                $scope.selectectedTIPLayers.push(geoJsonLayer);
+                                if ($scope.selectectedTIPLayers.length > 1){
+                                    var TIPIds = TIPIdsFromTIPLayers($scope.selectectedTIPLayers);
+                                    var lastTIPIds = _.last(TIPIds, 2);
+                                    var originTIPId = lastTIPIds[0];
+                                    var destinationTIPId = lastTIPIds[1];
+                                    calculareRoute(originTIPId,destinationTIPId);
+                                }
                             }
                         }
                     }
