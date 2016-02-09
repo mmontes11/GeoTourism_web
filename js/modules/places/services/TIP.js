@@ -62,6 +62,10 @@ define([
                         commentId: '@commentId'
                     },
                     isArray: true
+                },
+                getNumRoutes: {
+                    method: 'GET',
+                    url : Config.API_ROOT_URL + '/admin/tip/:id/numroutes'
                 }
             }
         );

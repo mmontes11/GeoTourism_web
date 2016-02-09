@@ -154,29 +154,29 @@ define([
                 DialogService.showPlaceDialog(layer.customFeature)
                     .then(function (operation) {
                         if (operation.delete != undefined && operation.delete) {
-                            return DialogService.showConfirmDialog("Delete Place", "Are you sure?", "Yes", "Cancel");
+                            return DialogService.showConfirmDeleteTIPDialog(layer.customFeature.id, "Delete Place?", "Yes", "Cancel");
                         } else if (operation.edit != undefined) {
-                            return {edit:operation.edit};
+                            return {edit: operation.edit};
                         } else {
                             return $q.reject();
                         }
                     })
                     .then(function (operation) {
-                        if (operation.edit == undefined){
+                        if (operation.edit == undefined) {
                             activateLoading();
                             return TIP.delete({id: layer.customFeature.id}).$promise.finally(disableLoading)
-                        }else{
-                            return {edit:operation.edit};
+                        } else {
+                            return {edit: operation.edit};
                         }
                     }, function (error) {
                         return $q.reject(error);
                     })
                     .then(function (operation) {
-                        if (operation.edit == undefined){
+                        if (operation.edit == undefined) {
                             $scope.boundingboxlayers.removeLayer(layer);
                             NotificationService.displayMessage("Place deleted!");
-                        }else{
-                            if (operation.edit){
+                        } else {
+                            if (operation.edit) {
                                 requestFeatures();
                             }
                         }
@@ -197,7 +197,7 @@ define([
                 if (angular.isDefined(layerClicked)) {
                     var typeClicked = layerClicked.typeClicked;
                     var layer = layerClicked.layer;
-                    if (typeClicked == "Point"){
+                    if (typeClicked == "Point") {
                         $scope.showPlaceDialog(layer);
                         $scope.layerclicked = undefined;
                     }

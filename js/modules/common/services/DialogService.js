@@ -3,7 +3,7 @@
 define([
     '../module'
 ], function(module){
-   module.service('DialogService',['$mdDialog', '$q', function($mdDialog,$q){
+   module.service('DialogService',['$mdDialog', '$q', 'TIP', function($mdDialog,$q,TIP){
 
        this.showAddPlaceDialog = function(){
            return $mdDialog.show({
@@ -65,6 +65,32 @@ define([
                    deferred.resolve({confirm:true});
                }, function(){
                    deferred.reject({confirm:false});
+               });
+           return deferred.promise;
+       };
+
+       this.showConfirmDeleteTIPDialog = function(TIPId,title,ok,cancel){
+           var deferred = $q.defer();
+           TIP.getNumRoutes({id:TIPId}).$promise
+               .then(function(response){
+                   var numRoutes = response.numRoutes;
+                   var content = "Are you sure?";
+                   if (numRoutes > 0){
+                       var containedRoutes = numRoutes == 1? numRoutes + " Route" : numRoutes + " Routes";
+                       content = "This Place is contained in "+containedRoutes+", if you delete it," +
+                           " they will have to be recalculated (It can take a long time).";
+                   }
+                   var confirm = $mdDialog.confirm()
+                       .title(title)
+                       .content(content)
+                       .ok(ok)
+                       .cancel(cancel);
+                   $mdDialog.show(confirm)
+                       .then(function(){
+                           deferred.resolve({confirm:true});
+                       }, function(){
+                           deferred.reject({confirm:false});
+                       });
                });
            return deferred.promise;
        };
