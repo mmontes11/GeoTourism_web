@@ -62,22 +62,37 @@ define([
                 });
             };
 
-            $scope.createRoute = function () {
+            $scope.createOrUpdateRoute = function () {
                 var TIPIds = TIPIdsFromTIPLayers($scope.selectectedTIPLayers);
-                DialogService.showAddRouteDialog($scope.travelModePreference.selected, $scope.travelModes, TIPIds)
+                var editingRoute = $scope.editingRoute != undefined;
+                $scope.editingRoute = $scope.editingRoute || {};
+                DialogService.showCreateOrUpdateRouteDialog($scope.editingRoute,$scope.travelModePreference.selected, $scope.travelModes, TIPIds)
                     .then(function (response) {
-                        if (!response.changed) {
+                        var route = response.route;
+                        if (!response.changed || editingRoute) {
                             response.route['lineStrings'] = $scope.partialRouteGeoms;
                         }
                         $scope.resetRoute();
                         activateLoading();
-                        return Route.save(response.route).$promise.finally(disableLoading)
+                        if (editingRoute){
+                            var patchPayload = {
+                                name: route.name,
+                                description: route.description,
+                                travelMode: route.travelMode,
+                                tipIds: route.tipIds,
+                                lineStrings: route.lineStrings
+                            };
+                            return Route.patch({id:route.id},patchPayload).$promise.finally(disableLoading);
+                        }else{
+                            return Route.save(response.route).$promise.finally(disableLoading);
+                        }
                     }, function () {
                         return $q.reject();
                     })
                     .then(function () {
                         requestFeatures();
-                        NotificationService.displayMessage("Route created!");
+                        var op = editingRoute? "updated" : "created";
+                        NotificationService.displayMessage("Route "+op+"!");
                         $scope.allowAddRoutes = false;
                     }, function (response) {
                         if (response && response.status == 500) {
@@ -99,6 +114,7 @@ define([
                 $scope.selectectedTIPLayers = [];
                 $scope.partialRouteGeoms = [];
                 $scope.permanentlayers.clearLayers();
+                $scope.editingRoute = undefined;
                 requestFeatures();
             };
 
@@ -185,6 +201,7 @@ define([
 
             var setEditingRoute = function (route, travelmodechanged) {
                 $scope.allowAddRoutes = true;
+                $scope.editingRoute = route;
                 var layerRoute = findLayer($scope.boundingboxlayers.getLayers(), route);
                 layerRoute.setStyle(FeatureStyleService.getFeatureStyle('green'));
                 $scope.boundingboxlayers.removeLayer(layerRoute);

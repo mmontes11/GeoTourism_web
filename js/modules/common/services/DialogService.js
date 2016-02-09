@@ -26,13 +26,14 @@ define([
            });
        };
 
-       this.showAddRouteDialog = function(travelMode,travelModes,TIPIds){
+       this.showCreateOrUpdateRouteDialog = function(route,travelMode,travelModes,TIPIds){
            return $mdDialog.show({
                controller: 'DialogAddRouteCtrl',
                templateUrl: 'partials/routes/dialogAddRoute.html',
                parent: angular.element(document.body),
                clickOutsideToClose: true,
                locals: {
+                   route: route,
                    travelMode: travelMode,
                    travelModes: travelModes,
                    TIPIds: TIPIds

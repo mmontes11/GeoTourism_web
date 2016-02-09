@@ -9,10 +9,7 @@ define([
             Config.API_ROOT_URL + '/social/route/:id',
             //Default Parameters
             {
-                id: '@id',
-                origin: '@origin',
-                destination: '@destination',
-                travelMode: '@travelMode'
+                id: '@id'
             },
             //Actions
             {
@@ -29,7 +26,12 @@ define([
                 },
                 getShortestPath: {
                     method: 'GET',
-                    url: Config.API_ROOT_URL + '/social/route/geom?origin=:origin&destination=:destination&travelMode=:travelMode'
+                    url: Config.API_ROOT_URL + '/social/route/geom?origin=:origin&destination=:destination&travelMode=:travelMode',
+                    params: {
+                        origin: '@origin',
+                        destination: '@destination',
+                        travelMode: '@travelMode'
+                    }
                 }
             }
         );

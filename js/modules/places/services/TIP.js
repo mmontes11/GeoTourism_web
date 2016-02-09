@@ -9,12 +9,7 @@ define([
             Config.API_ROOT_URL + '/admin/tip/:id',
             //Default Parameters
             {
-                id: '@id',
-                commentId: '@commentId',
-                type: '@type',
-                favouriteValue: '@favouriteValue',
-                ratingValue: '@ratingValue',
-                commentText: '@commentText'
+                id: '@id'
             },
             //Actions
             {
@@ -32,25 +27,40 @@ define([
                 },
                 getTypeName: {
                     method: 'GET',
-                    url: Config.API_ROOT_URL + '/tip/type/:type'
+                    url: Config.API_ROOT_URL + '/tip/type/:type',
+                    params: {
+                        type: '@type'
+                    }
                 },
                 favourite: {
                     method: 'POST',
                     url: Config.API_ROOT_URL + '/social/tip/:id/favourite?favouriteValue=:favouriteValue',
+                    params: {
+                        favouriteValue: '@favouriteValue'
+                    },
                     isArray: true
                 },
                 rate: {
                     method: 'POST',
-                    url: Config.API_ROOT_URL + '/social/tip/:id/rating?ratingValue=:ratingValue'
+                    url: Config.API_ROOT_URL + '/social/tip/:id/rating?ratingValue=:ratingValue',
+                    params: {
+                        ratingValue: '@ratingValue'
+                    }
                 },
                 comment: {
                     method: 'POST',
                     url: Config.API_ROOT_URL + '/social/tip/:id/comment?&commentText=:commentText',
+                    params: {
+                        commentText: '@commentText'
+                    },
                     isArray: true
                 },
                 deleteComment: {
                     method: 'DELETE',
                     url: Config.API_ROOT_URL + '/social/tip/:id/comment/:commentId',
+                    params: {
+                        commentId: '@commentId'
+                    },
                     isArray: true
                 }
             }

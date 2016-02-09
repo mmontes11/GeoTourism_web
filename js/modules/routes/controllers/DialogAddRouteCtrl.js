@@ -3,8 +3,8 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('DialogAddRouteCtrl', ['$scope', '$mdDialog', 'travelModes', 'travelMode', 'TIPIds', 'TIPs',
-        function ($scope, $mdDialog, travelModes, travelMode, TIPIds, TIPs) {
+    module.controller('DialogAddRouteCtrl', ['$scope', '$mdDialog', 'route', 'travelModes', 'travelMode', 'TIPIds', 'TIPs',
+        function ($scope, $mdDialog, route, travelModes, travelMode, TIPIds, TIPs) {
 
             $scope.travelModes = travelModes;
             $scope.travelModeChanged = false;
@@ -14,10 +14,9 @@ define([
                 TIPIds: TIPIds
             };
 
-            $scope.route = {
-                travelMode: travelMode,
-                tips: TIPs.getTIPMinDtos(urlParams)
-            };
+            $scope.route = route;
+            $scope.route.travelMode = travelMode;
+            $scope.route.tips = TIPs.getTIPMinDtos(urlParams);
 
             $scope.close = function () {
                 $mdDialog.cancel();
@@ -26,6 +25,7 @@ define([
             $scope.save = function () {
                 var response = {
                     route: {
+                        id: $scope.route.id,
                         name: $scope.route.name,
                         description: $scope.route.description,
                         travelMode: $scope.route.travelMode,
