@@ -77,8 +77,9 @@ define([
                    var content = "Are you sure?";
                    if (numRoutes > 0){
                        var containedRoutes = numRoutes == 1? numRoutes + " Route" : numRoutes + " Routes";
+                       var subject = numRoutes == 1? " it" : " they";
                        content = "This Place is contained in "+containedRoutes+", if you delete it," +
-                           " they will have to be recalculated (It can take a long time).";
+                           subject+" will have to be recalculated (It can take a long time).";
                    }
                    var confirm = $mdDialog.confirm()
                        .title(title)
