@@ -28,8 +28,9 @@
                             </h3>
                             <span flex="5"></span>
                             <div layout="row">
-                                <img ng-src="{{route.creator.facebookProfilePhotoUrl}}"
-                                     class="demo-avatar"/>
+                                <md-list-item class="fade">
+                                    <img ng-src="{{route.creator.facebookProfilePhotoUrl}}" class="md-avatar"/>
+                                </md-list-item>
                                 <md-button class="md-primary"
                                            ng-href="{{route.creator.facebookProfileUrl}}"
                                            target="_blank">

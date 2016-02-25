@@ -16,7 +16,6 @@
     "angular-facebook": "~0.2.3",
     "angular-base64": "latest",
     "ng-sortable": "~1.3.2",
-    "material-design-lite": "latest",
     "leaflet": "~0.7.5",
     "leaflet-markers": "https://github.com/coryasilva/Leaflet.ExtraMarkers.git",
     "angular-messages": "~1.4.7",

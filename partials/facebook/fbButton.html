@@ -1,7 +1,9 @@
 <div layout="column" layout-align="center center" ng-show="ctrl.isFBReady()">
-    <div class="fade" ng-if="ctrl.isAuthFB() && ctrl.profilePhotoURL && ctrl.userName">
-        <img ng-src="{{ctrl.profilePhotoURL}}" class="demo-avatar">
-        <span>{{ctrl.userName}}</span>
+    <div class="fade" layout="column" ng-if="ctrl.isAuthFB() && ctrl.profilePhotoURL && ctrl.userName">
+        <md-list-item class="fade">
+            <img ng-src="{{ctrl.profilePhotoURL}}" class="md-avatar"/>
+        </md-list-item>
+        <span class="md-title">{{ctrl.userName}}</span>
     </div>
     <md-progress-circular class="fade" ng-if="ctrl.loading" md-mode="indeterminate" md-diameter="45">
     </md-progress-circular>

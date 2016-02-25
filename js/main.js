@@ -14,7 +14,6 @@ require.config({
         angularFacebook: '../bower_components/angular-facebook/lib/angular-facebook',
         ngFileUpload: '../bower_components/ng-file-upload/ng-file-upload.min',
         ngSortable: '../bower_components/ng-sortable/dist/ng-sortable.min',
-        material: '../bower_components/material-design-lite/material.min',
         require: '../bower_components/requirejs/require',
         domReady: '../bower_components/requirejs-domready/domReady',
         md5: '../bower_components/angular-md5/angular-md5.min',

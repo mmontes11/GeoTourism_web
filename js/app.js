@@ -6,7 +6,6 @@ define([
     'angularResource',
     'angularAnimate',
     'ngSortable',
-    'material',
     'underscore',
     './modules/common/index',
     './modules/admin/index',
