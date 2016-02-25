@@ -23,7 +23,8 @@
     "ng-file-upload": "~9.0.14",
     "font-awesome": "~4.5.0",
     "leaflet-providers": "~1.1.6",
-    "wellknown": "~0.4.0"
+    "wellknown": "~0.4.0",
+    "please-wait": "~0.0.5"
   },
   "resolutions": {
     "angular": "1.4.7"

@@ -22,7 +22,8 @@ require.config({
         leaflet: '../bower_components/leaflet/dist/leaflet',
         'leaflet-providers': '../bower_components/leaflet-providers/leaflet-providers',
         'leaflet-markers': '../bower_components/leaflet-markers/src/leaflet.extra-markers',
-        wellknown: '../bower_components/wellknown/wellknown'
+        wellknown: '../bower_components/wellknown/wellknown',
+        'please-wait': '../bower_components/please-wait/build/please-wait.min'
     },
     shim: {
         jquery: {
