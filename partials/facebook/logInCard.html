@@ -1,0 +1,24 @@
+<md-card class="sidebar-card" layout-align="center center">
+    <md-card-header>
+        <md-card-avatar>
+            <div class="fade" layout-align="center center" layout="column" ng-if="ctrl.isAuthFB() && ctrl.profilePhotoURL && ctrl.userName">
+                <md-list-item class="fade">
+                    <img ng-src="{{ctrl.profilePhotoURL}}" class="md-avatar"/>
+                </md-list-item>
+                <span class="md-title text-white">{{ctrl.userName}}</span>
+            </div>
+        </md-card-avatar>
+    </md-card-header>
+    <span flex></span>
+    <md-progress-circular class="fade" ng-if="ctrl.loading" md-mode="indeterminate" md-diameter="60">
+    </md-progress-circular>
+    <span flex></span>
+    <md-card-actions>
+        <md-button class="md-raised md-primary fb-button" ng-click="ctrl.logInFB()" ng-show="!ctrl.isAuthFB()">
+            <i class="fa fa-facebook-official"></i> Log In
+        </md-button>
+        <md-button class="md-raised md-primary fb-button" ng-click="ctrl.logOutFB()" ng-show="ctrl.isAuthFB()">
+            <i class="fa fa-facebook-official"></i> Log Out
+        </md-button>
+    </md-card-actions>
+</md-card>

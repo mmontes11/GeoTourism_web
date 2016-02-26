@@ -15,8 +15,29 @@ body {
 }
 
 .sidebar-card {
+    background-image: url('/img/sidebar_header.jpg');
     background-size: cover;
-    margin: 0;
+    margin:0;
+    height:25%;
+}
+
+@media screen and (max-width: 760px){
+
+    .sidebar-card {
+        background-image: url('/img/sidebar_header.jpg');
+        background-size: cover;
+        margin:0;
+        height:50%;
+    }
+
+}
+
+.text-white {
+    color: #FFFFFF;
+}
+
+.shadow {
+    background: rgba(0, 0, 0, 0.1);
 }
 
 #map {
@@ -288,7 +309,12 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, m
 /*LOADING*/
 
 .pg-loading-screen {
-    background-color: rgb(0,188,212);
+    background-color: #FFFFFF;
+}
+
+.img-loading {
+    max-height: 30%;
+    max-width: 30%;
 }
 
 .spinner {

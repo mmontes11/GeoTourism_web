@@ -26,6 +26,7 @@
     <div class="pg-loading-inner">
         <div class="pg-loading-center-outer">
             <div class="pg-loading-center-middle">
+                <img class="img-loading" src="/img/plane.png">
                 <h1 class="pg-loading-logo-header md-display-3">
                     GeoTourism
                 </h1>
@@ -72,20 +73,8 @@
 </md-toolbar>
 <section layout="row" flex>
     <md-sidenav class="md-sidenav-left" md-component-id="sidenav" md-is-locked-open="!isMobile()">
-        <md-content>
-            <md-card class="sidebar-card md-default-theme">
-                <md-card-header>
-                    <md-card-avatar>
-                        <img class="md-user-avatar" src="/img/sidebar_header.jpg">
-                        <fb-button></fb-button>
-                    </md-card-avatar>
-                    <md-card-header-text>
-                    </md-card-header-text>
-                </md-card-header>
-                <md-card-title>
-                </md-card-title>
-            </md-card>
-            <md-menu-divider></md-menu-divider>
+        <md-content layout-fill>
+            <log-in-card></log-in-card>
             <md-menu-content>
                 <md-menu-item ui-sref="places" >
                     <md-button class="md-primary">

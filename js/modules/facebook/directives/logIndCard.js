@@ -3,11 +3,11 @@
 define([
     '../module'
 ], function (module) {
-    module.directive('fbButton', function () {
+    module.directive('logInCard', function () {
         return {
             restrict: "E",
             replace: false,
-            templateUrl: "partials/facebook/fbButton.html",
+            templateUrl: "partials/facebook/logInCard.html",
             controller: 'FBButtonCtrl',
             controllerAs: 'ctrl',
             link: function (scope, element, attrs) {

@@ -1,7 +1,7 @@
 'use strict';
 
 define([
-    './directives/FBButton',
+    './directives/logIndCard',
     './services/AuthFBService',
     './services/FBStorageService',
     './services/LogInFacebookService',
