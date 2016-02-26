@@ -87,32 +87,6 @@
                                     Comments:
                                 </h3>
                             </div>
-                            <div layout="row" layout-align="center center">
-                                <div class="column">
-                                    <md-content class="list-dialog-big">
-                                        <md-list-item class="md-3-line md-long-text fade"
-                                                      ng-repeat="comment in tip.comments">
-                                                <img ng-src="{{comment.user.facebookProfilePhotoUrl}}"
-                                                     class="md-avatar"/>
-                                                <div class="md-list-item-text">
-                                                    <md-button class="md-primary"
-                                                               ng-href="{{comment.user.facebookProfileUrl}}"
-                                                               target="_blank">
-                                                        {{comment.user.name}}
-                                                    </md-button>
-                                                    <p>
-                                                        {{comment.commentText}}
-                                                    </p>
-                                                    <div class="fade" ng-if="comment.user.facebookUserId == facebookUserId">
-                                                        <md-button class="md-warn" ng-click="deleteComment(comment.id)">
-                                                            <i class="material-icons">delete</i>
-                                                        </md-button>
-                                                    </div>
-                                                </div>
-                                        </md-list-item>
-                                    </md-content>
-                                </div>
-                            </div>
                             <div layout="row">
                                 <md-input-container flex>
                                     <label>Comment</label>
@@ -125,6 +99,30 @@
                                            ng-click="addComment(comment); comment = undefined;">
                                     <i class="material-icons">comment</i>
                                 </md-button>
+                            </div>
+                            <div layout="row" layout-align="center center">
+                                <div class="column">
+                                    <md-list-item class="md-3-line md-long-text fade"
+                                                  ng-repeat="comment in tip.comments">
+                                        <img ng-src="{{comment.user.facebookProfilePhotoUrl}}"
+                                             class="md-avatar"/>
+                                        <div class="md-list-item-text">
+                                            <md-button class="md-primary"
+                                                       ng-href="{{comment.user.facebookProfileUrl}}"
+                                                       target="_blank">
+                                                {{comment.user.name}}
+                                            </md-button>
+                                            <p>
+                                                {{comment.commentText}}
+                                            </p>
+                                            <div class="fade" ng-if="comment.user.facebookUserId == facebookUserId">
+                                                <md-button class="md-warn" ng-click="deleteComment(comment.id)">
+                                                    <i class="material-icons">delete</i>
+                                                </md-button>
+                                            </div>
+                                        </div>
+                                    </md-list-item>
+                                </div>
                             </div>
                         </div>
                     </md-content>
