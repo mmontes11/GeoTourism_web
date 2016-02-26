@@ -22,14 +22,12 @@ body {
 }
 
 @media screen and (max-width: 760px){
-
     .sidebar-card {
         background-image: url('/img/sidebar_header.jpg');
         background-size: cover;
         margin:0;
         height:50%;
     }
-
 }
 
 .text-white {
@@ -46,6 +44,10 @@ body {
 
 .map-overlay {
     z-index: 20;
+}
+
+.leaflet-top {
+    z-index: 50;
 }
 
 .formLogLogIn {
@@ -245,7 +247,7 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, m
     position: absolute;
     bottom: 0;
     margin-left: 90%;
-    margin-bottom: 2%;
+    margin-bottom: 5%;
 }
 
 @media screen and (max-width: 760px){
@@ -253,7 +255,7 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, m
         position: absolute;
         bottom: 0;
         margin-left: 75%;
-        margin-bottom: 2%;
+        margin-bottom: 8%;
     }
 }
 

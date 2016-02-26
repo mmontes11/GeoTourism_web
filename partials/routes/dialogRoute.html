@@ -12,9 +12,9 @@
     </md-toolbar>
     <md-dialog-content class="md-dialog-content">
         <div ng-show="!edit">
-            <md-content class="md-padding" >
-                <div layout="row" layout-sm="column" layout-align="center center">
-                    <div layout="column" layout-align="center center" flex="50">
+            <md-content class="md-padding">
+                <div layout="row" layout-sm="column" layout-align="center center" flex layout-padding>
+                    <div layout="column" layout-align="center center" flex-gt-sm="50">
                         <div layout="row" layout-align="center center" ng-if="route.travelMode">
                             <h3 class="md-headline">
                                 Travel Mode:
@@ -22,12 +22,11 @@
                             <span flex="5"></span>
                             <i class="material-icons">{{route.travelMode | travelModeIcon}}</i>
                         </div>
-                        <div layout="row" layout-align="center center" ng-if="isAuthFB()">
+                        <div layout="column" layout-align="center center" ng-if="isAuthFB()">
                             <h3 class="md-headline">
                                 Creator:
                             </h3>
-                            <span flex="5"></span>
-                            <div layout="row">
+                            <div layout="row" layout-align="center center">
                                 <md-list-item class="fade">
                                     <img ng-src="{{route.creator.facebookProfilePhotoUrl}}" class="md-avatar"/>
                                 </md-list-item>
@@ -38,12 +37,14 @@
                                 </md-button>
                             </div>
                         </div>
-                        <md-button class="md-primary" layout="row" ng-href="{{route.googleMapsUrl}}" target="_blank">
+                        <span flex="5"></span>
+                        <md-button class="md-primary" layout="row" ng-href="{{route.googleMapsUrl}}"
+                                   target="_blank">
                             <i class="material-icons">map</i>
                             Google Maps
                         </md-button>
                     </div>
-                    <div layout="column" layout-align="center center" flex="50">
+                    <div layout="column" layout-align="center center" flex-gt-sm="50">
                         <div layout="row">
                             <h3 class="md-headline">
                                 Places:
@@ -86,7 +87,8 @@
         <md-button class="md-primary" ng-if="!edit" ng-click="enableEdit()">
             <i class="material-icons">edit</i>
         </md-button>
-        <md-button class="md-primary" ng-if="edit && formValidAndDirty(formRoute)" ng-disabled="formRoute.$invalid || route.tips.length < 2"
+        <md-button class="md-primary" ng-if="edit && formValidAndDirty(formRoute)"
+                   ng-disabled="formRoute.$invalid || route.tips.length < 2"
                    ng-click="saveChanges()">
             <i class="material-icons">save</i>
         </md-button>
