@@ -1,6 +1,6 @@
 {
   "firebase": "geotourism11",
-  "public": ".",
+  "public": "dist",
   "ignore": [
     "firebase.json",
     "**/.*",
