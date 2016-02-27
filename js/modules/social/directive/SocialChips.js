@@ -11,7 +11,7 @@ define([
             scope: {
                 friends: "="
             },
-            link: function(scope,element,attrs){
+            link: function(scope){
                 scope.selectedFriends = [];
                 scope.$watch('friends', function(friends){
                     if (angular.isDefined(friends)){
@@ -27,10 +27,12 @@ define([
                     }
                 });
                 scope.$on('socialChips.reset', function(event,value){
-                    scope.selectedFriends = [];
+                    scope.selectedFriends = value;
                 });
                 scope.querySearch =  function(query) {
-                    return query ? scope.allFriends.filter(scope.createFilterFor(query)) : [];
+                    var result = query ? scope.allFriends.filter(scope.createFilterFor(query)) : [];
+                    result = result.length == 0? scope.allFriends : result;
+                    return result;
                 };
                 scope.createFilterFor = function(query){
                     return function filterFn(friend) {

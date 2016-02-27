@@ -26,7 +26,9 @@ define([
                 }
             }
             function querySearch(query) {
-                return query ? lowerItems.filter(createFilterFor(query)) : [];
+                var result = query ? lowerItems.filter(createFilterFor(query)) : [];
+                result = result.length == 0? lowerItems : result;
+                return result;
             }
 
             function createFilterFor(query) {

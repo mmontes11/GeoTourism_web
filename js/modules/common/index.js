@@ -7,7 +7,7 @@ define([
     './services/DialogService',
     './services/ValidationService',
     './controllers/MainLayoutCtrl',
-    './controllers/ChipsController',
+    './controllers/ChipsCtrl',
     './directives/FAB',
     './directives/UploadPhoto',
     './directives/Chips',
