@@ -204,7 +204,6 @@ define([
                 $scope.$broadcast('socialChips.reset',[]);
             };
 
-
             var findLayer = function (layers, customFeature) {
                 var layer = _.filter(layers, function (layer) {
                     return layer.customFeature.id == customFeature.id && layer.customFeature.geom == customFeature.geom;
@@ -224,7 +223,12 @@ define([
                     $scope.partialRouteGeoms.push(layerRoute.customFeature.geom);
                 }
                 var TIPLayers = _.map(route.tips, function (tip) {
-                    return findLayer($scope.boundingboxlayers.getLayers(), tip);
+                    var layer = findLayer($scope.boundingboxlayers.getLayers(), tip);
+                    if (!angular.isDefined(layer)){
+                        layer = FeatureService.feature2layer(tip);
+                        layer["customFeature"] = tip;
+                    }
+                    return layer;
                 });
                 angular.forEach(TIPLayers, function (TIPLayer) {
                     var customIcon = FeatureStyleService.getMarkerIcon(TIPLayer.customFeature.icon, 'green');
