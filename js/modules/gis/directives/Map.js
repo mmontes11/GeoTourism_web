@@ -37,8 +37,10 @@ define([
                 };
 
                 map.locate({
+                    watch: true,
                     locate: true,
                     setView: true,
+                    maxZoom: 10,
                     enableHighAccuracy: true
                 });
 

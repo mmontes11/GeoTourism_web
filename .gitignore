@@ -18,4 +18,4 @@ dist
 npm-debug.log
 .idea
 
-js/config/privateConfig.js
+js/config/privateConstants.js

@@ -2,7 +2,7 @@
 
 define([
     '../app',
-    './privateConfig'
+    './privateConstants'
 ], function(app,privateConfig){
     app.constant('Config', {
         API_ROOT_URL: 'http://localhost:9090',
