@@ -3,5 +3,5 @@
 define([
     'angular'
 ], function(angular){
-    return angular.module('app.social',[]);
+    return angular.module('app.stats',[]);
 });

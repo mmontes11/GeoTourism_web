@@ -13,7 +13,7 @@ define([
                 onRatingSelect: '&?',
                 readonly: '=?'
             },
-            link: function(scope, element, attributes) {
+            link: function(scope) {
                 if (scope.max == undefined) {
                     scope.max = 5;
                 }
@@ -24,7 +24,7 @@ define([
                             filled: i < scope.rating
                         });
                     }
-                };
+                }
                 scope.toggle = function(index) {
                     if (scope.readonly == undefined || scope.readonly === false){
                         scope.rating = index + 1;

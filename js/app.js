@@ -14,9 +14,11 @@ define([
     './modules/gis/index',
     './modules/wikipedia/index',
     './modules/facebook/index',
-    './modules/social/index'
+    './modules/social/index',
+    './modules/stats/index'
 ], function(angular){
-    return  angular.module('app', ['app.common','app.admin','app.places','app.routes','app.gis','app.wikipedia','app.facebook', 'app.social',
-                                    'ngMaterial','ngResource','ngAnimate','as.sortable','ui.router']);
+    return  angular.module('app', ['app.common','app.admin','app.places','app.routes','app.gis','app.wikipedia',
+                                    'app.facebook', 'app.social', 'app.stats', 'ngMaterial','ngResource','ngAnimate',
+                                    'as.sortable','ui.router']);
 });
 

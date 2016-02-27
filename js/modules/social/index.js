@@ -2,8 +2,8 @@
 
 define([
     './services/User',
-    './directive/Favourite',
-    './directive/PeopleSelector',
-    './directive/Rating',
-    './directive/SocialChips'
+    './directives/Favourite',
+    './directives/PeopleSelector',
+    './directives/Rating',
+    './directives/SocialChips'
 ],function(){});

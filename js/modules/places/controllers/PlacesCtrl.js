@@ -219,7 +219,11 @@ define([
             };
 
             $scope.addStats = function () {
-                $scope.statsEnabled = true;
+                DialogService.showStatsDialog()
+                    .then(function(metricID){
+                        console.log(metricID);
+                        $scope.statsEnabled = true;
+                    });
             };
 
             $scope.clearStats = function () {

@@ -263,6 +263,10 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, m
     min-width: 50%;
 }
 
+.mini-dialog {
+    min-width: 20%;
+}
+
 .dialog-route {
     min-width: 30%;
 }
