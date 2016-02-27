@@ -10,8 +10,7 @@ define([
             templateUrl: 'partials/social/peopleSelector.html',
             scope: {
                 icon: "@",
-                iconclass: "@",
-                person: "="
+                iconclass: "@"
             },
             link: function(scope) {
                 scope.people = [
@@ -29,7 +28,9 @@ define([
                         scope.$emit('peopleSelector.value',newVal);
 
                     }
-                    scope.person = newVal;
+                });
+                scope.$on('peopleSelector.reset',function(event,value){
+                    scope.personSelected = value;
                 });
             }
         };

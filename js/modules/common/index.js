@@ -12,5 +12,6 @@ define([
     './directives/UploadPhoto',
     './directives/Chips',
     './directives/FiltersHandler',
-    './filters/PlusLessIncon'
+    './filters/PlusLessIncon',
+    './filters/ShowHide'
 ], function(){});

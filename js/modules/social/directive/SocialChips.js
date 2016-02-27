@@ -26,6 +26,9 @@ define([
                         scope.$emit('socialChips.selectedFriends', newVal);
                     }
                 });
+                scope.$on('socialChips.reset', function(event,value){
+                    scope.selectedFriends = [];
+                });
                 scope.querySearch =  function(query) {
                     return query ? scope.allFriends.filter(scope.createFilterFor(query)) : [];
                 };

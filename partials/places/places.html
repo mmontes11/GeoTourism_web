@@ -1,13 +1,29 @@
-<map boundschanged='boundschanged' locationclicked="locationclicked" boundingboxfeatures='boundingboxfeatures' boundingboxlayers="boundingboxlayers" layerclicked='layerclicked'>
+<map boundschanged='boundschanged' locationclicked="locationclicked" boundingboxfeatures='boundingboxfeatures'
+     boundingboxlayers="boundingboxlayers" layerclicked='layerclicked'>
     <md-content class="md-padding map-overlay">
-        <filters-handler filters-enabled="filtersEnabled" ng-show="!allowAddTIPs"></filters-handler>
-        <div class="fade" layout="row" layout-sm="column" layout-align="center center" ng-if="!allowAddTIPs && filtersEnabled">
+        <div layout="row" layout-align="center center" ng-show="!allowAddTIPs">
+            <filters-handler filters-enabled="filtersEnabled"></filters-handler>
+            <md-button class="md-warn" ng-click="clearFilters()" ng-show="!filtersEmpty">
+                <md-tooltip md-direction="bottom">
+                    Clear Filters
+                </md-tooltip>
+                <i class="material-icons">clear</i><i class="fa fa-filter btn-icon"></i>
+            </md-button>
+            <md-button class="md-warn" ng-click="clearStats()" ng-show="statsEnabled">
+                <md-tooltip md-direction="bottom">
+                    Clear Stats
+                </md-tooltip>
+                <i class="material-icons">clear</i><i class="material-icons btn-icon">insert_chart</i>
+            </md-button>
+        </div>
+        <div class="fade" layout="row" layout-sm="column" layout-align="center center"
+             ng-show="!allowAddTIPs && filtersEnabled">
+            <people-selector class="fade" icon="favorite" iconclass="favorite" ng-show="isAuthFB()"></people-selector>
+            <social-chips class="fade" ng-show="isAuthFB() && favouritedBy == 1" friends="friends"></social-chips>
             <chips placeholder="CITY ..." items="cities" selected="selectedCities"></chips>
             <chips placeholder="TYPE ..." items="types" selected="selectedTypes"></chips>
-            <people-selector class="fade" icon="favorite" iconclass="favorite" ng-if="isAuthFB()"></people-selector>
-            <social-chips class="fade" ng-if="isAuthFB() && favouritedBy == 1" friends="friends"></social-chips>
         </div>
-        <div class="fade" layout="row" layout-align="center center" ng-if="allowAddTIPs">
+        <div class="fade" layout="row" layout-align="center center" ng-show="allowAddTIPs">
             <md-button class="md-warn" ng-click="finishAddTIPs()">
                 <i class="material-icons">cancel</i>
             </md-button>
@@ -18,12 +34,22 @@
     </md-content>
 </map>
 <div layout="row" layout-align="center center" class="fab-position">
-    <fab class="fade" ng-show="isAuthenticated() && !loading">
+    <fab class="fade" ng-if="isAuthenticated() || isAuthFB()">
         <md-fab-actions>
-            <md-button class="md-fab md-raised md-mini" ng-click="addTIP()">
+            <md-button class="md-fab md-raised md-mini" ng-show="isAuthenticated() && !loading" ng-click="addTIP()">
+                <md-tooltip md-direction="left">
+                    Add Place
+                </md-tooltip>
                 <i class="material-icons">place</i>
+            </md-button>
+            <md-button class="md-fab md-raised md-mini" ng-show="isAuthFB() && !loading" ng-click="addStats()">
+                <md-tooltip md-direction="left">
+                    Add Stats
+                </md-tooltip>
+                <i class="material-icons">insert_chart</i>
             </md-button>
         </md-fab-actions>
     </fab>
-    <md-progress-circular class="fade" ng-show="loading" md-mode="indeterminate" md-diameter="75"></md-progress-circular>
+    <md-progress-circular class="fade" ng-show="loading" md-mode="indeterminate"
+                          md-diameter="75"></md-progress-circular>
 </div>

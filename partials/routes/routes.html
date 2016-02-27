@@ -2,10 +2,17 @@
 <map boundschanged='boundschanged' boundingboxfeatures='boundingboxfeatures' boundingboxlayers="boundingboxlayers"
      permanentfeatures="permanentfeatures" permanentlayers="permanentlayers" layerclicked='layerclicked'>
     <md-content class="md-padding map-overlay">
-        <filters-handler class="fade" filters-enabled="filtersEnabled" ng-show="!allowAddRoutes"></filters-handler>
+        <div layout="row" layout-align="center center" ng-show="!allowAddRoutes">
+            <filters-handler filters-enabled="filtersEnabled"></filters-handler>
+            <md-button class="md-warn" ng-click="clearFilters()" ng-show="!filtersEmpty">
+                <md-tooltip md-direction="bottom">
+                    Clear Filters
+                </md-tooltip>
+                <i class="material-icons">clear</i><i class="fa fa-filter btn-icon"></i>
+            </md-button>
+        </div>
         <div class="fade" layout="row" layout-sm="column" layout-align="center center"
-             ng-if="!allowAddRoutes && filtersEnabled">
-            <chips placeholder="CITY ..." items="cities" selected="selectedCities"></chips>
+             ng-show="!allowAddRoutes && filtersEnabled">
             <div layout="row">
                 <div layout="column">
                     <md-checkbox class="md-primary" ng-repeat="travelMode in travelModes"
@@ -16,9 +23,10 @@
                 </div>
                 <people-selector class="fade" icon="add_circle" iconclass="cyan" ng-show="isAuthFB()"></people-selector>
             </div>
-            <social-chips class="fade" ng-if="isAuthFB() && createdBy == 1" friends="friends"></social-chips>
+            <social-chips class="fade" ng-show="isAuthFB() && createdBy == 1" friends="friends"></social-chips>
+            <chips placeholder="CITY ..." items="cities" selected="selectedCities"></chips>
         </div>
-        <div class="fade" layout="row" layout-align="center center" ng-if="allowAddRoutes">
+        <div class="fade" layout="row" layout-align="center center" ng-show="allowAddRoutes">
             <div layout-sm="column">
                 <md-button class="md-primary fade" ng-if="selectectedTIPLayers.length > 1"
                            ng-click="createOrUpdateRoute()">
@@ -46,6 +54,9 @@
     <fab class="fade" ng-show="isAuthFB() && !loading">
         <md-fab-actions>
             <md-button class="md-fab md-raised md-mini" ng-click="enableAddRoutes()">
+                <md-tooltip md-direction="left">
+                    Add Route
+                </md-tooltip>
                 <i class="material-icons">directions</i>
             </md-button>
         </md-fab-actions>

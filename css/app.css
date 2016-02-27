@@ -109,7 +109,7 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, m
     background-color: rgba(0, 188, 212, 0.4);
 }
 
-.error-message,.favorite,.close,.cancel {
+.error-message,.favorite,.close,.cancel,.clear {
     color: rgb(244,67,54);
 }
 
@@ -246,8 +246,8 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, m
 .fab-position {
     position: absolute;
     bottom: 0;
-    margin-left: 90%;
-    margin-bottom: 5%;
+    margin-left: 88%;
+    margin-bottom: 8%;
 }
 
 @media screen and (max-width: 760px){
@@ -255,7 +255,7 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value, m
         position: absolute;
         bottom: 0;
         margin-left: 75%;
-        margin-bottom: 8%;
+        margin-bottom: 10%;
     }
 }
 

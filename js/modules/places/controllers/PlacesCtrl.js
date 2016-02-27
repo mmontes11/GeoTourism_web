@@ -18,6 +18,7 @@ define([
                 return FBStorageService.getUserID();
             };
             $scope.filtersEnabled = false;
+            $scope.filtersEmpty = true;
             $scope.types = TIP.getTypes();
             $scope.selectedTypes = [];
             $scope.cities = Cities.query();
@@ -26,6 +27,7 @@ define([
             $scope.friends = [];
             $scope.allowAddTIPs = false;
             $scope.loading = false;
+            $scope.statsEnabled = false;
 
             $scope.addTIP = function () {
                 $scope.displayHelpMessage();
@@ -47,7 +49,10 @@ define([
             });
             $scope.$watch('isAuthFB() && getFBUserId()', function (newVal) {
                 if (angular.isDefined(newVal) && newVal) {
-                    $scope.friends = User.getFriends();
+                    User.getFriends().$promise
+                        .then(function(friends){
+                            $scope.friends = friends;
+                        });
                 }
             });
 
@@ -63,12 +68,32 @@ define([
             });
             $scope.$on('peopleSelector.value', function (event, favouritedBy) {
                 $scope.favouritedBy = favouritedBy;
-                requestFeatures();
             });
             $scope.$on('socialChips.selectedFriends', function (event, selectedFriends) {
                 $scope.selectedFriends = selectedFriends;
+            });
+            $scope.$watch('favouritedBy', function () {
                 requestFeatures();
             });
+            $scope.$watchCollection('selectedFriends', function () {
+                requestFeatures();
+            });
+
+            $scope.$watch('selectedFriends.length || selectedCities.length  || selectedTypes.length || favouritedBy', function () {
+                $scope.filtersEmpty =
+                    !(angular.isDefined($scope.favouritedBy) || ($scope.selectedFriends.length > 0) ||
+                    ($scope.selectedCities.length > 0) || ($scope.selectedTypes.length > 0));
+            });
+
+            $scope.clearFilters = function () {
+                $scope.favouritedBy = undefined;
+                $scope.selectedFriends = [];
+                $scope.selectedCities = [];
+                $scope.selectedTypes = [];
+
+                $scope.$broadcast('peopleSelector.reset',undefined);
+                $scope.$broadcast('socialChips.reset',[]);
+            };
 
             var requestFeatures = function () {
                 var types = _.map($scope.selectedTypes, function (type) {
@@ -192,6 +217,15 @@ define([
                     });
 
             };
+
+            $scope.addStats = function () {
+                $scope.statsEnabled = true;
+            };
+
+            $scope.clearStats = function () {
+                $scope.statsEnabled = false;
+            };
+
 
             $scope.$watch('layerclicked', function (layerClicked) {
                 if (angular.isDefined(layerClicked)) {

@@ -1,10 +1,5 @@
-<div layout="row" layout-align="center center">
-    <md-radio-group class="custom-selector" ng-model="personSelected">
-        <md-radio-button class="md-primary" ng-value="person.value" ng-repeat="person in people">
-            <i class="material-icons {{iconclass}}">{{icon}}</i> by {{person.text}}
-        </md-radio-button>
-    </md-radio-group>
-    <md-button ng-show="personSelected != undefined" ng-click="personSelected = undefined">
-        <i class="material-icons close">close</i><i class="material-icons">people</i>
-    </md-button>
-</div>
+<md-radio-group class="custom-selector" ng-model="personSelected">
+    <md-radio-button class="md-primary" ng-value="person.value" ng-repeat="person in people">
+        <i class="material-icons {{iconclass}}">{{icon}}</i> by {{person.text}}
+    </md-radio-button>
+</md-radio-group>

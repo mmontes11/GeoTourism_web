@@ -14,7 +14,6 @@ define([
             $scope.getFBUserId = function () {
                 return FBStorageService.getUserID();
             };
-            $scope.filtersEnabled = false;
             TravelModes.query().$promise
                 .then(function (travelModes) {
                     $scope.travelModes = travelModes;
@@ -23,6 +22,8 @@ define([
                         resetRoute: true
                     };
                 });
+            $scope.filtersEnabled = false;
+            $scope.filtersEmpty = true;
             $scope.selectedTravelModes = [];
             $scope.cities = Cities.query();
             $scope.selectedCities = [];
@@ -140,27 +141,11 @@ define([
                             });
                     }
                     $scope.allowAddRoutes = false;
-                    $scope.friends = User.getFriends();
+                    User.getFriends().$promise
+                        .then(function(friends){
+                            $scope.friends = friends;
+                        });
                 }
-            });
-
-            $scope.$watchCollection('selectedCities', function (newVal, oldVal) {
-                if (ValidationService.arrayChanged(newVal, oldVal)) {
-                    requestFeatures();
-                }
-            });
-            $scope.$watchCollection('selectedTravelModes', function (newVal, oldVal) {
-                if (ValidationService.arrayChanged(newVal, oldVal)) {
-                    requestFeatures();
-                }
-            });
-            $scope.$on('favouriteSelector.createdBy', function (event, createdBy) {
-                $scope.createdBy = createdBy;
-                requestFeatures();
-            });
-            $scope.$on('socialChips.selectedFriends', function (event, selectedFriends) {
-                $scope.selectedFriends = selectedFriends;
-                requestFeatures();
             });
 
             $scope.$watch('boundschanged', function (bounds, boundsOld) {
@@ -169,7 +154,6 @@ define([
                     requestFeatures();
                 }
             });
-
             $scope.$watch('travelModePreference', function (newVal, oldVal) {
                 if (angular.isDefined(newVal) && angular.isDefined(oldVal) && newVal != oldVal) {
                     if (newVal.resetRoute == false) {
@@ -181,15 +165,45 @@ define([
                     }
                 }
             }, true);
-
+            $scope.$watchCollection('selectedCities', function (newVal, oldVal) {
+                if (ValidationService.arrayChanged(newVal, oldVal)) {
+                    requestFeatures();
+                }
+            });
+            $scope.$watchCollection('selectedTravelModes', function (newVal, oldVal) {
+                if (ValidationService.arrayChanged(newVal, oldVal)) {
+                    requestFeatures();
+                }
+            });
             $scope.$on('peopleSelector.value', function (event, createdBy) {
                 $scope.createdBy = createdBy;
-                requestFeatures();
             });
             $scope.$on('socialChips.selectedFriends', function (event, selectedFriends) {
                 $scope.selectedFriends = selectedFriends;
+            });
+            $scope.$watch("createdBy",function(){
                 requestFeatures();
             });
+            $scope.$watchCollection("selectedFriends",function(){
+                requestFeatures();
+            });
+
+            $scope.$watch('selectedFriends.length || selectedCities.length  || selectedTravelModes.length || createdBy', function () {
+                $scope.filtersEmpty =
+                    !(angular.isDefined($scope.createdBy) || ($scope.selectedFriends.length > 0) ||
+                    ($scope.selectedCities.length > 0) || ($scope.selectedTravelModes.length > 0));
+            });
+
+            $scope.clearFilters = function () {
+                $scope.createdBy = undefined;
+                $scope.selectedFriends = [];
+                $scope.selectedCities = [];
+                $scope.selectedTravelModes = [];
+
+                $scope.$broadcast('peopleSelector.reset',undefined);
+                $scope.$broadcast('socialChips.reset',[]);
+            };
+
 
             var findLayer = function (layers, customFeature) {
                 var layer = _.filter(layers, function (layer) {

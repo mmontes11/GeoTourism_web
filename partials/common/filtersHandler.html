@@ -1,5 +1,8 @@
 <div layout="row" layout-align="center center">
-    <md-button ng-class="filtersEnabled? 'md-warn' : 'md-primary'" ng-click="toggleFilters();$event.stopPropagation()">
+    <md-button class="md-primary" ng-click="toggleFilters();$event.stopPropagation()">
+        <md-tooltip md-direction="bottom">
+            {{!filtersEnabled | showHide}} Filters
+        </md-tooltip>
         <i class="material-icons">{{!filtersEnabled | plusLessIcon}}</i><i class="fa fa-filter btn-icon"></i>
     </md-button>
 </div>
