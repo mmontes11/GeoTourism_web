@@ -30,6 +30,10 @@ body {
     }
 }
 
+.main {
+    height: 100%;
+}
+
 .text-white {
     color: #FFFFFF;
 }
