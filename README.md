@@ -14,8 +14,8 @@ Its architecture consists in the following parts:
 ### Technology Stack
 * [AngularJS](https://angularjs.org/)
 * [Angular Material](https://material.angularjs.org)
-* [Material Design Lite](http://www.getmdl.io/)
 * [Leaflet](http://leafletjs.com/)
 * [RequireJS](http://requirejs.org/)
 * [Bower](http://bower.io/)
 * [npm](https://www.npmjs.com/)
+* [Grunt](http://gruntjs.com/)
