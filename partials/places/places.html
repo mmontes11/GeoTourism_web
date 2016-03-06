@@ -1,5 +1,5 @@
 <map boundschanged='boundschanged' locationclicked="locationclicked" boundingboxfeatures='boundingboxfeatures'
-     boundingboxlayers="boundingboxlayers" layerclicked='layerclicked'>
+     boundingboxlayers="boundingboxlayers" layerclicked='layerclicked' heatdata="heatdata">
     <md-content class="md-padding map-overlay">
         <div layout="row" layout-align="center center" ng-show="!allowAddTIPs">
             <filters-handler filters-enabled="filtersEnabled"></filters-handler>
@@ -9,7 +9,7 @@
                 </md-tooltip>
                 <i class="material-icons">clear</i><i class="fa fa-filter btn-icon"></i>
             </md-button>
-            <md-button class="md-warn" ng-click="clearStats()" ng-show="statsEnabled">
+            <md-button class="md-warn" ng-click="clearStats()" ng-show="heatdata && heatdata.length > 0">
                 <md-tooltip md-direction="bottom">
                     Clear Stats
                 </md-tooltip>

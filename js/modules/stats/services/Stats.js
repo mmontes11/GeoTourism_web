@@ -21,8 +21,7 @@ define([
                     url: Config.API_ROOT_URL + '/social/stats/metric/:id',
                     params: {
                         id: '@id'
-                    },
-                    isArray: true
+                    }
                 }
             }
         );

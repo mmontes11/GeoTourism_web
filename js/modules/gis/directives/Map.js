@@ -4,7 +4,8 @@ define([
     '../module',
     'underscore',
     'leaflet',
-    'leaflet-providers'
+    'leaflet-providers',
+    'leaflet-heat'
 ], function (module, _, L) {
     module.directive('map', ['Config', 'FeatureService', function (Config, FeatureService) {
         return {
@@ -19,17 +20,24 @@ define([
                 boundingboxlayers: "=",
                 permanentfeatures: "=",
                 permanentlayers: "=",
-                layerclicked: "="
+                layerclicked: "=",
+                heatdata: "="
             },
             link: function (scope) {
 
                 var tileLayer = L.tileLayer.provider(Config.TILE_LAYER);
+                var heatLayer = L.heatLayer([],{
+                    minOpacity: 0.5,
+                    max: 1,
+                    radius: 50
+                });
                 scope.boundingboxlayers = L.layerGroup([]);
                 scope.permanentlayers = L.layerGroup([]);
+                scope.heatlayers = L.layerGroup([]);
 
                 var map = L.map('map', {
                     minZoom: 5,
-                    layers: [tileLayer, scope.boundingboxlayers, scope.permanentlayers]
+                    layers: [tileLayer, heatLayer, scope.boundingboxlayers, scope.permanentlayers]
                 });
 
                 var fireBoundsChanged = function () {
@@ -108,6 +116,12 @@ define([
                             var layer = feature2layer(feature);
                             scope.permanentlayers.addLayer(layer);
                         });
+                    }
+                });
+
+                scope.$watchCollection('heatdata', function(heatdata){
+                    if (angular.isDefined(heatdata)){
+                        heatLayer.setLatLngs(heatdata);
                     }
                 });
             }

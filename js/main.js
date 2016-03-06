@@ -21,6 +21,7 @@ require.config({
         leaflet: '../bower_components/leaflet/dist/leaflet',
         'leaflet-providers': '../bower_components/leaflet-providers/leaflet-providers',
         'leaflet-markers': '../bower_components/leaflet-markers/src/leaflet.extra-markers',
+        'leaflet-heat': '../bower_components/leaflet.heat/dist/leaflet-heat',
         wellknown: '../bower_components/wellknown/wellknown',
         'please-wait': '../bower_components/please-wait/build/please-wait.min'
     },
@@ -75,6 +76,9 @@ require.config({
             deps: ['leaflet']
         },
         'leaflet-markers': {
+            deps: ['leaflet']
+        },
+        'leaflet-heat': {
             deps: ['leaflet']
         }
     },
