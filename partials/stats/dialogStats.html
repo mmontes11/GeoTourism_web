@@ -11,9 +11,24 @@
         </div>
     </md-toolbar>
     <md-dialog-content class="md-dialog-content">
+        <form name="statsForm" novalidate>
+            <div layout="column">
+                <md-input-container>
+                    <label>Metric</label>
+                    <md-select name="metric" ng-model="metricID" ng-required="true">
+                        <md-option ng-repeat="metric in metrics" value="{{metric.id}}">
+                            {{metric.name}}
+                        </md-option>
+                    </md-select>
+                    <div ng-messages="statsForm.metric.$error" role="alert">
+                        <div ng-message="required" class="my-message">Mandatory field</div>
+                    </div>
+                </md-input-container>
+            </div>
+        </form>
     </md-dialog-content>
     <div class="md-actions" layout="row">
-        <md-button class="md-primary" ng-click="accept()">
+        <md-button class="md-primary" ng-disabled="statsForm.$invalid" ng-click="accept()">
             <i class="material-icons">done</i>
         </md-button>
         <md-button class="md-warn" ng-click="close()">

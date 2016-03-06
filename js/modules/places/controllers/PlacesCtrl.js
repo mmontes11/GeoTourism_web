@@ -3,9 +3,9 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('PlacesCtrl', ['$scope', '$q', 'FeatureService', 'Cities', 'City', 'TIPs', 'TIP', 'User',
+    module.controller('PlacesCtrl', ['$scope', '$q', 'FeatureService', 'Cities', 'City', 'TIPs', 'TIP', 'User', "Stats",
         'FBStorageService', 'AuthAdminService', 'AuthFBService', 'NotificationService', 'DialogService', 'ValidationService',
-        function ($scope, $q, FeatureService, Cities, City, TIPs, TIP, User,
+        function ($scope, $q, FeatureService, Cities, City, TIPs, TIP, User, Stats,
                   FBStorageService, AuthAdminService, AuthFBService, NotificationService, DialogService, ValidationService) {
 
             $scope.isAuthenticated = function () {
@@ -220,8 +220,19 @@ define([
 
             $scope.addStats = function () {
                 DialogService.showStatsDialog()
-                    .then(function(metricID){
-                        console.log(metricID);
+                    .then(function(statsResponse){
+                        console.log(statsResponse);
+                        Stats.getStats({
+                            id: statsResponse.metricID
+                        }).$promise.then(
+                            function(stats){
+
+                            }, function(response){
+                                if (response.status >= 400){
+                                    NotificationService.displayMessage("Stats not Available");
+                                }
+                            }
+                        );
                         $scope.statsEnabled = true;
                     });
             };

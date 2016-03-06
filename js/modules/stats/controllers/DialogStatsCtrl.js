@@ -3,12 +3,16 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('DialogStatsCtrl',['$scope','$mdDialog',function($scope,$mdDialog){
+    module.controller('DialogStatsCtrl',['$scope','$mdDialog','Stats',function($scope,$mdDialog,Stats){
         $scope.close = function(){
             $mdDialog.cancel();
         };
         $scope.accept = function(){
-            $mdDialog.hide(1);
+            var statsResponse = {
+                metricID: $scope.metricID
+            };
+            $mdDialog.hide(statsResponse);
         };
+        $scope.metrics = Stats.getMetrics();
     }]);
 });
