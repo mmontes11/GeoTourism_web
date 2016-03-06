@@ -27,7 +27,7 @@ define([
 
                 var tileLayer = L.tileLayer.provider(Config.TILE_LAYER);
                 var heatLayer = L.heatLayer([],{
-                    minOpacity: 0.5,
+                    maxZoom: 18,
                     max: 1,
                     radius: 50
                 });
@@ -37,6 +37,7 @@ define([
 
                 var map = L.map('map', {
                     minZoom: 5,
+                    maxZoom: 18,
                     layers: [tileLayer, heatLayer, scope.boundingboxlayers, scope.permanentlayers]
                 });
 
