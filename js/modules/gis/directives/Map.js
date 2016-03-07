@@ -5,8 +5,8 @@ define([
     'underscore',
     'leaflet',
     'leaflet-providers',
-    'leaflet-heat'
-], function (module, _, L) {
+    'leaflet-heatmap'
+], function (module, _, L, leafletProviders, HeatmapOverlay) {
     module.directive('map', ['Config', 'FeatureService', function (Config, FeatureService) {
         return {
             restrict: 'E',
@@ -24,21 +24,24 @@ define([
                 heatdata: "="
             },
             link: function (scope) {
-
-                var tileLayer = L.tileLayer.provider(Config.TILE_LAYER);
-                var heatLayer = L.heatLayer([],{
-                    maxZoom: 18,
-                    max: 1,
-                    radius: 50
-                });
                 scope.boundingboxlayers = L.layerGroup([]);
                 scope.permanentlayers = L.layerGroup([]);
                 scope.heatlayers = L.layerGroup([]);
 
+                var tileLayer = L.tileLayer.provider(Config.TILE_LAYER);
+                var heatMapLayer = new HeatmapOverlay({
+                    "radius": .0005,
+                    "maxOpacity": .5,
+                    "scaleRadius": true,
+                    "useLocalExtrema": true,
+                    latField: 'lat',
+                    lngField: 'lng',
+                    valueField: 'weight'
+                });
                 var map = L.map('map', {
                     minZoom: 5,
-                    maxZoom: 18,
-                    layers: [tileLayer, heatLayer, scope.boundingboxlayers, scope.permanentlayers]
+                    maxZoom: 20,
+                    layers: [tileLayer, heatMapLayer, scope.boundingboxlayers, scope.permanentlayers]
                 });
 
                 var fireBoundsChanged = function () {
@@ -120,9 +123,9 @@ define([
                     }
                 });
 
-                scope.$watchCollection('heatdata', function(heatdata){
-                    if (angular.isDefined(heatdata)){
-                        heatLayer.setLatLngs(heatdata);
+                scope.$watchCollection('heatdata', function (heatdata) {
+                    if (angular.isDefined(heatdata)) {
+                        heatMapLayer.setData(heatdata);
                     }
                 });
             }

@@ -224,10 +224,9 @@ define([
                         Stats.getStats({
                             id: statsResponse.metricID
                         }).$promise.then(
-                            function(res){
-                                var stats = res.stats;
-                                $scope.heatdata = stats;
-                                if (stats.length == 0){
+                            function(heatdata){
+                                $scope.heatdata = heatdata;
+                                if (heatdata.data.length == 0){
                                     NotificationService.displayMessage("Not enough data to show Stats");
                                 }
                             }, function(response){
@@ -240,7 +239,10 @@ define([
             };
 
             $scope.clearStats = function () {
-                $scope.heatdata = [];
+                $scope.heatdata = {
+                    max: 0,
+                    data: []
+                };
             };
 
 

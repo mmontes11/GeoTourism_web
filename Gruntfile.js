@@ -63,7 +63,7 @@ module.exports = function (grunt) {
         copy: {
             libraries: {
                 files: [
-                    {expand: true, src: ['bower_components/**/*'], dest: 'dist/', mode: true}
+                    {expand: true, src: ['bower_components/**/*','lib/**/*'], dest: 'dist/', mode: true}
                 ]
             },
             img: {
