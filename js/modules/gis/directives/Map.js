@@ -30,7 +30,7 @@ define([
 
                 var tileLayer = L.tileLayer.provider(Config.TILE_LAYER);
                 var heatMapLayer = new HeatmapOverlay({
-                    "radius": .0005,
+                    "radius": .005,
                     "maxOpacity": .5,
                     "scaleRadius": true,
                     "useLocalExtrema": true,
