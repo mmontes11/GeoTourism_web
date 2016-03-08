@@ -5,7 +5,8 @@ define([
     'underscore',
     'leaflet',
     'leaflet-providers',
-    'leaflet-heatmap'
+    'leaflet-heatmap',
+    'leaflet-markercluster'
 ], function (module, _, L, leafletProviders, HeatmapOverlay) {
     module.directive('map', ['Config', 'FeatureService', function (Config, FeatureService) {
         return {
@@ -24,9 +25,8 @@ define([
                 heatdata: "="
             },
             link: function (scope) {
-                scope.boundingboxlayers = L.layerGroup([]);
-                scope.permanentlayers = L.layerGroup([]);
-                scope.heatlayers = L.layerGroup([]);
+                scope.boundingboxlayers = L.markerClusterGroup();
+                scope.permanentlayers = L.layerGroup();
 
                 var tileLayer = L.tileLayer.provider(Config.TILE_LAYER);
                 var heatMapLayer = new HeatmapOverlay({

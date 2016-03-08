@@ -23,6 +23,7 @@ require.config({
         'leaflet-markers': '../bower_components/leaflet-markers/src/leaflet.extra-markers',
         'heatmap': '../lib/heatmap',
         'leaflet-heatmap': '../lib/leaflet-heatmap',
+        'leaflet-markercluster': '../bower_components/leaflet.markercluster/dist/leaflet.markercluster',
         wellknown: '../bower_components/wellknown/wellknown',
         'please-wait': '../bower_components/please-wait/build/please-wait.min'
     },
@@ -84,6 +85,9 @@ require.config({
         },
         'leaflet-heatmap': {
             deps: ['leaflet','heatmap']
+        },
+        'leaflet-markercluster': {
+            deps: ['leaflet']
         }
     },
     deps: ['bootstrap']

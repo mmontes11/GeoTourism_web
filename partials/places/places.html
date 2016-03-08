@@ -34,15 +34,15 @@
     </md-content>
 </map>
 <div layout="row" layout-align="center center" class="fab-position">
-    <fab class="fade" ng-if="isAuthenticated() || isAuthFB()">
+    <fab class="fade" ng-show="isAuthenticated() || isAuthFB() && !loading">
         <md-fab-actions>
-            <md-button class="md-fab md-raised md-mini" ng-show="isAuthenticated() && !loading" ng-click="addTIP()">
+            <md-button class="md-fab md-raised md-mini" ng-show="isAuthenticated()" ng-click="addTIP()">
                 <md-tooltip md-direction="left">
                     Add Place
                 </md-tooltip>
                 <i class="material-icons">place</i>
             </md-button>
-            <md-button class="md-fab md-raised md-mini" ng-show="isAuthFB() && !loading" ng-click="addStats()">
+            <md-button class="md-fab md-raised md-mini" ng-show="isAuthFB()" ng-click="addStats()">
                 <md-tooltip md-direction="left">
                     Add Stats
                 </md-tooltip>

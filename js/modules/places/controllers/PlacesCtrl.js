@@ -221,20 +221,18 @@ define([
             $scope.addStats = function () {
                 DialogService.showStatsDialog()
                     .then(function(statsResponse){
-                        Stats.getStats({
-                            id: statsResponse.metricID
-                        }).$promise.then(
-                            function(heatdata){
-                                $scope.heatdata = heatdata;
-                                if (heatdata.data.length == 0){
-                                    NotificationService.displayMessage("Not enough data to show Stats");
-                                }
-                            }, function(response){
-                                if (response.status >= 400){
-                                    NotificationService.displayMessage("Stats not Available");
-                                }
-                            }
-                        );
+                        activateLoading();
+                        return Stats.getStats({id: statsResponse.metricID}).$promise.finally(disableLoading);
+                    })
+                    .then(function(heatdata){
+                        $scope.heatdata = heatdata;
+                        if (heatdata.data.length == 0){
+                            NotificationService.displayMessage("Not enough data to show Stats");
+                        }
+                    }, function(response){
+                        if (response.status >= 400){
+                            NotificationService.displayMessage("Stats not Available");
+                        }
                     });
             };
 
