@@ -67,7 +67,7 @@ define([
                 var TIPIds = TIPIdsFromTIPLayers($scope.selectectedTIPLayers);
                 var editingRoute = $scope.editingRoute != undefined;
                 $scope.editingRoute = $scope.editingRoute || {};
-                DialogService.showCreateOrUpdateRouteDialog($scope.editingRoute,$scope.travelModePreference.selected, $scope.travelModes, TIPIds)
+                DialogService.showCreateOrUpdateRouteDialog($scope.editingRoute, $scope.travelModePreference.selected, $scope.travelModes, TIPIds)
                     .then(function (response) {
                         var route = response.route;
                         if (!response.changed || editingRoute) {
@@ -75,7 +75,7 @@ define([
                         }
                         $scope.resetRoute();
                         activateLoading();
-                        if (editingRoute){
+                        if (editingRoute) {
                             var patchPayload = {
                                 name: route.name,
                                 description: route.description,
@@ -83,8 +83,8 @@ define([
                                 tipIds: route.tipIds,
                                 lineStrings: route.lineStrings
                             };
-                            return Route.patch({id:route.id},patchPayload).$promise.finally(disableLoading);
-                        }else{
+                            return Route.patch({id: route.id}, patchPayload).$promise.finally(disableLoading);
+                        } else {
                             return Route.save(response.route).$promise.finally(disableLoading);
                         }
                     }, function () {
@@ -92,8 +92,8 @@ define([
                     })
                     .then(function () {
                         requestFeatures();
-                        var op = editingRoute? "updated" : "created";
-                        NotificationService.displayMessage("Route "+op+"!");
+                        var op = editingRoute ? "updated" : "created";
+                        NotificationService.displayMessage("Route " + op + "!");
                         $scope.allowAddRoutes = false;
                     }, function (response) {
                         if (response && response.status == 500) {
@@ -142,7 +142,7 @@ define([
                     }
                     $scope.allowAddRoutes = false;
                     User.getFriends().$promise
-                        .then(function(friends){
+                        .then(function (friends) {
                             $scope.friends = friends;
                         });
                 }
@@ -158,8 +158,8 @@ define([
                 if (angular.isDefined(newVal) && angular.isDefined(oldVal) && newVal != oldVal) {
                     if (newVal.resetRoute == false) {
                         $scope.travelModePreference.resetRoute = true;
-                    }else{
-                        if (newVal.selected != oldVal.selected){
+                    } else {
+                        if (newVal.selected != oldVal.selected) {
                             $scope.resetRoute();
                         }
                     }
@@ -181,17 +181,16 @@ define([
             $scope.$on('socialChips.selectedFriends', function (event, selectedFriends) {
                 $scope.selectedFriends = selectedFriends;
             });
-            $scope.$watch("createdBy",function(){
+            $scope.$watch("createdBy", function () {
                 requestFeatures();
             });
-            $scope.$watchCollection("selectedFriends",function(){
+            $scope.$watchCollection("selectedFriends", function () {
                 requestFeatures();
             });
 
             $scope.$watch('selectedFriends.length || selectedCities.length  || selectedTravelModes.length || createdBy', function () {
-                $scope.filtersEmpty =
-                    !(angular.isDefined($scope.createdBy) || ($scope.selectedFriends.length > 0) ||
-                    ($scope.selectedCities.length > 0) || ($scope.selectedTravelModes.length > 0));
+                $scope.filtersEmpty = !(angular.isDefined($scope.createdBy) || ($scope.selectedFriends.length > 0) ||
+                ($scope.selectedCities.length > 0) || ($scope.selectedTravelModes.length > 0));
             });
 
             $scope.clearFilters = function () {
@@ -200,8 +199,8 @@ define([
                 $scope.selectedCities = [];
                 $scope.selectedTravelModes = [];
 
-                $scope.$broadcast('peopleSelector.reset',undefined);
-                $scope.$broadcast('socialChips.reset',[]);
+                $scope.$broadcast('peopleSelector.reset', undefined);
+                $scope.$broadcast('socialChips.reset', []);
             };
 
             var findLayer = function (layers, customFeature) {
@@ -224,7 +223,7 @@ define([
                 }
                 var TIPLayers = _.map(route.tips, function (tip) {
                     var layer = findLayer($scope.boundingboxlayers.getLayers(), tip);
-                    if (!angular.isDefined(layer)){
+                    if (!angular.isDefined(layer)) {
                         layer = FeatureService.feature2layer(tip);
                         layer["customFeature"] = tip;
                     }
@@ -270,7 +269,7 @@ define([
                     });
             };
 
-            var checkSelectedTIPLayers = function(){
+            var checkSelectedTIPLayers = function () {
                 if ($scope.selectectedTIPLayers.length > 1) {
                     var TIPIds = TIPIdsFromTIPLayers($scope.selectectedTIPLayers);
                     var lastTIPIds = _.last(TIPIds, 2);
@@ -351,13 +350,19 @@ define([
                 }
             });
 
+            $scope.$watch('allowAddRoutes', function (allowAddRoutes) {
+                if (angular.isDefined(allowAddRoutes)) {
+                    requestFeatures();
+                }
+            });
+
             var requestFeatures = function () {
                 var cities = _.map($scope.selectedCities, function (city) {
                     return city.id;
                 });
                 var TIPParams = {
                     bounds: $scope.bounds,
-                    cities: cities
+                    cities: cities,
                 };
                 var RouteParams = {
                     bounds: $scope.bounds,
@@ -374,16 +379,30 @@ define([
                     }
                 }
 
-                $q.all({
-                    tips: TIPs.query(TIPParams).$promise,
-                    routes: Routes.query(RouteParams).$promise
-                }).then(function (features) {
-                    $scope.boundingboxfeatures = _.union(features.tips,features.routes);
-                }, function (response) {
-                    if (response.status == 500) {
-                        NotificationService.displayMessage("Error retrieving TIPS or Routes");
-                    }
-                });
+                var routes = [];
+                Routes.query(RouteParams).$promise
+                    .then(function (resultRoutes) {
+                        routes = resultRoutes;
+                        if (!$scope.allowAddRoutes) {
+                            TIPParams["routes"]= _.map(resultRoutes, function (route) {
+                                return route.id;
+                            });
+                        }
+                        return TIPs.query(TIPParams).$promise;
+                    }, function (err) {
+                        if (err.status >= 400) {
+                            NotificationService.displayMessage("Error retrieving TIPs");
+                        }
+
+                    })
+                    .then(function (tips) {
+                        $scope.boundingboxfeatures = _.union(routes, tips);
+                    }, function (err) {
+                        if (err.status >= 400) {
+                            NotificationService.displayMessage("Error retrieving Routes");
+                        }
+                    });
+
             };
         }])
     ;
