@@ -382,6 +382,9 @@ define([
                 var routes = [];
                 Routes.query(RouteParams).$promise
                     .then(function (resultRoutes) {
+                        if (resultRoutes.length == 0){
+                            return [];
+                        }
                         routes = resultRoutes;
                         if (!$scope.allowAddRoutes) {
                             TIPParams["routes"]= _.map(resultRoutes, function (route) {
@@ -393,7 +396,6 @@ define([
                         if (err.status >= 400) {
                             NotificationService.displayMessage("Error retrieving TIPs");
                         }
-
                     })
                     .then(function (tips) {
                         $scope.boundingboxfeatures = _.union(routes, tips);
