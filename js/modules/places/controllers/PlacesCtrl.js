@@ -120,8 +120,8 @@ define([
                 }
 
                 TIPs.query(URLparams).$promise
-                    .then(function (resultFeatures) {
-                        $scope.boundingboxfeatures = resultFeatures;
+                    .then(function (features) {
+                        $scope.markerclusterfeatures = features;
                     }, function (response) {
                         if (response.status == 500) {
                             NotificationService.displayMessage("Error retrieving TIPS");

@@ -378,7 +378,7 @@ define([
                     tips: TIPs.query(TIPParams).$promise,
                     routes: Routes.query(RouteParams).$promise
                 }).then(function (features) {
-                    $scope.boundingboxfeatures = _.union(features.tips, features.routes);
+                    $scope.boundingboxfeatures = _.union(features.tips,features.routes);
                 }, function (response) {
                     if (response.status == 500) {
                         NotificationService.displayMessage("Error retrieving TIPS or Routes");

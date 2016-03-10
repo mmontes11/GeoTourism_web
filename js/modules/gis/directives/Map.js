@@ -17,31 +17,60 @@ define([
             scope: {
                 boundschanged: "=",
                 locationclicked: "=",
+                layerclicked: "=",
                 boundingboxfeatures: "=",
                 boundingboxlayers: "=",
                 permanentfeatures: "=",
                 permanentlayers: "=",
-                layerclicked: "=",
+                markercluster: "@",
+                markerclusterfeatures: "=",
+                heatmap: "@",
                 heatdata: "="
             },
             link: function (scope) {
-                scope.boundingboxlayers = L.markerClusterGroup();
-                scope.permanentlayers = L.layerGroup();
-
+                var layers = [];
+                if (eval(scope.markercluster)){
+                    var markerClusterGroup = L.markerClusterGroup();
+                    layers.push(markerClusterGroup);
+                    scope.$watchCollection('markerclusterfeatures', function (features) {
+                        console.log(features);
+                        if (angular.isDefined(features)) {
+                            markerClusterGroup.clearLayers();
+                            features = addNonExistingLayers(features);
+                            angular.forEach(features, function (feature) {
+                                if (angular.isDefined(feature)) {
+                                    var layer = feature2layer(feature);
+                                    markerClusterGroup.addLayer(layer);
+                                }
+                            });
+                        }
+                    });
+                }
+                if (eval(scope.heatmap)){
+                    var heatMapLayer = new HeatmapOverlay({
+                        "radius": .005,
+                        "maxOpacity": .5,
+                        "scaleRadius": true,
+                        "useLocalExtrema": true,
+                        latField: 'lat',
+                        lngField: 'lng',
+                        valueField: 'weight'
+                    });
+                    layers.push(heatMapLayer);
+                    scope.$watchCollection('heatdata', function (heatdata) {
+                        if (angular.isDefined(heatdata)) {
+                            heatMapLayer.setData(heatdata);
+                        }
+                    });
+                }
                 var tileLayer = L.tileLayer.provider(Config.TILE_LAYER);
-                var heatMapLayer = new HeatmapOverlay({
-                    "radius": .005,
-                    "maxOpacity": .5,
-                    "scaleRadius": true,
-                    "useLocalExtrema": true,
-                    latField: 'lat',
-                    lngField: 'lng',
-                    valueField: 'weight'
-                });
+                scope.boundingboxlayers = L.featureGroup();
+                scope.permanentlayers = L.featureGroup();
+                layers = _.union(layers,[tileLayer,scope.boundingboxlayers,scope.permanentlayers]);
                 var map = L.map('map', {
                     minZoom: 5,
                     maxZoom: 20,
-                    layers: [tileLayer, heatMapLayer, scope.boundingboxlayers, scope.permanentlayers]
+                    layers: layers
                 });
 
                 var fireBoundsChanged = function () {
@@ -67,10 +96,10 @@ define([
                     });
                 });
 
-                var updateBBLayers = function (features) {
-                    scope.boundingboxlayers.clearLayers();
+                var addNonExistingLayers = function (features) {
+                    var existingLayers = _.union(scope.boundingboxlayers.getLayers(),scope.permanentlayers.getLayers());
                     features = _.filter(features, function (feature) {
-                        var filteredLayers = _.filter(scope.permanentlayers.getLayers(), function (layer) {
+                        var filteredLayers = _.filter(existingLayers, function (layer) {
                             return (feature.id == layer.customFeature.id && feature.geom == layer.customFeature.geom);
                         });
                         return (filteredLayers.length == 0);
@@ -104,7 +133,8 @@ define([
 
                 scope.$watchCollection('boundingboxfeatures', function (features) {
                     if (angular.isDefined(features)) {
-                        features = updateBBLayers(features);
+                        scope.boundingboxlayers.clearLayers();
+                        features = addNonExistingLayers(features);
                         angular.forEach(features, function (feature) {
                             if (angular.isDefined(feature)) {
                                 var layer = feature2layer(feature);
@@ -120,12 +150,6 @@ define([
                             var layer = feature2layer(feature);
                             scope.permanentlayers.addLayer(layer);
                         });
-                    }
-                });
-
-                scope.$watchCollection('heatdata', function (heatdata) {
-                    if (angular.isDefined(heatdata)) {
-                        heatMapLayer.setData(heatdata);
                     }
                 });
             }
