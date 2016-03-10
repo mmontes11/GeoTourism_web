@@ -307,6 +307,7 @@ define([
                         if (operation.edit == undefined) {
                             $scope.boundingboxlayers.removeLayer(layer);
                             NotificationService.displayMessage("Route deleted!");
+                            requestFeatures();
                         } else {
                             if (operation.edit) {
                                 requestFeatures();
