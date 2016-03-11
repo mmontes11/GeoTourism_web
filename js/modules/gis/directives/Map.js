@@ -33,7 +33,6 @@ define([
                     var markerClusterGroup = L.markerClusterGroup();
                     layers.push(markerClusterGroup);
                     scope.$watchCollection('markerclusterfeatures', function (features) {
-                        console.log(features);
                         if (angular.isDefined(features)) {
                             markerClusterGroup.clearLayers();
                             features = addNonExistingLayers(features);
@@ -57,7 +56,7 @@ define([
                         valueField: 'weight'
                     });
                     layers.push(heatMapLayer);
-                    scope.$watchCollection('heatdata', function (heatdata) {
+                    scope.$watch('heatdata', function (heatdata) {
                         if (angular.isDefined(heatdata)) {
                             heatMapLayer.setData(heatdata);
                         }

@@ -28,6 +28,8 @@ define([
             $scope.allowAddTIPs = false;
             $scope.loading = false;
             $scope.statsEnabled = false;
+            $scope.heatMapEnabled = false;
+            $scope.TIPIDs = [];
 
             $scope.addTIP = function () {
                 $scope.displayHelpMessage();
@@ -122,6 +124,20 @@ define([
                 TIPs.query(URLparams).$promise
                     .then(function (features) {
                         $scope.markerclusterfeatures = features;
+                        $scope.TIPIDs = _.map(features, function(feature){
+                            return feature.id;
+                        });
+                        if (angular.isDefined($scope.TIPIDs) && angular.isDefined($scope.heatdata)){
+                            if ($scope.TIPIDs.length == 0){
+                                clearStats();
+                            }else{
+                                var statsParams = {
+                                    id: $scope.selectedMetricID,
+                                    tips: $scope.TIPIDs
+                                };
+                                $scope.heatdata = Stats.getStats(statsParams);
+                            }
+                        }
                     }, function (response) {
                         if (response.status == 500) {
                             NotificationService.displayMessage("Error retrieving TIPS");
@@ -133,6 +149,20 @@ define([
                 if (angular.isDefined(bounds) && angular.isDefined(boundsOld)) {
                     $scope.bounds = FeatureService.layer2WKT(bounds);
                     requestFeatures();
+                }
+            });
+
+            $scope.$watchCollection("TIPIDs",function(TIPIDs){
+                if (angular.isDefined(TIPIDs) && angular.isDefined($scope.heatMapEnabled) && $scope.heatMapEnabled){
+                    if (TIPIDs.length > 0){
+                        var statsParams = {
+                            id: $scope.selectedMetricID,
+                            tips: $scope.TIPIDs
+                        };
+                        $scope.heatdata = Stats.getStats(statsParams)
+                    }else{
+                        clearStats();
+                    }
                 }
             });
 
@@ -221,28 +251,46 @@ define([
             $scope.addStats = function () {
                 DialogService.showStatsDialog()
                     .then(function(statsResponse){
+                        $scope.selectedMetricID = statsResponse.metricID;
+                        if ($scope.TIPIDs.length == 0){
+                            return {
+                                data: []
+                            };
+                        }
+                        $scope.heatMapEnabled = true;
                         activateLoading();
-                        return Stats.getStats({id: statsResponse.metricID}).$promise.finally(disableLoading);
+                        var statsParams = {
+                            id: $scope.selectedMetricID,
+                            tips: $scope.TIPIDs
+                        };
+                        return Stats.getStats(statsParams).$promise.finally(disableLoading);
                     })
                     .then(function(heatdata){
                         $scope.heatdata = heatdata;
                         if (heatdata.data.length == 0){
+                            $scope.clearStats();
                             NotificationService.displayMessage("Not enough data to show Stats");
                         }
                     }, function(response){
                         if (response.status >= 400){
+                            $scope.clearStats();
                             NotificationService.displayMessage("Stats not Available");
                         }
                     });
             };
 
-            $scope.clearStats = function () {
+
+            var clearStats = function(){
                 $scope.heatdata = {
                     max: 0,
                     data: []
                 };
             };
 
+            $scope.disableStats = function () {
+                clearStats();
+                $scope.heatMapEnabled = false;
+            };
 
             $scope.$watch('layerclicked', function (layerClicked) {
                 if (angular.isDefined(layerClicked)) {
