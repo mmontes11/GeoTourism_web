@@ -12,7 +12,7 @@
             </md-button>
         </div>
         <div class="fade" layout="row" layout-sm="column" layout-align="center center"
-             ng-show="!allowAddRoutes && filtersEnabled">
+             ng-show="!allowAddRoutes && filtersEnabled" layout-padding>
             <div layout="row">
                 <div layout="column">
                     <md-checkbox class="md-primary" ng-repeat="travelMode in travelModes"
@@ -23,6 +23,7 @@
                 </div>
                 <people-selector class="fade" icon="add_circle" iconclass="cyan" ng-show="isAuthFB()"></people-selector>
             </div>
+            <span flex="3"></span>
             <social-chips class="fade" ng-show="isAuthFB() && createdBy == 1" friends="friends"></social-chips>
             <chips placeholder="CITY ..." items="cities" selected="selectedCities"></chips>
         </div>
@@ -61,5 +62,6 @@
             </md-button>
         </md-fab-actions>
     </fab>
-    <md-progress-circular class="fade" ng-show="loading" md-mode="indeterminate" md-diameter="80"></md-progress-circular>
 </div>
+<md-progress-circular class="fade loading-position " ng-show="loading" md-mode="indeterminate" md-diameter="75">
+</md-progress-circular>

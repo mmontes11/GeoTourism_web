@@ -17,7 +17,7 @@
             </md-button>
         </div>
         <div class="fade" layout="row" layout-sm="column" layout-align="center center"
-             ng-show="!allowAddTIPs && filtersEnabled">
+             ng-show="!allowAddTIPs && filtersEnabled" layout-padding>
             <people-selector class="fade" icon="favorite" iconclass="favorite" ng-show="isAuthFB()"></people-selector>
             <social-chips class="fade" ng-show="isAuthFB() && favouritedBy == 1" friends="friends"></social-chips>
             <chips placeholder="CITY ..." items="cities" selected="selectedCities"></chips>
@@ -34,15 +34,15 @@
     </md-content>
 </map>
 <div layout="row" layout-align="center center" class="fab-position">
-    <fab class="fade" ng-show="isAuthenticated() || isAuthFB() && !loading">
+    <fab class="fade" ng-if="isAuthFB() && !loading">
         <md-fab-actions>
-            <md-button class="md-fab md-raised md-mini" ng-show="isAuthenticated()" ng-click="addTIP()">
+            <md-button class="md-fab md-raised md-mini" ng-click="addTIP()">
                 <md-tooltip md-direction="left">
                     Add Place
                 </md-tooltip>
                 <i class="material-icons">place</i>
             </md-button>
-            <md-button class="md-fab md-raised md-mini" ng-show="isAuthFB()" ng-click="addStats()">
+            <md-button class="md-fab md-raised md-mini" ng-click="addStats()">
                 <md-tooltip md-direction="left">
                     Add Stats
                 </md-tooltip>
@@ -50,6 +50,6 @@
             </md-button>
         </md-fab-actions>
     </fab>
-    <md-progress-circular class="fade" ng-show="loading" md-mode="indeterminate"
-                          md-diameter="75"></md-progress-circular>
 </div>
+<md-progress-circular class="fade loading-position " ng-show="loading" md-mode="indeterminate" md-diameter="75">
+</md-progress-circular>

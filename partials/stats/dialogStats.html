@@ -24,6 +24,26 @@
                         <div ng-message="required" class="my-message">Mandatory field</div>
                     </div>
                 </md-input-container>
+                <div layout="row">
+                    <md-input-container flex="75">
+                        <label>Date</label>
+                        <md-select name="date" ng-model="dateID" ng-required="false">
+                            <md-option ng-repeat="date in dates" value="{{date.id}}">
+                                {{date.name}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                    <md-button class="md-warn" ng-click="clearDate()" ng-show="dateID!=undefined">
+                        <i class="material-icons">close</i>
+                    </md-button>
+                </div>
+                <div ng-show="dateID == 3">
+                    <md-datepicker ng-model="fromDate" md-placeholder="From" flex>
+                    </md-datepicker>
+                    <md-datepicker ng-model="toDate" md-placeholder="To" flex>
+                    </md-datepicker>
+                </div>
+
             </div>
         </form>
     </md-dialog-content>

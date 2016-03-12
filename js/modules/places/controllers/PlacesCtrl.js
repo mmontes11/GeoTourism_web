@@ -3,9 +3,9 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('PlacesCtrl', ['$scope', '$q', 'FeatureService', 'Cities', 'City', 'TIPs', 'TIP', 'User', "Stats",
+    module.controller('PlacesCtrl', ['$scope', '$q', '$state', 'FeatureService', 'Cities', 'City', 'TIPs', 'TIP', 'User', "Stats",
         'FBStorageService', 'AuthAdminService', 'AuthFBService', 'NotificationService', 'DialogService', 'ValidationService',
-        function ($scope, $q, FeatureService, Cities, City, TIPs, TIP, User, Stats,
+        function ($scope, $q, $state, FeatureService, Cities, City, TIPs, TIP, User, Stats,
                   FBStorageService, AuthAdminService, AuthFBService, NotificationService, DialogService, ValidationService) {
 
             $scope.isAuthenticated = function () {
@@ -31,9 +31,14 @@ define([
             $scope.heatMapEnabled = false;
             $scope.TIPIDs = [];
 
+
             $scope.addTIP = function () {
-                $scope.displayHelpMessage();
-                $scope.allowAddTIPs = true;
+                if ($scope.isAuthenticated()){
+                    $scope.displayHelpMessage();
+                    $scope.allowAddTIPs = true;
+                }else{
+                    $state.go("admin")
+                }
             };
 
             $scope.finishAddTIPs = function () {
@@ -52,7 +57,7 @@ define([
             $scope.$watch('isAuthFB() && getFBUserId()', function (newVal) {
                 if (angular.isDefined(newVal) && newVal) {
                     User.getFriends().$promise
-                        .then(function(friends){
+                        .then(function (friends) {
                             $scope.friends = friends;
                         });
                 }
@@ -82,9 +87,8 @@ define([
             });
 
             $scope.$watch('selectedFriends.length || selectedCities.length  || selectedTypes.length || favouritedBy', function () {
-                $scope.filtersEmpty =
-                    !(angular.isDefined($scope.favouritedBy) || ($scope.selectedFriends.length > 0) ||
-                    ($scope.selectedCities.length > 0) || ($scope.selectedTypes.length > 0));
+                $scope.filtersEmpty = !(angular.isDefined($scope.favouritedBy) || ($scope.selectedFriends.length > 0) ||
+                ($scope.selectedCities.length > 0) || ($scope.selectedTypes.length > 0));
             });
 
             $scope.clearFilters = function () {
@@ -93,8 +97,8 @@ define([
                 $scope.selectedCities = [];
                 $scope.selectedTypes = [];
 
-                $scope.$broadcast('peopleSelector.reset',undefined);
-                $scope.$broadcast('socialChips.reset',[]);
+                $scope.$broadcast('peopleSelector.reset', undefined);
+                $scope.$broadcast('socialChips.reset', []);
             };
 
             var requestFeatures = function () {
@@ -124,7 +128,7 @@ define([
                 TIPs.query(URLparams).$promise
                     .then(function (features) {
                         $scope.markerclusterfeatures = features;
-                        $scope.TIPIDs = _.map(features, function(feature){
+                        $scope.TIPIDs = _.map(features, function (feature) {
                             return feature.id;
                         });
                     }, function (response) {
@@ -141,18 +145,18 @@ define([
                 }
             });
 
-            $scope.$watchCollection("TIPIDs",function(TIPIDs){
-                if (angular.isDefined(TIPIDs) && angular.isDefined($scope.heatMapEnabled) && $scope.heatMapEnabled){
-                    if (TIPIDs.length > 0){
+            $scope.$watchCollection("TIPIDs", function (TIPIDs) {
+                if (angular.isDefined(TIPIDs) && angular.isDefined($scope.heatMapEnabled) && $scope.heatMapEnabled) {
+                    if (TIPIDs.length > 0) {
                         var statsParams = {
                             id: $scope.selectedMetricID,
                             tips: $scope.TIPIDs
                         };
                         Stats.getStats(statsParams).$promise
-                            .then(function(heatdata){
+                            .then(function (heatdata) {
                                 $scope.heatdata = heatdata;
                             });
-                    }else{
+                    } else {
                         clearStats();
                     }
                 }
@@ -167,9 +171,8 @@ define([
             };
 
             $scope.$watch('locationclicked', function (location) {
-                if ($scope.isAuthenticated() && $scope.allowAddTIPs && angular.isDefined(location)) {
+                if ($scope.isAuthenticated() && $scope.allowAddTIPs && angular.isDefined(location)){
                     var locationFeature = FeatureService.layer2WKT(location);
-
                     activateLoading();
                     City.get({location: locationFeature}).$promise.finally(disableLoading)
                         .then(function () {
@@ -194,6 +197,7 @@ define([
                                 NotificationService.displayMessage("Error creating Place");
                             }
                         });
+
                 }
             });
 
@@ -241,10 +245,10 @@ define([
             };
 
             $scope.addStats = function () {
-                DialogService.showStatsDialog()
-                    .then(function(statsResponse){
+                DialogService.showStatsDialog($scope.selectedMetricID)
+                    .then(function (statsResponse) {
                         $scope.selectedMetricID = statsResponse.metricID;
-                        if ($scope.TIPIDs.length == 0){
+                        if ($scope.TIPIDs.length == 0) {
                             return {
                                 data: []
                             };
@@ -257,14 +261,14 @@ define([
                         };
                         return Stats.getStats(statsParams).$promise.finally(disableLoading);
                     })
-                    .then(function(heatdata){
+                    .then(function (heatdata) {
                         $scope.heatdata = heatdata;
-                        if (heatdata.data.length == 0){
+                        if (heatdata.data.length == 0) {
                             clearStats();
                             NotificationService.displayMessage("Not enough data to show Stats");
                         }
-                    }, function(response){
-                        if (response.status >= 400){
+                    }, function (response) {
+                        if (response && response.status >= 400) {
                             clearStats();
                             NotificationService.displayMessage("Stats not Available");
                         }
@@ -272,7 +276,7 @@ define([
             };
 
 
-            var clearStats = function(){
+            var clearStats = function () {
                 $scope.heatdata = {
                     max: 0,
                     data: []
@@ -282,6 +286,7 @@ define([
             $scope.disableStats = function () {
                 clearStats();
                 $scope.heatMapEnabled = false;
+                $scope.selectedMetricID = undefined;
             };
 
             $scope.$watch('layerclicked', function (layerClicked) {
@@ -294,5 +299,8 @@ define([
                     }
                 }
             });
-        }]);
-});
+        }
+    ])
+    ;
+})
+;

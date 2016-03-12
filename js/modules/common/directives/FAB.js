@@ -9,7 +9,7 @@ define([
             replace: true,
             transclude: true,
             templateUrl: 'partials/common/fab.html',
-            link: function(scope,element,attrs){
+            link: function(scope){
                 scope.isOpen = false;
             }
         };

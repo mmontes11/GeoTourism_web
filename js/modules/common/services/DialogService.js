@@ -96,12 +96,15 @@ define([
            return deferred.promise;
        };
 
-       this.showStatsDialog = function(){
+       this.showStatsDialog = function(selectedMetricID){
            return $mdDialog.show({
                controller: 'DialogStatsCtrl',
                templateUrl: 'partials/stats/dialogStats.html',
                parent: angular.element(document.body),
-               clickOutsideToClose: true
+               clickOutsideToClose: true,
+               locals: {
+                   selectedMetricID: selectedMetricID
+               }
            });
        };
    }]);
