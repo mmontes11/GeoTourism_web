@@ -127,17 +127,6 @@ define([
                         $scope.TIPIDs = _.map(features, function(feature){
                             return feature.id;
                         });
-                        if (angular.isDefined($scope.TIPIDs) && angular.isDefined($scope.heatdata)){
-                            if ($scope.TIPIDs.length == 0){
-                                clearStats();
-                            }else{
-                                var statsParams = {
-                                    id: $scope.selectedMetricID,
-                                    tips: $scope.TIPIDs
-                                };
-                                $scope.heatdata = Stats.getStats(statsParams);
-                            }
-                        }
                     }, function (response) {
                         if (response.status == 500) {
                             NotificationService.displayMessage("Error retrieving TIPS");
@@ -159,7 +148,10 @@ define([
                             id: $scope.selectedMetricID,
                             tips: $scope.TIPIDs
                         };
-                        $scope.heatdata = Stats.getStats(statsParams)
+                        Stats.getStats(statsParams).$promise
+                            .then(function(heatdata){
+                                $scope.heatdata = heatdata;
+                            });
                     }else{
                         clearStats();
                     }
@@ -268,12 +260,12 @@ define([
                     .then(function(heatdata){
                         $scope.heatdata = heatdata;
                         if (heatdata.data.length == 0){
-                            $scope.clearStats();
+                            clearStats();
                             NotificationService.displayMessage("Not enough data to show Stats");
                         }
                     }, function(response){
                         if (response.status >= 400){
-                            $scope.clearStats();
+                            clearStats();
                             NotificationService.displayMessage("Stats not Available");
                         }
                     });
