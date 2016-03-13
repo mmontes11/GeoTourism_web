@@ -35,7 +35,7 @@ define([
                 },
                 getTypeName: {
                     method: 'GET',
-                    url: Config.API_ROOT_URL + '/tip/type/:type',
+                    url: Config.API_ROOT_URL + '/tip/type/:type/name',
                     params: {
                         type: '@type'
                     }
