@@ -13,6 +13,14 @@ define([
             },
             //Actions
             {
+                createAdmin: {
+                    method: 'POST',
+                    url: Config.API_ROOT_URL+ '/admin/tip'
+                },
+                createSocial: {
+                    method: 'POST',
+                    url: Config.API_ROOT_URL+ '/social/tip'
+                },
                 get: {
                     method: 'GET',
                     url: Config.API_ROOT_URL + '/tip/:id'

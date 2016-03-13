@@ -3,9 +3,9 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('PlacesCtrl', ['$scope', '$q', '$state', 'FeatureService', 'Cities', 'City', 'TIPs', 'TIP', 'User', "Stats",
+    module.controller('PlacesCtrl', ['$scope', '$q', 'FeatureService', 'Cities', 'City', 'TIPs', 'TIP', 'User', "Stats",
         'FBStorageService', 'AuthAdminService', 'AuthFBService', 'NotificationService', 'DialogService', 'ValidationService',
-        function ($scope, $q, $state, FeatureService, Cities, City, TIPs, TIP, User, Stats,
+        function ($scope, $q, FeatureService, Cities, City, TIPs, TIP, User, Stats,
                   FBStorageService, AuthAdminService, AuthFBService, NotificationService, DialogService, ValidationService) {
 
             $scope.isAuthenticated = function () {
@@ -33,11 +33,11 @@ define([
 
 
             $scope.addTIP = function () {
-                if ($scope.isAuthenticated()){
+                if ($scope.isAuthenticated() || $scope.isAuthFB()){
                     $scope.displayHelpMessage();
                     $scope.allowAddTIPs = true;
                 }else{
-                    $state.go("admin")
+                    NotificationService.displayMessage("You need to be logged or Admin to perform this operation");
                 }
             };
 
@@ -55,11 +55,15 @@ define([
                 }
             });
             $scope.$watch('isAuthFB() && getFBUserId()', function (newVal) {
-                if (angular.isDefined(newVal) && newVal) {
-                    User.getFriends().$promise
-                        .then(function (friends) {
-                            $scope.friends = friends;
-                        });
+                if (angular.isDefined(newVal)) {
+                    if (newVal){
+                        User.getFriends().$promise
+                            .then(function (friends) {
+                                $scope.friends = friends;
+                            });
+                    }else{
+                        $scope.allowAddTIPs = false;
+                    }
                 }
             });
 
@@ -170,8 +174,18 @@ define([
                 $scope.loading = false;
             };
 
+            var getCreateTIP = function(place){
+                if ($scope.isAuthenticated()){
+                    return TIP.createAdmin(place);
+                }
+                if ($scope.isAuthFB()){
+                    return TIP.createSocial(place);
+                }
+                return undefined;
+            };
+
             $scope.$watch('locationclicked', function (location) {
-                if ($scope.isAuthenticated() && $scope.allowAddTIPs && angular.isDefined(location)){
+                if (($scope.isAuthFB || $scope.isAuthenticated()) && $scope.allowAddTIPs && angular.isDefined(location)){
                     var locationFeature = FeatureService.layer2WKT(location);
                     activateLoading();
                     City.get({location: locationFeature}).$promise.finally(disableLoading)
@@ -184,7 +198,7 @@ define([
                         .then(function (place) {
                             place["geometry"] = locationFeature;
                             activateLoading();
-                            return TIP.save(place).$promise.finally(disableLoading)
+                            return getCreateTIP(place).$promise.finally(disableLoading)
                         }, function () {
                             return $q.reject();
                         })
