@@ -6,6 +6,7 @@ define([
     './services/NotificationService',
     './services/DialogService',
     './services/ValidationService',
+    './services/DateService',
     './controllers/MainLayoutCtrl',
     './controllers/ChipsCtrl',
     './directives/FAB',

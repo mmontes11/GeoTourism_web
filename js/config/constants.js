@@ -16,6 +16,8 @@ define([
         TOAST_POSITION: 'top right',
 
         FACEBOOK_APP_ID: privateConfig.FACEBOOK_APP_ID,
-        FACEBOOK_PERMISSIONS: 'public_profile,user_friends'
+        FACEBOOK_PERMISSIONS: 'public_profile,user_friends',
+
+        DATE_FORMAT: "YYYY-MM-DD"
     });
 });

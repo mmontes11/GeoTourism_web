@@ -3,9 +3,8 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('DialogStatsCtrl', ['$scope', '$mdDialog', 'Stats', 'selectedMetricID',
-        function ($scope, $mdDialog, Stats, selectedMetricID) {
-            $scope.metricID = selectedMetricID;
+    module.controller('DialogStatsCtrl', ['$scope', '$mdDialog', 'Stats','DateService',
+        function ($scope, $mdDialog, Stats, DateService) {
             $scope.metrics = Stats.getMetrics();
             $scope.dates = [
                 {
@@ -25,8 +24,31 @@ define([
                 $mdDialog.cancel();
             };
             $scope.accept = function () {
+                var fromDate;
+                var toDate;
+                if ($scope.dateID == 1){
+                    var dates = DateService.getFromToLastWeek();
+                    fromDate = dates.fromDate;
+                    toDate = dates.toDate;
+                }
+                if ($scope.dateID == 2){
+                    var dates = DateService.getFromToLasMonth();
+                    fromDate = dates.fromDate;
+                    toDate = dates.toDate;
+                }
+                if ($scope.dateID == 3){
+                    if (angular.isDefined($scope.fromDate)){
+                        fromDate = DateService.formatDate($scope.fromDate);
+                    }
+                    if (angular.isDefined($scope.toDate)){
+                        toDate = DateService.formatDate($scope.toDate);
+                    }
+                }
                 var statsResponse = {
-                    metricID: $scope.metricID
+                    metricID: $scope.metricID,
+                    dateID : $scope.dateID,
+                    fromDate: fromDate,
+                    toDate: toDate
                 };
                 $mdDialog.hide(statsResponse);
             };
@@ -35,10 +57,5 @@ define([
                 $scope.fromDate = undefined;
                 $scope.toDate = undefined;
             };
-            $scope.$watch("metricID",function(metricID){
-                if (angular.isDefined(metricID)){
-                    selectedMetricID = metricID;
-                }
-            });
         }]);
 });

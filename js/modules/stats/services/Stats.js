@@ -18,9 +18,9 @@ define([
                 },
                 getStats: {
                     method: 'GET',
-                    url: Config.API_ROOT_URL + '/social/stats/metric/:id',
+                    url: Config.API_ROOT_URL + '/social/stats/metric/:metricID',
                     params: {
-                        id: '@id'
+                        id: '@metricID'
                     }
                 }
             }

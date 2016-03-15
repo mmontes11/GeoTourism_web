@@ -25,7 +25,8 @@ require.config({
         'leaflet-heatmap': '../lib/leaflet-heatmap',
         'leaflet-markercluster': '../bower_components/leaflet.markercluster/dist/leaflet.markercluster',
         wellknown: '../bower_components/wellknown/wellknown',
-        'please-wait': '../bower_components/please-wait/build/please-wait.min'
+        'please-wait': '../bower_components/please-wait/build/please-wait.min',
+        'moment': '../bower_components/moment/min/moment-with-locales'
     },
     shim: {
         jquery: {

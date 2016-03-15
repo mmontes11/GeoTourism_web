@@ -15,7 +15,7 @@
             <div layout="column">
                 <md-input-container>
                     <label>Metric</label>
-                    <md-select name="metric" ng-model="metricID" ng-required="true">
+                    <md-select name="metric" ng-model="metricID"  ng-required="true">
                         <md-option ng-repeat="metric in metrics" value="{{metric.id}}">
                             {{metric.name}}
                         </md-option>
