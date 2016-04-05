@@ -18,8 +18,13 @@ define([
                 templateUrl: 'partials/routes/routes.html',
                 controller: 'RoutesCtrl'
             })
-            .state('admin', {
-                url: '/admin',
+            .state('adminConfig', {
+                url: '/admin/config',
+                templateUrl: 'partials/admin/configAdmin.html',
+                controller: 'ConfigAdminCtrl as ctrl'
+            })
+            .state('adminLogIn', {
+                url: '/admin/logIn',
                 templateUrl: 'partials/admin/logInAdmin.html',
                 controller: 'LogInAdminCtrl as ctrl'
             })
@@ -32,7 +37,12 @@ define([
 
     app.run(['$rootScope', '$state', 'AuthAdminService', function ($rootScope, $state, AuthAdminService) {
         $rootScope.$on("$stateChangeStart", function (event, toState) {
-            if (AuthAdminService.isAuthenticated && toState.url == '/admin') {
+            if (AuthAdminService.isAuthenticated && toState.url == "/admin/logIn") {
+                event.preventDefault();
+            }
+
+            if (!AuthAdminService.isAuthenticated && toState.url == "/admin/config"){
+                $state.go('adminLogIn');
                 event.preventDefault();
             }
         });

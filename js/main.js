@@ -9,6 +9,7 @@ require.config({
         angularAria: '../bower_components/angular-aria/angular-aria.min',
         angularAnimate: '../bower_components/angular-animate/angular-animate.min',
         angularMaterial: '../bower_components/angular-material/angular-material.min',
+        angularMaterialDataTable: '/bower_components/angular-material-data-table/dist/md-data-table.min',
         angularUiRouter: '../bower_components/angular-ui-router/release/angular-ui-router.min',
         angularMessages: '../bower_components/angular-messages/angular-messages.min',
         angularFacebook: '../bower_components/angular-facebook/lib/angular-facebook',
@@ -53,6 +54,9 @@ require.config({
         },
         angularMaterial: {
             deps: ['angular','angularAnimate','angularAria']
+        },
+        angularMaterialDataTable: {
+            deps: ['angularMaterial']
         },
         angularUiRouter: {
             deps: ['angular']

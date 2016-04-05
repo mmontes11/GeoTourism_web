@@ -1,13 +1,17 @@
 define([
     '../module'
 ], function (module) {
-    module.controller('MainLayoutCtrl', ['$scope', '$mdDialog', '$mdSidenav', '$mdMedia', 'Admin', 'AuthAdminService',
-        function ($scope, $mdDialog, $mdSidenav, $mdMedia, Admin, AuthAdminService) {
+    module.controller('MainLayoutCtrl', ['$scope', '$mdDialog', '$mdSidenav', '$mdMedia', '$state','Admin', 'AuthAdminService',
+        function ($scope, $mdDialog, $mdSidenav, $mdMedia, $state, Admin, AuthAdminService) {
             $scope.isAuthAdmin = function () {
                 return AuthAdminService.isAuthenticated;
             };
             $scope.logOut = function () {
+                console.log($state.is('adminConfig'));
                 AuthAdminService.logOut();
+                if ($state.is('adminConfig')){
+                    $state.go('adminLogIn');
+                }
             };
             if ($scope.isAuthAdmin()){
                 Admin.validateToken();

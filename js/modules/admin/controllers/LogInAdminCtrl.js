@@ -12,7 +12,7 @@ define([
                 .then(function(response){
                     BrowserService.setStorage("token",response.token);
                     AuthAdminService.isAuthenticated = true;
-                    $state.transitionTo('places');
+                    $state.go('adminConfig');
                     NotificationService.displayMessage('You are now Admin!');
                 }, function(){
                     NotificationService.displayMessage('Invalid Credentials');

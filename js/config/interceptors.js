@@ -35,6 +35,7 @@ define([
                         AuthAdminService.isAuthenticated = false;
                         $injector.get('$mdDialog').cancel();
                         $injector.get('NotificationService').displayMessage("Invalid or expired Admin token");
+                        $injector.get('$state').go('adminLogIn');
                     }
                 }
                 return $q.reject(rejection);

@@ -58,7 +58,7 @@
                     <i class="material-icons">more_vert</i>
                 </md-button>
                 <md-menu-content>
-                    <md-menu-item ng-show="!isAuthAdmin()" ui-sref="admin">
+                    <md-menu-item ng-show="!isAuthAdmin()" ui-sref="adminLogIn">
                         <md-button>
                             Admin
                         </md-button>
@@ -78,6 +78,12 @@
         <md-content layout-fill>
             <log-in-card></log-in-card>
             <md-menu-content>
+                <md-menu-item ng-show="isAuthAdmin()" ui-sref="adminConfig">
+                    <md-button class="md-primary">
+                        <i class="material-icons">build</i>
+                        <span class="md-title" flex-offset="25">Admin</span>
+                    </md-button>
+                </md-menu-item>
                 <md-menu-item ui-sref="places" >
                     <md-button class="md-primary">
                         <i class="material-icons">place</i>

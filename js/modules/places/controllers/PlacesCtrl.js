@@ -144,6 +144,7 @@ define([
             $scope.$watch('boundschanged', function (bounds, boundsOld) {
                 if (angular.isDefined(bounds) && angular.isDefined(boundsOld)) {
                     $scope.bounds = FeatureService.layer2WKT(bounds);
+                    console.log($scope.bounds);
                     requestFeatures();
                 }
             });
