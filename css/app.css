@@ -50,6 +50,10 @@ body {
     z-index: 20;
 }
 
+.map-small {
+    max-height: 33%;
+}
+
 .leaflet-top {
     z-index: 50;
 }

@@ -17,6 +17,14 @@ define([
                     },
                     validateToken: {
                         method: 'GET'
+                    },
+                    getBBox: {
+                        method: 'GET',
+                        url: Config.API_ROOT_URL + '/admin/config/bbox'
+                    },
+                    updateBBox: {
+                        method: 'POST',
+                        url: Config.API_ROOT_URL + '/admin/config/bbox'
                     }
                 }
             );

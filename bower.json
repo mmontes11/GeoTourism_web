@@ -27,7 +27,8 @@
     "heatmap.js-amd": "*",
     "leaflet.markercluster": "~0.4.0",
     "moment": "^2.12.0",
-    "angular-material-data-table": "^0.10.3"
+    "angular-material-data-table": "^0.10.3",
+    "leaflet-areaselect": "*"
   },
   "resolutions": {
     "angular": "1.4.7",
