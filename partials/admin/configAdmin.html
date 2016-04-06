@@ -2,12 +2,75 @@
     <md-card>
         <md-card-title>
             <md-card-title-text>
+                <span class="md-headline">Review Places</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+            <md-table-container>
+                <table md-table md-row-select multiple ng-model="selectedReview" md-progress="tips">
+                    <thead md-head md-order="queryReview.order" md-on-reorder="getTIPsReview">
+                    <tr md-row>
+                        <th md-column md-order-by="id"><span>ID</span></th>
+                        <th md-column><span>Type</span></th>
+                        <th md-column md-order-by="name"><span>Name</span></th>
+                        <th md-column md-order-by="cityName"><span>City</span></th>
+                    </tr>
+                    </thead>
+                    <tbody md-body>
+                    <tr md-row md-select="tip" ng-mouseover="hoverTIP(tip.id)" md-select-id="id" md-auto-select ng-repeat="tip in tips | orderBy: queryReview.order | limitTo: queryReview.limit: (queryReview.page - 1) * queryReview.limit">
+                        <td md-cell>{{tip.id}}</td>
+                        <td md-cell><span class="fa {{tip.typeIcon}}"></span></td>
+                        <td md-cell>{{tip.name}}</td>
+                        <td md-cell>{{tip.cityName}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+            <md-table-pagination md-limit="queryReview.limit" md-limit-options="[5, 10, 15]" md-page="queryReview.page" md-total="{{tips.length}}" md-on-paginate="getTIPsReview" md-page-select></md-table-pagination>
+        </md-card-content>
+    </md-card>
+    <md-card>
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">Places Types</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+            <md-table-container>
+                <table md-table md-row-select multiple ng-model="selectedReview" md-progress="osmtypes">
+                    <thead md-head md-order="queryReview.order" md-on-reorder="getOSMTypes">
+                    <tr md-row>
+                        <th md-column md-order-by="id"><span>ID</span></th>
+                        <th md-column><span>Icon</span></th>
+                        <th md-column md-order-by="tipType.name"><span>Name</span></th>
+                        <th md-column md-order-by="key"><span>OSMKey</span></th>
+                        <th md-column md-order-by="value"><span>OSMValue</span></th>
+                    </tr>
+                    </thead>
+                    <tbody md-body>
+                    <tr md-row md-select="osmtype" md-select-id="id" md-auto-select ng-repeat="osmtype in osmtypes | orderBy: queryTypes.order | limitTo: queryTypes.limit: (queryTypes.page - 1) * queryTypes.limit">
+                        <td md-cell>{{osmtype.id}}</td>
+                        <td md-cell><span class="fa {{osmtype.tipType.icon}}"></span></td>
+                        <td md-cell>{{osmtype.tipType.name}}</td>
+                        <td md-cell>{{osmtype.key}}</td>
+                        <td md-cell>{{osmtype.value}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+            <md-table-pagination md-limit="queryTypes.limit" md-limit-options="[5, 10, 15]" md-page="queryTypes.page" md-total="{{osmtypes.length}}" md-on-paginate="getOSMTypes" md-page-select></md-table-pagination>
+        </md-card-content>
+    </md-card>
+    <md-card>
+        <md-card-title>
+            <md-card-title-text>
                 <span class="md-headline">Bounding Box</span>
                 <span class="md-subhead">Select area to automatically download data</span>
             </md-card-title-text>
         </md-card-title>
         <md-card-content>
-            <map class="map-small" locate="false" areaselect="{{editBBox}}" areaselected="areaselected" bboxfeature="bboxfeature">
+            <map class="map-small" locate="false" areaselect="{{editBBox}}" areaselected="areaselected"
+                 bboxfeature="bboxfeature">
             </map>
             <md-card-actions class="fade" layout="row" layout-align="end center">
                 <md-button class="md-primary" ng-show="!editBBox" ng-click="toggleEditBBox()">

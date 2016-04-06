@@ -25,6 +25,16 @@ define([
                     updateBBox: {
                         method: 'POST',
                         url: Config.API_ROOT_URL + '/admin/config/bbox'
+                    },
+                    getOSMTypes: {
+                        method: 'GET',
+                        url: Config.API_ROOT_URL + '/admin/config/osmtypes',
+                        isArray: true
+                    },
+                    getUnreviewedTIPs: {
+                        method: 'GET',
+                        url: Config.API_ROOT_URL + '/admin/config/tips',
+                        isArray: true
                     }
                 }
             );
