@@ -8,6 +8,7 @@ define([
 
         $scope.editBBox = false;
         $scope.selectedReview = [];
+        $scope.selectedTypes = [];
         $scope.queryReview = {
             order: 'id',
             limit: 5,
@@ -39,20 +40,11 @@ define([
                 $scope.bboxfeature = bbox;
             }});
 
-
-        $scope.getTIPsReview = function(){
-            $scope.tips = Admin.getUnreviewedTIPs() ;
-        };
-        $scope.getTIPsReview();
-
+        $scope.tips = Admin.getUnreviewedTIPs() ;
         $scope.hoverTIP = function(TIPId){
             console.log("Hover on TIP ID: "+TIPId);
         };
 
-
-        $scope.getOSMTypes = function(){
-            $scope.osmtypes = Admin.getOSMTypes();
-        };
-        $scope.getOSMTypes();
+        $scope.osmtypes = Admin.getOSMTypes();
     }]);
 });
