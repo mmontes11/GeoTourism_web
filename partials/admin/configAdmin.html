@@ -34,14 +34,21 @@
         </md-content>
     </md-tab>
     <md-tab label="review">
-        <md-content class="md-padding" layout="column">
-            <md-card class="md-padding">
-                <md-card-title>
-                    <md-card-title-text>
-                        <span class="md-headline">Review Places</span>
-                    </md-card-title-text>
-                </md-card-title>
+        <md-content class="md-padding">
+            <md-card>
                 <md-card-content>
+                    <div class="md-toolbar-tools">
+                        <span class="md-headline">Review Places</span>
+                        <div flex></div>
+                        <md-button class="md-primary" ng-click="reviewPlaces(selectedReview)"
+                                   ng-show="selectedReview.length > 0">
+                            <i class="material-icons">check</i>
+                        </md-button>
+                        <md-button class="md-warn" ng-click="deletePlaces(selectedReview)"
+                                   ng-show="selectedReview.length > 0">
+                            <i class="material-icons">delete</i>
+                        </md-button>
+                    </div>
                     <md-table-container>
                         <table md-table md-row-select multiple ng-model="selectedReview" md-progress="tips">
                             <thead md-head md-order="queryReview.order">
@@ -65,7 +72,8 @@
                             </tbody>
                         </table>
                     </md-table-container>
-                    <md-table-pagination md-limit="queryReview.limit" md-page="queryReview.page" md-total="{{tips.length}}">
+                    <md-table-pagination md-limit="queryReview.limit" md-page="queryReview.page"
+                                         md-total="{{tips.length}}">
                     </md-table-pagination>
                 </md-card-content>
             </md-card>
@@ -73,42 +81,51 @@
     </md-tab>
     <md-tab label="types">
         <md-content class="md-padding">
-            <md-content class="md-padding">
-                <md-card>
-                    <md-card-title>
-                        <md-card-title-text>
-                            <span class="md-headline">Place Types</span>
-                        </md-card-title-text>
-                    </md-card-title>
-                    <md-card-content>
-                        <md-table-container>
-                            <table md-table md-row-select multiple ng-model="selectedTypes" md-progress="osmtypes">
-                                <thead md-head md-order="queryTypes.order">
-                                <tr md-row>
-                                    <th md-column md-order-by="id"><span>ID</span></th>
-                                    <th md-column><span>Icon</span></th>
-                                    <th md-column md-order-by="tipType.name"><span>Name</span></th>
-                                    <th md-column md-order-by="key"><span>OSMKey</span></th>
-                                    <th md-column md-order-by="value"><span>OSMValue</span></th>
-                                </tr>
-                                </thead>
-                                <tbody md-body>
-                                <tr md-row md-select="osmtype" md-select-id="id" md-auto-select
-                                    ng-repeat="osmtype in osmtypes | orderBy: queryTypes.order | limitTo: queryTypes.limit: (queryTypes.page - 1) * queryTypes.limit">
-                                    <td md-cell>{{osmtype.id}}</td>
-                                    <td md-cell><span class="fa {{osmtype.tipType.icon}}"></span></td>
-                                    <td md-cell>{{osmtype.tipType.name}}</td>
-                                    <td md-cell>{{osmtype.key}}</td>
-                                    <td md-cell>{{osmtype.value}}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </md-table-container>
-                        <md-table-pagination md-limit="queryTypes.limit" md-limit-options="[5, 10]"
-                                             md-page="queryTypes.page" md-total="{{osmtypes.length}}">
-                        </md-table-pagination>
-                    </md-card-content>
-                </md-card>
-            </md-content>
+            <md-card>
+                <md-card-content>
+                    <div class="md-toolbar-tools">
+                        <span class="md-headline">Place Types</span>
+                        <div flex></div>
+                        <md-button class="md-primary" ng-click="addType()">
+                            <i class="material-icons">add_circle</i>
+                        </md-button>
+                        <md-button class="md-primary" ng-click="editType(selectedTypes[0])"
+                                   ng-show="selectedTypes.length == 1">
+                            <i class="material-icons">edit</i>
+                        </md-button>
+                        <md-button class="md-warn" ng-click="deleteTypes(selectedTypes)"
+                                   ng-show="selectedTypes.length > 0">
+                            <i class="material-icons">delete</i>
+                        </md-button>
+                    </div>
+                    <md-table-container>
+                        <table md-table md-row-select multiple ng-model="selectedTypes" md-progress="osmtypes">
+                            <thead md-head md-order="queryTypes.order">
+                            <tr md-row>
+                                <th md-column md-order-by="id"><span>ID</span></th>
+                                <th md-column><span>Icon</span></th>
+                                <th md-column md-order-by="tipType.name"><span>Name</span></th>
+                                <th md-column md-order-by="key"><span>OSMKey</span></th>
+                                <th md-column md-order-by="value"><span>OSMValue</span></th>
+                            </tr>
+                            </thead>
+                            <tbody md-body>
+                            <tr md-row md-select="osmtype" md-select-id="id" md-auto-select
+                                ng-repeat="osmtype in osmtypes | orderBy: queryTypes.order | limitTo: queryTypes.limit: (queryTypes.page - 1) * queryTypes.limit">
+                                <td md-cell>{{osmtype.id}}</td>
+                                <td md-cell><span class="fa {{osmtype.tipType.icon}}"></span></td>
+                                <td md-cell>{{osmtype.tipType.name}}</td>
+                                <td md-cell>{{osmtype.key}}</td>
+                                <td md-cell>{{osmtype.value}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </md-table-container>
+                    <md-table-pagination md-limit="queryTypes.limit" md-limit-options="[5, 10]"
+                                         md-page="queryTypes.page" md-total="{{osmtypes.length}}">
+                    </md-table-pagination>
+                </md-card-content>
+            </md-card>
+        </md-content>
     </md-tab>
 </md-tabs>

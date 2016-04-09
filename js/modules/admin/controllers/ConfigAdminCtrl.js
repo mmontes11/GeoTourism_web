@@ -51,7 +51,27 @@ define([
         $scope.stopBouncing = function(){
             $scope.$broadcast("map.stopbouncing",true);
         };
+        $scope.reviewPlaces = function(places){
+            console.log("REVIEW PLACES");
+            console.log(places);
+        };
+        $scope.deletePlaces = function(places){
+            console.log("DELETE PLACES");
+            console.log(places);
+        };
+
 
         $scope.osmtypes = Admin.getOSMTypes();
+        $scope.addType = function(){
+            console.log("ADD TYPE");
+        };
+        $scope.editType = function(type){
+            console.log("EDIT TYPE");
+            console.log(type);
+        };
+        $scope.deleteTypes = function(types){
+            console.log("DELETE TYPES");
+            console.log(types);
+        };
     }]);
 });
