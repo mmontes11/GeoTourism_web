@@ -7,15 +7,17 @@ define([
     'leaflet-providers',
     'leaflet-heatmap',
     'leaflet-markercluster',
-    'leaflet-areaselect'
+    'leaflet-areaselect',
+    'leaflet-bouncemarker'
 ], function (module, _, L, leafletProviders, HeatmapOverlay) {
-    module.directive('map', ['Config', 'FeatureService', function (Config, FeatureService) {
+    module.directive('map', ['Config', 'FeatureService', '$timeout', function (Config, FeatureService, $timeout) {
         return {
             restrict: 'E',
             replace: true,
             transclude: true,
             templateUrl: 'partials/gis/map.html',
             scope: {
+                mapid: "@",
                 locate: "@",
                 boundschanged: "=",
                 locationclicked: "=",
@@ -30,9 +32,14 @@ define([
                 heatdata: "=",
                 areaselect: "@",
                 areaselected: "=",
-                bboxfeature: "="
+                bboxfeature: "=",
+                bouncemarkers: "=",
+                bounce: "="
             },
-            link: function (scope) {
+            link: function (scope, element, attrs) {
+                scope.mapid = scope.mapid || 'map';
+                element.attr("id",scope.mapid);
+
                 var locate = eval(scope.locate);
                 var layers = [];
                 if (eval(scope.markercluster)) {
@@ -73,7 +80,8 @@ define([
                 scope.boundingboxlayers = L.featureGroup();
                 scope.permanentlayers = L.featureGroup();
                 layers = _.union(layers, [tileLayer, scope.boundingboxlayers, scope.permanentlayers]);
-                var map = L.map('map', {
+
+                var map = L.map(scope.mapid, {
                     minZoom: 5,
                     maxZoom: 20,
                     layers: layers
@@ -84,11 +92,10 @@ define([
                     if (angular.isDefined(newval)) {
                         if (eval(newval)) {
                             areaSelect = L.areaSelect({width: 300, height: 300});
-                            console.log(areaSelect);
                             areaSelect.addTo(map);
                             areaSelect.on("change", function () {
-                                var that  = this;
-                                scope.$apply(function(){
+                                var that = this;
+                                scope.$apply(function () {
                                     scope.areaselected = L.rectangle(that.getBounds());
                                 });
 
@@ -99,8 +106,7 @@ define([
                     }
                 });
 
-
-                if (locate){
+                if (locate) {
                     var fireBoundsChanged = function () {
                         scope.boundschanged = L.rectangle(map.getBounds());
                     };
@@ -115,6 +121,8 @@ define([
                             fireBoundsChanged();
                         });
                     });
+                }else{
+                    map.setView([51.505, -0.09], 13);
                 }
 
                 map.on('click', function (e) {
@@ -171,12 +179,16 @@ define([
                     }
                 });
 
+                var addPermanentFeatures = function(features){
+                    angular.forEach(features, function (feature) {
+                        var layer = feature2layer(feature);
+                        scope.permanentlayers.addLayer(layer);
+                    });
+                };
+
                 scope.$watchCollection('permanentfeatures', function (features) {
                     if (angular.isDefined(features)) {
-                        angular.forEach(features, function (feature) {
-                            var layer = feature2layer(feature);
-                            scope.permanentlayers.addLayer(layer);
-                        });
+                        addPermanentFeatures(features);
                     }
                 });
 
@@ -191,7 +203,42 @@ define([
                         scope.permanentlayers.addLayer(bboxlayer);
                     }
                 });
+
+                scope.$watchCollection('bouncemarkers', function(markers){
+                    if (angular.isDefined(markers) && markers.length > 0){
+                        markers = _.map(markers, function(marker){
+                            marker["bounceOptions"] = {
+                                bounceHeight : 60,
+                                bounceSpeed  : 54
+                            };
+                            return marker;
+                        });
+                        addPermanentFeatures(markers);
+                    }
+                });
+
+                var findLayer = function (layers, id) {
+                    var layer = _.filter(layers, function (layer) {
+                        return layer.customFeature.id == id;
+                    });
+                    layer = layer.length > 0 ? layer[0] : undefined;
+                    return layer;
+                };
+
+                scope.$watch("bounce", function(TIPId){
+                    if (angular.isDefined(TIPId)){
+                        var marker = findLayer(scope.permanentlayers.getLayers(),TIPId).getLayers()[0];
+                        marker.toggleBouncing();
+                        map.panTo(marker.getLatLng(),{animate:true});
+                    }
+                });
+
+                scope.$on("map.stopbouncing", function(stop){
+                    if (stop){
+                        L.Marker.stopAllBouncingMarkers();
+                    }
+                });
             }
-        };
+        }
     }]);
 });

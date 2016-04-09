@@ -42,7 +42,7 @@ body {
     background: rgba(0, 0, 0, 0.1);
 }
 
-#map {
+.map {
     height: 95%;
 }
 
@@ -52,6 +52,11 @@ body {
 
 .map-small {
     max-height: 33%;
+}
+
+
+.map-medium {
+    max-height: 50%;
 }
 
 .leaflet-top {

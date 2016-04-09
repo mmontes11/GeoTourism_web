@@ -40,9 +40,17 @@ define([
                 $scope.bboxfeature = bbox;
             }});
 
-        $scope.tips = Admin.getUnreviewedTIPs() ;
-        $scope.hoverTIP = function(TIPId){
-            console.log("Hover on TIP ID: "+TIPId);
+
+        Admin.getUnreviewedTIPs().$promise
+            .then(function(tips){
+                $scope.tips = tips;
+            });
+        $scope.bounceTIP = function(TIPId){
+            $scope.bounce = TIPId;
+        };
+        $scope.stopBouncing = function(){
+            console.log("STOP BOUNCING CTRL");
+            $scope.$broadcast("map.stopbouncing",true);
         };
 
         $scope.osmtypes = Admin.getOSMTypes();

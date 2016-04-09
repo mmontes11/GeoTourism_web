@@ -26,6 +26,7 @@ require.config({
         'leaflet-heatmap': '../lib/leaflet-heatmap',
         'leaflet-markercluster': '../bower_components/leaflet.markercluster/dist/leaflet.markercluster',
         'leaflet-areaselect': '../bower_components/leaflet-areaselect/src/leaflet-areaselect',
+        'leaflet-bouncemarker': '../bower_components/leaflet-bouncemarker/leaflet.smoothmarkerbouncing',
         wellknown: '../bower_components/wellknown/wellknown',
         'please-wait': '../bower_components/please-wait/build/please-wait.min',
         'moment': '../bower_components/moment/min/moment-with-locales'
@@ -96,6 +97,9 @@ require.config({
             deps: ['leaflet']
         },
         'leaflet-areaselect': {
+            deps: ['leaflet']
+        },
+        'leaflet-bouncemarker': {
             deps: ['leaflet']
         }
     },

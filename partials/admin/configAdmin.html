@@ -1,4 +1,10 @@
-<md-tabs md-dynamic-height md-border-bottom>
+<map class="fade map-medium" mapid="mapBBox" areaselect="{{editBBox}}" areaselected="areaselected"
+     bboxfeature="bboxfeature"
+     ng-show="selectedIndex == 0">
+</map>
+<map class="fade map-medium" mapid="mapReview" bouncemarkers="tips" bounce="bounce" ng-show="selectedIndex == 1">
+</map>
+<md-tabs md-dynamic-height md-border-bottom md-selected="selectedIndex">
     <md-tab label="bbox">
         <md-content class="md-padding">
             <md-card>
@@ -9,10 +15,6 @@
                     </md-card-title-text>
                 </md-card-title>
                 <md-card-content>
-                    <map class="map-small" locate="false" areaselect="{{editBBox}}"
-                         areaselected="areaselected"
-                         bboxfeature="bboxfeature">
-                    </map>
                     <md-card-actions class="fade" layout="row" layout-align="end center">
                         <md-button class="md-primary" ng-show="!editBBox" ng-click="toggleEditBBox()">
                             <i class="material-icons">edit</i>
@@ -32,7 +34,7 @@
         </md-content>
     </md-tab>
     <md-tab label="review">
-        <md-content class="md-padding">
+        <md-content class="md-padding" layout="column">
             <md-card class="md-padding">
                 <md-card-title>
                     <md-card-title-text>
@@ -51,11 +53,12 @@
                             </tr>
                             </thead>
                             <tbody md-body>
-                            <tr md-row md-select="tip" ng-mouseover="hoverTIP(tip.id)" md-select-id="id"
+                            <tr md-row md-select="tip" ng-mouseenter="bounceTIP(tip.id)" ng-mouseleave="stopBouncing()"
+                                md-select-id="id"
                                 md-auto-select
                                 ng-repeat="tip in tips | orderBy: queryReview.order | limitTo: queryReview.limit: (queryReview.page - 1) * queryReview.limit">
                                 <td md-cell>{{tip.id}}</td>
-                                <td md-cell><span class="fa {{tip.typeIcon}}"></span></td>
+                                <td md-cell><span class="fa {{tip.icon}}"></span></td>
                                 <td md-cell>{{tip.name}}</td>
                                 <td md-cell>{{tip.cityName}}</td>
                             </tr>
@@ -66,6 +69,7 @@
                                          md-page="queryReview.page" md-total="{{tips.length}}">
                     </md-table-pagination>
                 </md-card-content>
+            </md-card>
         </md-content>
     </md-tab>
     <md-tab label="types">
