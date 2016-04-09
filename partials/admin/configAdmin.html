@@ -11,7 +11,7 @@
                 <md-card-title>
                     <md-card-title-text>
                         <span class="md-headline">Bounding Box</span>
-                        <span class="md-subhead">Select area to automatically download data</span>
+                        <span class="md-subhead">Select an area to automatically download data from there.</span>
                     </md-card-title-text>
                 </md-card-title>
                 <md-card-content>
@@ -65,8 +65,7 @@
                             </tbody>
                         </table>
                     </md-table-container>
-                    <md-table-pagination md-limit="queryReview.limit" md-limit-options="[5, 10, 25, 50]"
-                                         md-page="queryReview.page" md-total="{{tips.length}}">
+                    <md-table-pagination md-limit="queryReview.limit" md-page="queryReview.page" md-total="{{tips.length}}">
                     </md-table-pagination>
                 </md-card-content>
             </md-card>
@@ -105,7 +104,7 @@
                                 </tbody>
                             </table>
                         </md-table-container>
-                        <md-table-pagination md-limit="queryTypes.limit" md-limit-options="[5, 10, 25, 50]"
+                        <md-table-pagination md-limit="queryTypes.limit" md-limit-options="[5, 10]"
                                              md-page="queryTypes.page" md-total="{{osmtypes.length}}">
                         </md-table-pagination>
                     </md-card-content>

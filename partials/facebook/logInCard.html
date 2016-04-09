@@ -1,7 +1,7 @@
 <md-card class="sidebar-card" layout-align="center center">
     <md-card-header>
         <md-card-avatar>
-            <div class="fade" layout-align="center center" layout="column" ng-if="ctrl.isAuthFB()">
+            <div class="fade" layout-align="center center" layout="column" ng-show="ctrl.isAuthFB()">
                 <md-list-item class="fade">
                     <img ng-src="{{ctrl.profilePhotoURL}}" class="md-avatar"/>
                 </md-list-item>

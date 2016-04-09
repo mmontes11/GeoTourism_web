@@ -91,7 +91,7 @@ define([
                 scope.$watch("areaselect", function (newval) {
                     if (angular.isDefined(newval)) {
                         if (eval(newval)) {
-                            areaSelect = L.areaSelect({width: 300, height: 300});
+                            areaSelect = L.areaSelect({width: 200, height: 200});
                             areaSelect.addTo(map);
                             areaSelect.on("change", function () {
                                 var that = this;
@@ -122,7 +122,7 @@ define([
                         });
                     });
                 }else{
-                    map.setView([51.505, -0.09], 13);
+                    map.setView([42, -8], 13);
                 }
 
                 map.on('click', function (e) {
@@ -214,6 +214,7 @@ define([
                             return marker;
                         });
                         addPermanentFeatures(markers);
+                        map.fitBounds(scope.permanentlayers.getBounds());
                     }
                 });
 

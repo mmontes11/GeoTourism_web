@@ -49,7 +49,6 @@ define([
             $scope.bounce = TIPId;
         };
         $scope.stopBouncing = function(){
-            console.log("STOP BOUNCING CTRL");
             $scope.$broadcast("map.stopbouncing",true);
         };
 
