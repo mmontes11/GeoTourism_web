@@ -104,5 +104,17 @@ define([
                clickOutsideToClose: true
            });
        };
+
+       this.showPlaceTypeDialog = function(placeType){
+           return $mdDialog.show({
+               controller: "DialogPlaceTypeCtrl",
+               templateUrl: 'partials/admin/dialogPlaceType.html',
+               parent: angular.element(document.body),
+               clickOutsideToClose: true,
+               locals: {
+                   placeType: placeType
+               }
+           });
+       };
    }]);
 });

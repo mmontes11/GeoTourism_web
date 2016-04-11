@@ -4,7 +4,7 @@ define([
     '../module'
 ], function(module){
 
-    module.controller('ConfigAdminCtrl',['$scope','Admin','FeatureService', function($scope,Admin,FeatureService){
+    module.controller('ConfigAdminCtrl',['$scope','Admin','FeatureService','DialogService',function($scope,Admin,FeatureService,DialogService){
 
         $scope.editBBox = false;
         $scope.selectedReview = [];
@@ -63,7 +63,12 @@ define([
 
         $scope.osmtypes = Admin.getOSMTypes();
         $scope.addType = function(){
-            console.log("ADD TYPE");
+            DialogService.showPlaceTypeDialog({})
+                .then(function(){
+
+                }, function(){
+
+                });
         };
         $scope.editType = function(type){
             console.log("EDIT TYPE");

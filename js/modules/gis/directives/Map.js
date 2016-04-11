@@ -10,7 +10,7 @@ define([
     'leaflet-areaselect',
     'leaflet-bouncemarker'
 ], function (module, _, L, leafletProviders, HeatmapOverlay) {
-    module.directive('map', ['Config', 'FeatureService', '$timeout', function (Config, FeatureService, $timeout) {
+    module.directive('map', ['Config', 'FeatureService', function (Config, FeatureService) {
         return {
             restrict: 'E',
             replace: true,

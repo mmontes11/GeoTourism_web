@@ -9,7 +9,7 @@ require.config({
         angularAria: '../bower_components/angular-aria/angular-aria.min',
         angularAnimate: '../bower_components/angular-animate/angular-animate.min',
         angularMaterial: '../bower_components/angular-material/angular-material.min',
-        angularMaterialDataTable: '/bower_components/angular-material-data-table/dist/md-data-table.min',
+        angularMaterialDataTable: '../bower_components/angular-material-data-table/dist/md-data-table.min',
         angularUiRouter: '../bower_components/angular-ui-router/release/angular-ui-router.min',
         angularMessages: '../bower_components/angular-messages/angular-messages.min',
         angularFacebook: '../bower_components/angular-facebook/lib/angular-facebook',
@@ -21,7 +21,7 @@ require.config({
         base64: '../bower_components/angular-base64/angular-base64',
         leaflet: '../bower_components/leaflet/dist/leaflet',
         'leaflet-providers': '../bower_components/leaflet-providers/leaflet-providers',
-        'leaflet-markers': '../bower_components/leaflet-markers/src/leaflet.extra-markers',
+        'leaflet-markers': '../bower_components/leaflet-markers/dist/js/leaflet.extra-markers.min',
         'heatmap': '../lib/heatmap',
         'leaflet-heatmap': '../lib/leaflet-heatmap',
         'leaflet-markercluster': '../bower_components/leaflet.markercluster/dist/leaflet.markercluster',
@@ -29,7 +29,8 @@ require.config({
         'leaflet-bouncemarker': '../bower_components/leaflet-bouncemarker/leaflet.smoothmarkerbouncing',
         wellknown: '../bower_components/wellknown/wellknown',
         'please-wait': '../bower_components/please-wait/build/please-wait.min',
-        'moment': '../bower_components/moment/min/moment-with-locales'
+        'moment': '../bower_components/moment/min/moment-with-locales',
+        'ui-iconpicker': '../bower_components/ui-iconpicker/dist/scripts/ui-iconpicker.min',
     },
     shim: {
         jquery: {

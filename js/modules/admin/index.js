@@ -3,6 +3,8 @@
 define([
     './controllers/LogInAdminCtrl',
     './controllers/ConfigAdminCtrl',
+    './controllers/DialogPlacetypeCtrl',
     './services/AuthAdminService',
-    './services/Admin'
+    './services/Admin',
+    './directives/FormPlaceType'
 ], function(){});
