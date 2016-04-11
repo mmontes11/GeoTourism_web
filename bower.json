@@ -30,7 +30,7 @@
     "moment": "^2.12.0",
     "angular-material-data-table": "^0.10.3",
     "leaflet-areaselect": "*",
-    "Leaflet.SmoothMarkerBouncing": "^1.1.2",
+    "Leaflet.SmoothMarkerBouncing": "^1.1.2"
   },
   "resolutions": {
     "angular": "1.4.7",

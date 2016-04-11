@@ -29,8 +29,7 @@ require.config({
         'leaflet-bouncemarker': '../bower_components/leaflet-bouncemarker/leaflet.smoothmarkerbouncing',
         wellknown: '../bower_components/wellknown/wellknown',
         'please-wait': '../bower_components/please-wait/build/please-wait.min',
-        'moment': '../bower_components/moment/min/moment-with-locales',
-        'ui-iconpicker': '../bower_components/ui-iconpicker/dist/scripts/ui-iconpicker.min',
+        'moment': '../bower_components/moment/min/moment-with-locales'
     },
     shim: {
         jquery: {
