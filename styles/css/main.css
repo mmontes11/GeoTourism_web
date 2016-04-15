@@ -3,16 +3,14 @@ html, body {
   font-family: "Droid Sans", sans-serif;
 }
 
-body > .inner {
-  display: none;
-}
-
-body.pg-loaded > .inner {
-  display: block;
-}
-
 body {
   overflow-y: hidden;
+}
+body .inner {
+  display: none;
+}
+body .pg-loaded > .inner {
+  display: block;
 }
 
 .sidebar-card {
@@ -21,21 +19,18 @@ body {
   margin: 0;
   height: 40%;
 }
-
 @media screen and (max-width: 760px) {
   .sidebar-card {
-    background-image: url("/img/sidebar_header.jpg");
-    background-size: cover;
-    margin: 0;
     height: 50%;
   }
 }
+
 .main {
   height: 100%;
 }
 
 .text-white {
-  color: #FFFFFF;
+  color: #F8F8F8;
 }
 
 .shadow {
@@ -110,21 +105,18 @@ md-content {
 }
 
 .chips ::-webkit-input-placeholder {
-  color: #000000;
+  color: black;
   font-weight: bold;
 }
-
 .chips ::-moz-placeholder {
-  color: #000000;
+  color: black;
   opacity: 1;
 }
-
 .chips ::-webkit-input-placeholder {
   color: #000000;
   opacity: 1;
   font-weight: bold;
 }
-
 .chips :-ms-input-placeholder {
   color: #000000;
   font-weight: bold;
@@ -150,16 +142,13 @@ md-content {
   padding-bottom: 8px;
   white-space: normal;
 }
-
 .autocompletedemoCustomTemplate .autocomplete-custom-template li:last-child {
   border-bottom-width: 0;
 }
-
 .autocompletedemoCustomTemplate .autocomplete-custom-template .item-title, .autocompletedemoCustomTemplate .autocomplete-custom-template .item-metadata {
   display: block;
   line-height: 2;
 }
-
 .autocompletedemoCustomTemplate .autocomplete-custom-template .item-title md-icon {
   height: 18px;
   width: 18px;
@@ -183,39 +172,31 @@ md-content {
   -o-transition: color 0.1s ease;
   transition: color 0.1s ease;
 }
-
-.btn-icon:active,
-.btn-icon:focus {
+.btn-icon :active, .btn-icon :focus {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
   border-color: transparent;
 }
-
-.btn-icon:active {
+.btn-icon :active {
   -webkit-transform: scale(0.9);
   -moz-transform: scale(0.9);
   -o-transform: scale(0.9);
   -ms-transform: scale(0.9);
   transform: scale(0.9);
 }
-
-.btn-icon:focus {
+.btn-icon :focus {
   outline: 0 none !important;
 }
-
 .btn-icon .heart {
   color: #666666;
 }
-
 .btn-icon .heart:hover {
   color: rgba(102, 102, 102, 0.85);
 }
-
 .btn-icon .heart.active {
   color: #f44336;
 }
-
 .btn-icon .heart.active:hover {
   color: #a12014;
 }
@@ -225,7 +206,6 @@ md-content {
   padding: 0;
   display: inline-block;
 }
-
 .star-rating .star {
   padding: 1px;
   color: #ddd;
@@ -235,7 +215,6 @@ md-content {
   display: inline-block;
   cursor: pointer;
 }
-
 .star-rating .star.filled {
   color: #fd0;
 }
@@ -250,15 +229,13 @@ md-content {
   margin-left: 88%;
   margin-bottom: 8%;
 }
-
 @media screen and (max-width: 760px) {
   .fab-position {
-    position: absolute;
-    bottom: 0;
     margin-left: 75%;
     margin-bottom: 18%;
   }
 }
+
 .loading-position {
   position: absolute;
   left: 50%;
@@ -302,24 +279,21 @@ md-content {
 .fade.ng-enter, .fade.ng-leave {
   transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
 }
-
-.fade.ng-enter,
+.fade.ng-enter {
+  opacity: 0;
+}
+.fade.ng-leave {
+  opacity: 1;
+}
 .fade.ng-leave.ng-leave-active {
   opacity: 0;
 }
-
-.fade.ng-leave,
 .fade.ng-enter.ng-enter-active {
   opacity: 1;
 }
 
-.sv-sorting-in-progress {
-  bottom: 0;
-}
-
-/*LOADING*/
 .pg-loading-screen {
-  background-color: #FFFFFF;
+  background-color: #F8F8F8;
 }
 
 .img-loading {
@@ -643,8 +617,8 @@ md-content {
 }
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url("../fonts/bootstrap/glyphicons-halflings-regular.eot");
-  src: url("../fonts/bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("../fonts/bootstrap/glyphicons-halflings-regular.woff2") format("woff2"), url("../fonts/bootstrap/glyphicons-halflings-regular.woff") format("woff"), url("../fonts/bootstrap/glyphicons-halflings-regular.ttf") format("truetype"), url("../fonts/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
+  src: url(font-path("bootstrap/glyphicons-halflings-regular.eot"));
+  src: url(font-path("bootstrap/glyphicons-halflings-regular.eot?#iefix")) format("embedded-opentype"), url(font-path("bootstrap/glyphicons-halflings-regular.woff2")) format("woff2"), url(font-path("bootstrap/glyphicons-halflings-regular.woff")) format("woff"), url(font-path("bootstrap/glyphicons-halflings-regular.ttf")) format("truetype"), url(font-path("bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular")) format("svg");
 }
 .bootstrap .glyphicon {
   position: relative;

@@ -5,16 +5,14 @@ html, body {
   font-family: $font;
 }
 
-body > .inner {
-  display: none;
-}
-
-body.pg-loaded > .inner {
-  display: block;
-}
-
 body {
   overflow-y: hidden;
+  .inner {
+    display: none;
+  }
+  .pg-loaded > .inner {
+    display: block;
+  }
 }
 
 .sidebar-card {
@@ -22,13 +20,7 @@ body {
   background-size: cover;
   margin:0;
   height:40%;
-}
-
-@media screen and (max-width: 760px){
-  .sidebar-card {
-    background-image: url('/img/sidebar_header.jpg');
-    background-size: cover;
-    margin:0;
+  @media screen and (max-width: 760px){
     height:50%;
   }
 }
@@ -38,7 +30,7 @@ body {
 }
 
 .text-white {
-  color: #FFFFFF;
+  color: $bone-white;
 }
 
 .shadow {
@@ -78,18 +70,15 @@ md-content {
 }
 
 .list-dialog {
-  max-height: 12%;
-  overflow-x: hidden;
+  @include list-dialog(12%);
 }
 
 .list-dialog-big {
-  max-height: 25%;
-  overflow-x: hidden;
+  @include list-dialog(25%);
 }
 
 .list-dialog-huge{
-  max-height: 40%;
-  overflow-x: hidden;
+  @include list-dialog(40%);
 }
 
 .list-item {
@@ -101,40 +90,39 @@ md-content {
 .as-sortable-placeholder {
   border: 1px dashed $color-primary;
   box-sizing: border-box;
-  background-color: rgba(0, 188, 212, 0.4);
+  background-color: $color-primary-dark;
 }
 
 .error-message,.favorite,.close,.cancel,.clear {
-  color: rgb(244,67,54);
+  color: $custom-red;
 }
 
 .cyan {
   color: $color-primary;
 }
 
-.chips ::-webkit-input-placeholder{
-  color:    #000000;
-  font-weight: bold
-}
-
-.chips  ::-moz-placeholder{
-  color:    #000000;
-  opacity:  1;
-}
-
-.chips ::-webkit-input-placeholder{
-  color:    #000000;
-  opacity:  1;
-  font-weight: bold
-}
-
-.chips :-ms-input-placeholder{
-  color:    #000000;
-  font-weight: bold
+.chips {
+  ::-webkit-input-placeholder {
+    color: black;
+    font-weight: bold
+  }
+  ::-moz-placeholder {
+    color: black;
+    opacity: 1;
+  }
+  ::-webkit-input-placeholder {
+    color: #000000;
+    opacity: 1;
+    font-weight: bold
+  }
+  :-ms-input-placeholder {
+    color: #000000;
+    font-weight: bold
+  }
 }
 
 .drop-box {
-  background: #F8F8F8;
+  background: $bone-white;
   border: 5px dashed #DDD;
   height: 5%;
   text-align: center;
@@ -146,26 +134,25 @@ md-content {
   border: 5px dashed $color-primary;
 }
 
-.autocompletedemoCustomTemplate .autocomplete-custom-template li {
-  border-bottom: 1px solid #ccc;
-  height: auto;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  white-space: normal;
-}
-
-.autocompletedemoCustomTemplate .autocomplete-custom-template li:last-child {
-  border-bottom-width: 0;
-}
-
-.autocompletedemoCustomTemplate .autocomplete-custom-template .item-title, .autocompletedemoCustomTemplate .autocomplete-custom-template .item-metadata {
-  display: block;
-  line-height: 2;
-}
-
-.autocompletedemoCustomTemplate .autocomplete-custom-template .item-title md-icon {
-  height: 18px;
-  width: 18px;
+.autocompletedemoCustomTemplate .autocomplete-custom-template {
+  li {
+    border-bottom: 1px solid #ccc;
+    height: auto;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    white-space: normal;
+  }
+  li:last-child {
+    border-bottom-width: 0;
+  }
+  .item-title, .item-metadata {
+    display: block;
+    line-height: 2;
+  }
+  .item-title md-icon {
+    height: 18px;
+    width: 18px;
+  }
 }
 
 #file-input {
@@ -185,53 +172,52 @@ md-content {
   -moz-transition: color 0.1s ease;
   -o-transition: color 0.1s ease;
   transition: color 0.1s ease;
-}
-.btn-icon:active,
-.btn-icon:focus {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-  border-color: transparent;
-}
-.btn-icon:active {
-  -webkit-transform: scale(0.9);
-  -moz-transform: scale(0.9);
-  -o-transform: scale(0.9);
-  -ms-transform: scale(0.9);
-  transform: scale(0.9);
-}
-.btn-icon:focus {
-  outline: 0 none !important;
-}
-.btn-icon .heart {
-  color: #666666;
-}
-.btn-icon .heart:hover {
-  color: rgba(102, 102, 102, 0.85);
-}
-.btn-icon .heart.active {
-  color: rgb(244,67,54);
-}
-.btn-icon .heart.active:hover {
-  color: rgb(161, 32, 20);
+  :active, :focus {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-color: transparent;
+  }
+  :active {
+    -webkit-transform: scale(0.9);
+    -moz-transform: scale(0.9);
+    -o-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+  :focus {
+    outline: 0 none !important;
+  }
+  .heart {
+    color: #666666;
+    &:hover {
+      color: rgba(102, 102, 102, 0.85);
+    }
+    &.active {
+      color: rgb(244, 67, 54);
+      &:hover {
+        color: rgb(161, 32, 20);
+      }
+    }
+  }
 }
 
 .star-rating {
   margin: 0;
   padding: 0;
   display: inline-block;
-}
-.star-rating .star {
-  padding: 1px;
-  color: #ddd;
-  font-size: 20px;
-  text-shadow: .05em .05em #aaa;
-  list-style-type: none;
-  display: inline-block;
-  cursor: pointer;
-}
-.star-rating .star.filled{
-  color: #fd0;
+  .star {
+    padding: 1px;
+    color: #ddd;
+    font-size: 20px;
+    text-shadow: .05em .05em #aaa;
+    list-style-type: none;
+    display: inline-block;
+    cursor: pointer;
+  }
+  .star.filled{
+    color: #fd0;
+  }
 }
 
 .md-contact-suggestion img {
@@ -243,12 +229,7 @@ md-content {
   bottom: 0;
   margin-left: 88%;
   margin-bottom: 8%;
-}
-
-@media screen and (max-width: 760px){
-  .fab-position {
-    position: absolute;
-    bottom: 0;
+  @media screen and (max-width: 760px) {
     margin-left: 75%;
     margin-bottom: 18%;
   }
@@ -273,7 +254,7 @@ md-content {
 }
 
 @media screen and (max-width: 760px){
-  .dialog,.dialog-route, .mini-dialog  {
+  .dialog,.dialog-route,.mini-dialog  {
     width:100%;
     max-height:100%;
     max-width: 100%;
@@ -295,28 +276,27 @@ md-content {
   max-width: 60%;
 }
 
-.fade.ng-enter, .fade.ng-leave {
-  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+.fade {
+  &.ng-enter, &.ng-leave {
+    transition: all cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s;
+  }
+  &.ng-enter {
+    opacity: 0;
+  }
+  &.ng-leave {
+    &.ng-leave-active {
+      opacity: 0;
+    }
+    opacity: 1;
+  }
+  &.ng-enter.ng-enter-active {
+    opacity: 1;
+  }
 }
 
-.fade.ng-enter,
-.fade.ng-leave.ng-leave-active {
-  opacity:0;
-}
-
-.fade.ng-leave,
-.fade.ng-enter.ng-enter-active {
-  opacity:1;
-}
-
-.sv-sorting-in-progress {
-  bottom:0;
-}
-
-/*LOADING*/
 
 .pg-loading-screen {
-  background-color: #FFFFFF;
+  background-color: $bone-white;
 }
 
 .img-loading {
@@ -374,5 +354,6 @@ md-content {
 }
 
 .bootstrap {
+  @import '../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap-sprockets';
   @import '../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap';
 }

@@ -6,9 +6,9 @@ define([
     module.directive('starRating', function() {
         return {
             restrict: 'E',
-            templateUrl: 'partials/social/rating.html',
+            templateUrl: 'partials/social/starRating.html',
             scope: {
-                rating: '=',
+                ratingvalue: '=',
                 max: '=?',
                 onRatingSelect: '&?',
                 readonly: '=?'
@@ -21,19 +21,19 @@ define([
                     scope.stars = [];
                     for (var i = 0; i < scope.max; i++) {
                         scope.stars.push({
-                            filled: i < scope.rating
+                            filled: i < scope.ratingvalue
                         });
                     }
                 }
                 scope.toggle = function(index) {
                     if (scope.readonly == undefined || scope.readonly === false){
-                        scope.rating = index + 1;
+                        scope.ratingvalue = index + 1;
                         scope.onRatingSelect({
-                            rating: index + 1
+                            ratingvalue: index + 1
                         });
                     }
                 };
-                scope.$watch('rating', function(oldValue, newValue) {
+                scope.$watch('ratingvalue', function(oldValue, newValue) {
                     if (angular.isDefined(newValue)) {
                         updateStars();
                     }

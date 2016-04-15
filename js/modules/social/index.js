@@ -4,6 +4,6 @@ define([
     './services/User',
     './directives/Favourite',
     './directives/PeopleSelector',
-    './directives/Rating',
+    './directives/StarRating',
     './directives/SocialChips'
 ],function(){});

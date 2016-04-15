@@ -5,7 +5,7 @@
   "scripts": {
     "install": "bower install",
     "start": "http-server -a localhost -p 8000",
-    "dev": "npm install && npm start",
+    "sass": "grunt sass && grunt watch",
     "dist": "grunt dist",
     "deploy": "grunt dist && firebase deploy && firebase open"
   },
