@@ -15,6 +15,7 @@ require.config({
         angularFacebook: '../bower_components/angular-facebook/lib/angular-facebook',
         ngFileUpload: '../bower_components/ng-file-upload/ng-file-upload.min',
         ngSortable: '../bower_components/ng-sortable/dist/ng-sortable.min',
+        "angular-bootstrap": '../bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
         require: '../bower_components/requirejs/require',
         domReady: '../bower_components/requirejs-domready/domReady',
         md5: '../bower_components/angular-md5/angular-md5.min',
@@ -29,7 +30,8 @@ require.config({
         'leaflet-bouncemarker': '../bower_components/leaflet-bouncemarker/leaflet.smoothmarkerbouncing',
         wellknown: '../bower_components/wellknown/wellknown',
         'please-wait': '../bower_components/please-wait/build/please-wait.min',
-        'moment': '../bower_components/moment/min/moment-with-locales'
+        'moment': '../bower_components/moment/min/moment-with-locales',
+        'ui-iconpicker': '../bower_components/ui-iconpicker/dist/scripts/ui-iconpicker.min'
     },
     shim: {
         jquery: {
@@ -67,6 +69,9 @@ require.config({
             deps: ['angular']
         },
         angularFacebook: {
+            deps: ['angular']
+        },
+        angularBoostrap: {
             deps: ['angular']
         },
         ngFileUpload: {

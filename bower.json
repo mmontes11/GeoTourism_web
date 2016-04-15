@@ -21,6 +21,7 @@
     "leaflet-bouncemarker": "git://github.com/hosuaby/Leaflet.SmoothMarkerBouncing.git",
     "angular-messages": "~1.4.7",
     "ng-file-upload": "~9.0.14",
+    "ui-iconpicker": "git://github.com/justin-lau/ui-iconpicker",
     "font-awesome": "~4.5.0",
     "leaflet-providers": "~1.1.6",
     "wellknown": "~0.4.0",
@@ -28,12 +29,15 @@
     "heatmap.js-amd": "*",
     "leaflet.markercluster": "~0.4.0",
     "moment": "^2.12.0",
-    "angular-material-data-table": "^0.10.3",
+    "angular-material-data-table": "^0.10.5",
     "leaflet-areaselect": "*",
-    "Leaflet.SmoothMarkerBouncing": "^1.1.2"
+    "Leaflet.SmoothMarkerBouncing": "^1.1.2",
+    "angular-bootstrap": "^1.3.2",
+    "bootstrap-sass": "^3.3.6"
   },
   "resolutions": {
     "angular": "1.4.7",
-    "angular-animate": "1.4.7"
+    "angular-animate": "1.4.7",
+    "angular-bootstrap": "~0.10.0"
   }
 }

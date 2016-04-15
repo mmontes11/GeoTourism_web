@@ -71,6 +71,25 @@ module.exports = function (grunt) {
                     {expand: true, src: ['img/**/*'], dest: 'dist/', mode: true}
                 ]
             }
+        },
+        sass: {
+            dist: {
+                options: {
+                    style: 'expanded'
+                },
+                files: {
+                    "styles/css/main.css": "styles/sass/main.scss"
+                }
+            }
+        },
+        watch: {
+            styles: {
+                files: ['styles/sass/*.scss'],
+                tasks: ['sass'],
+                options: {
+                    spawn: false
+                }
+            }
         }
     });
 
@@ -80,7 +99,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
-    grunt.registerTask('dist', ['clean','htmlmin','cssmin','uglify','copy']);
+    grunt.registerTask('dist', ['clean','htmlmin','sass','cssmin','uglify','copy']);
     grunt.registerTask('default', ['dist']);
 };

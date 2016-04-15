@@ -13,6 +13,7 @@ define([
     './directives/UploadPhoto',
     './directives/Chips',
     './directives/FiltersHandler',
+    './directives/IconPicker',
     './filters/PlusLessIncon',
     './filters/ShowHide'
 ], function(){});

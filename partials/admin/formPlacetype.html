@@ -1,0 +1,12 @@
+<form name="form" novalidate>
+    <div layout="row">
+        <md-input-container flex-gt-sm="50">
+            <label>Name</label>
+            <input name="name" ng-model="TIPtype.name" maxlength="20" required>
+            <div ng-messages="form.name.$error" role="alert">
+                <div ng-message="required" class="my-message">Mandatory field</div>
+            </div>
+        </md-input-container>
+        <icon-picker icon="icon"></icon-picker>
+    </div>
+</form>

@@ -1,0 +1,378 @@
+@import 'variables';
+@import 'mixins';
+
+html, body {
+  font-family: $font;
+}
+
+body > .inner {
+  display: none;
+}
+
+body.pg-loaded > .inner {
+  display: block;
+}
+
+body {
+  overflow-y: hidden;
+}
+
+.sidebar-card {
+  background-image: url('/img/sidebar_header.jpg');
+  background-size: cover;
+  margin:0;
+  height:40%;
+}
+
+@media screen and (max-width: 760px){
+  .sidebar-card {
+    background-image: url('/img/sidebar_header.jpg');
+    background-size: cover;
+    margin:0;
+    height:50%;
+  }
+}
+
+.main {
+  height: 100%;
+}
+
+.text-white {
+  color: #FFFFFF;
+}
+
+.shadow {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.map {
+  height: 95%;
+}
+
+.map-overlay {
+  z-index: 20;
+}
+
+.map-medium {
+  max-height: 40%;
+}
+
+.leaflet-top {
+  z-index: 50;
+}
+
+.formLogLogIn {
+  height: 75%;
+  width: 100%;
+}
+
+md-content {
+  background-color:rgba(255, 255, 255, 0.75);
+}
+
+.img-dialog-small {
+  max-height: 30%;
+  height: auto;
+  display: block;
+  border-radius: 5%;
+}
+
+.list-dialog {
+  max-height: 12%;
+  overflow-x: hidden;
+}
+
+.list-dialog-big {
+  max-height: 25%;
+  overflow-x: hidden;
+}
+
+.list-dialog-huge{
+  max-height: 40%;
+  overflow-x: hidden;
+}
+
+.list-item {
+  margin-bottom: 3%;
+  background: #f0f0f0;
+  border-radius: 3%
+}
+
+.as-sortable-placeholder {
+  border: 1px dashed $color-primary;
+  box-sizing: border-box;
+  background-color: rgba(0, 188, 212, 0.4);
+}
+
+.error-message,.favorite,.close,.cancel,.clear {
+  color: rgb(244,67,54);
+}
+
+.cyan {
+  color: $color-primary;
+}
+
+.chips ::-webkit-input-placeholder{
+  color:    #000000;
+  font-weight: bold
+}
+
+.chips  ::-moz-placeholder{
+  color:    #000000;
+  opacity:  1;
+}
+
+.chips ::-webkit-input-placeholder{
+  color:    #000000;
+  opacity:  1;
+  font-weight: bold
+}
+
+.chips :-ms-input-placeholder{
+  color:    #000000;
+  font-weight: bold
+}
+
+.drop-box {
+  background: #F8F8F8;
+  border: 5px dashed #DDD;
+  height: 5%;
+  text-align: center;
+  padding-top: 25px;
+  margin: 10px;
+}
+
+.dragover {
+  border: 5px dashed $color-primary;
+}
+
+.autocompletedemoCustomTemplate .autocomplete-custom-template li {
+  border-bottom: 1px solid #ccc;
+  height: auto;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  white-space: normal;
+}
+
+.autocompletedemoCustomTemplate .autocomplete-custom-template li:last-child {
+  border-bottom-width: 0;
+}
+
+.autocompletedemoCustomTemplate .autocomplete-custom-template .item-title, .autocompletedemoCustomTemplate .autocomplete-custom-template .item-metadata {
+  display: block;
+  line-height: 2;
+}
+
+.autocompletedemoCustomTemplate .autocomplete-custom-template .item-title md-icon {
+  height: 18px;
+  width: 18px;
+}
+
+#file-input {
+  display: none;
+}
+
+.btn-icon {
+  font-size: 2em;
+  margin: 0 0.5em;
+  padding: 0;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  border-radius: 0;
+  -webkit-transition: color 0.1s ease;
+  -moz-transition: color 0.1s ease;
+  -o-transition: color 0.1s ease;
+  transition: color 0.1s ease;
+}
+.btn-icon:active,
+.btn-icon:focus {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border-color: transparent;
+}
+.btn-icon:active {
+  -webkit-transform: scale(0.9);
+  -moz-transform: scale(0.9);
+  -o-transform: scale(0.9);
+  -ms-transform: scale(0.9);
+  transform: scale(0.9);
+}
+.btn-icon:focus {
+  outline: 0 none !important;
+}
+.btn-icon .heart {
+  color: #666666;
+}
+.btn-icon .heart:hover {
+  color: rgba(102, 102, 102, 0.85);
+}
+.btn-icon .heart.active {
+  color: rgb(244,67,54);
+}
+.btn-icon .heart.active:hover {
+  color: rgb(161, 32, 20);
+}
+
+.star-rating {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+}
+.star-rating .star {
+  padding: 1px;
+  color: #ddd;
+  font-size: 20px;
+  text-shadow: .05em .05em #aaa;
+  list-style-type: none;
+  display: inline-block;
+  cursor: pointer;
+}
+.star-rating .star.filled{
+  color: #fd0;
+}
+
+.md-contact-suggestion img {
+  margin-top: -20%;
+}
+
+.fab-position {
+  position: absolute;
+  bottom: 0;
+  margin-left: 88%;
+  margin-bottom: 8%;
+}
+
+@media screen and (max-width: 760px){
+  .fab-position {
+    position: absolute;
+    bottom: 0;
+    margin-left: 75%;
+    margin-bottom: 18%;
+  }
+}
+
+.loading-position {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+.dialog {
+  min-width: 50%;
+}
+
+.mini-dialog {
+  min-width: 25%;
+}
+
+.dialog-route {
+  min-width: 30%;
+}
+
+@media screen and (max-width: 760px){
+  .dialog,.dialog-route, .mini-dialog  {
+    width:100%;
+    max-height:100%;
+    max-width: 100%;
+  }
+}
+
+.img-dialog {
+  max-height: 50%;
+  height: auto;
+  display: block;
+  border-radius: 5%;
+}
+
+.small-margin-top {
+  margin-top: 2%;
+}
+
+.place-title {
+  max-width: 60%;
+}
+
+.fade.ng-enter, .fade.ng-leave {
+  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+}
+
+.fade.ng-enter,
+.fade.ng-leave.ng-leave-active {
+  opacity:0;
+}
+
+.fade.ng-leave,
+.fade.ng-enter.ng-enter-active {
+  opacity:1;
+}
+
+.sv-sorting-in-progress {
+  bottom:0;
+}
+
+/*LOADING*/
+
+.pg-loading-screen {
+  background-color: #FFFFFF;
+}
+
+.img-loading {
+  max-height: 30%;
+  max-width: 30%;
+}
+
+.spinner {
+  margin: 100px auto;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  text-align: center;
+
+  -webkit-animation: sk-rotate 2.0s infinite linear;
+  animation: sk-rotate 2.0s infinite linear;
+}
+
+.dot1, .dot2 {
+  width: 60%;
+  height: 60%;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  background-color: #333;
+  border-radius: 100%;
+
+  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+  animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.dot2 {
+  top: auto;
+  bottom: 0;
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-rotate { 100% { -webkit-transform: rotate(360deg) }}
+@keyframes sk-rotate { 100% { transform: rotate(360deg); -webkit-transform: rotate(360deg) }}
+
+@-webkit-keyframes sk-bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bounce {
+  0%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% {
+      transform: scale(1.0);
+      -webkit-transform: scale(1.0);
+    }
+}
+
+.bootstrap {
+  @import '../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap';
+}
