@@ -64,8 +64,8 @@ define([
         $scope.osmtypes = Admin.getOSMTypes();
         $scope.addType = function(){
             DialogService.showPlaceTypeDialog({})
-                .then(function(){
-
+                .then(function(placeType){
+                    console.log(placeType);
                 }, function(){
 
                 });

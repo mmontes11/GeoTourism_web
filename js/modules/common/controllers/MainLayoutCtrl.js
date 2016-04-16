@@ -7,7 +7,6 @@ define([
                 return AuthAdminService.isAuthenticated;
             };
             $scope.logOut = function () {
-                console.log($state.is('adminConfig'));
                 AuthAdminService.logOut();
                 if ($state.is('adminConfig')){
                     $state.go('adminLogIn');

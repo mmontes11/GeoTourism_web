@@ -6,5 +6,6 @@ define([
     './controllers/DialogPlaceTypeCtrl',
     './services/AuthAdminService',
     './services/Admin',
-    './directives/FormPlaceType'
+    './directives/FormPlaceType',
+    './directives/UniqueOSMtype'
 ], function(){});

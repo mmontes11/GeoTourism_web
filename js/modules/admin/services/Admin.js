@@ -48,6 +48,13 @@ define([
                           osmKey: "@osmKey"
                         },
                         isArray: true
+                    },
+                    checkOSMType: {
+                        method: 'GET',
+                        url: Config.API_ROOT_URL + '/admin/config/osmtype/:osmType?hasTIPtype=false',
+                        params: {
+                            osmType: "@osmType"
+                        }
                     }
                 }
             );
