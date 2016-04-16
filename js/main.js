@@ -23,15 +23,15 @@ require.config({
         leaflet: '../bower_components/leaflet/dist/leaflet',
         'leaflet-providers': '../bower_components/leaflet-providers/leaflet-providers',
         'leaflet-markers': '../bower_components/leaflet-markers/dist/js/leaflet.extra-markers.min',
-        'heatmap': '../lib/heatmap',
-        'leaflet-heatmap': '../lib/leaflet-heatmap',
+        'heatmap': '../lib/heatmap/heatmap',
+        'leaflet-heatmap': '../lib/heatmap/leaflet-heatmap',
         'leaflet-markercluster': '../bower_components/leaflet.markercluster/dist/leaflet.markercluster',
         'leaflet-areaselect': '../bower_components/leaflet-areaselect/src/leaflet-areaselect',
         'leaflet-bouncemarker': '../bower_components/leaflet-bouncemarker/leaflet.smoothmarkerbouncing',
         wellknown: '../bower_components/wellknown/wellknown',
         'please-wait': '../bower_components/please-wait/build/please-wait.min',
         'moment': '../bower_components/moment/min/moment-with-locales',
-        'ui-iconpicker': '../bower_components/ui-iconpicker/dist/scripts/ui-iconpicker.min'
+        'ui-iconpicker': '../lib/iconpicker/ui-iconpicker'
     },
     shim: {
         jquery: {

@@ -35,6 +35,19 @@ define([
                         method: 'GET',
                         url: Config.API_ROOT_URL + '/admin/config/tips',
                         isArray: true
+                    },
+                    getOSMKeys: {
+                        method: 'GET',
+                        url: Config.API_ROOT_URL + '/admin/config/osmkeys',
+                        isArray: true
+                    },
+                    getOSMTypeValues: {
+                        method: 'GET',
+                        url: Config.API_ROOT_URL + '/admin/config/osmkey/:osmKey/osmtypes',
+                        params: {
+                          osmKey: "@osmKey"
+                        },
+                        isArray: true
                     }
                 }
             );

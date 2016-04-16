@@ -3,7 +3,7 @@
 define([
     './controllers/LogInAdminCtrl',
     './controllers/ConfigAdminCtrl',
-    './controllers/DialogPlacetypeCtrl',
+    './controllers/DialogPlaceTypeCtrl',
     './services/AuthAdminService',
     './services/Admin',
     './directives/FormPlaceType'

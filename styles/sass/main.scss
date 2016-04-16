@@ -70,15 +70,15 @@ md-content {
 }
 
 .list-dialog {
-  @include list-dialog(12%);
+  @include vertical-scroll-dialog(12%);
 }
 
 .list-dialog-big {
-  @include list-dialog(25%);
+  @include vertical-scroll-dialog(25%);
 }
 
 .list-dialog-huge{
-  @include list-dialog(40%);
+  @include vertical-scroll-dialog(40%);
 }
 
 .list-item {

@@ -1,4 +1,4 @@
-@mixin list-dialog($max-height) {
+@mixin vertical-scroll-dialog($max-height) {
   max-height: $max-height;
   overflow-x: hidden;
 }

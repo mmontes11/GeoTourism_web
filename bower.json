@@ -21,7 +21,6 @@
     "leaflet-bouncemarker": "git://github.com/hosuaby/Leaflet.SmoothMarkerBouncing.git",
     "angular-messages": "~1.4.7",
     "ng-file-upload": "~9.0.14",
-    "ui-iconpicker": "git://github.com/justin-lau/ui-iconpicker",
     "font-awesome": "~4.5.0",
     "leaflet-providers": "~1.1.6",
     "wellknown": "~0.4.0",
