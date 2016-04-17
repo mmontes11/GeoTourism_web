@@ -55,6 +55,17 @@ define([
                         params: {
                             osmType: "@osmType"
                         }
+                    },
+                    createOSMType: {
+                        method: 'POST',
+                        url: Config.API_ROOT_URL + '/admin/tip/type'
+                    },
+                    updateOSMType: {
+                        method: 'PUT',
+                        url: Config.API_ROOT_URL + '/admin/tip/type/:id',
+                        params: {
+                            id: '@id'
+                        }
                     }
                 }
             );
