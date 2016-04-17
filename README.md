@@ -14,6 +14,7 @@ Its architecture consists in the following parts:
 ### Technology Stack
 * [AngularJS](https://angularjs.org/)
 * [Angular Material](https://material.angularjs.org)
+* [SASS](http://sass-lang.com/)
 * [Leaflet](http://leafletjs.com/)
 * [RequireJS](http://requirejs.org/)
 * [Bower](http://bower.io/)
