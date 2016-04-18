@@ -54,8 +54,8 @@
                             <thead md-head md-order="queryReview.order">
                             <tr md-row>
                                 <th md-column md-order-by="id"><span>ID</span></th>
-                                <th md-column><span>Type</span></th>
                                 <th md-column md-order-by="name"><span>Name</span></th>
+                                <th md-column><span>Type</span></th>
                                 <th md-column md-order-by="cityName"><span>City</span></th>
                             </tr>
                             </thead>
@@ -65,8 +65,8 @@
                                 md-auto-select
                                 ng-repeat="tip in tips | orderBy: queryReview.order | limitTo: queryReview.limit: (queryReview.page - 1) * queryReview.limit">
                                 <td md-cell>{{tip.id}}</td>
-                                <td md-cell><span class="fa {{tip.icon}}"></span></td>
                                 <td md-cell>{{tip.name}}</td>
+                                <td md-cell><span class="fa {{tip.icon}}"></span></td>
                                 <td md-cell>{{tip.cityName}}</td>
                             </tr>
                             </tbody>
@@ -99,30 +99,26 @@
                         </md-button>
                     </div>
                     <md-table-container>
-                        <table md-table md-row-select multiple ng-model="selectedTypes" md-progress="osmtypes">
+                        <table md-table md-row-select multiple ng-model="selectedTypes" md-progress="placeTypes">
                             <thead md-head md-order="queryTypes.order">
                             <tr md-row>
                                 <th md-column md-order-by="id"><span>ID</span></th>
-                                <th md-column><span>Icon</span></th>
                                 <th md-column md-order-by="tipType.name"><span>Name</span></th>
-                                <th md-column md-order-by="key"><span>OSMKey</span></th>
-                                <th md-column md-order-by="value"><span>OSMType</span></th>
+                                <th md-column><span>Icon</span></th>
                             </tr>
                             </thead>
                             <tbody md-body>
-                            <tr md-row md-select="osmtype" md-select-id="id" md-auto-select
-                                ng-repeat="osmtype in osmtypes | orderBy: queryTypes.order | limitTo: queryTypes.limit: (queryTypes.page - 1) * queryTypes.limit">
-                                <td md-cell>{{osmtype.id}}</td>
-                                <td md-cell><span class="fa {{osmtype.tipType.icon}}"></span></td>
-                                <td md-cell>{{osmtype.tipType.name}}</td>
-                                <td md-cell>{{osmtype.key}}</td>
-                                <td md-cell>{{osmtype.value}}</td>
+                            <tr md-row md-select="placeType" md-select-id="id" md-auto-select
+                                ng-repeat="placeType in placeTypes | orderBy: queryTypes.order | limitTo: queryTypes.limit: (queryTypes.page - 1) * queryTypes.limit">
+                                <td md-cell>{{placeType.id}}</td>
+                                <td md-cell>{{placeType.name}}</td>
+                                <td md-cell><span class="fa {{placeType.icon}}"></span></td>
                             </tr>
                             </tbody>
                         </table>
                     </md-table-container>
                     <md-table-pagination md-limit="queryTypes.limit" md-limit-options="[5, 10]"
-                                         md-page="queryTypes.page" md-total="{{osmtypes.length}}">
+                                         md-page="queryTypes.page" md-total="{{placeTypes.length}}">
                     </md-table-pagination>
                 </md-card-content>
             </md-card>

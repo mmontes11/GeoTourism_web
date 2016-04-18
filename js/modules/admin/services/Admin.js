@@ -28,7 +28,10 @@ define([
                     },
                     getOSMTypes: {
                         method: 'GET',
-                        url: Config.API_ROOT_URL + '/admin/config/osmtypes',
+                        url: Config.API_ROOT_URL + '/admin/config/tip/type/:id/osmtypes',
+                        params: {
+                            id: "@id"
+                        },
                         isArray: true
                     },
                     getUnreviewedTIPs: {
@@ -54,17 +57,6 @@ define([
                         url: Config.API_ROOT_URL + '/admin/config/osmtype/:osmType?hasTIPtype=false',
                         params: {
                             osmType: "@osmType"
-                        }
-                    },
-                    createOSMType: {
-                        method: 'POST',
-                        url: Config.API_ROOT_URL + '/admin/tip/type'
-                    },
-                    updateOSMType: {
-                        method: 'PUT',
-                        url: Config.API_ROOT_URL + '/admin/tip/type/:id',
-                        params: {
-                            id: '@id'
                         }
                     }
                 }

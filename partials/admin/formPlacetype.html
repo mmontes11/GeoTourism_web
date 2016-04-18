@@ -1,13 +1,43 @@
 <form name="form" novalidate>
-    <div layout="row">
-        <md-input-container flex-gt-sm="50">
-            <label>Name</label>
-            <input name="name" ng-model="TIPtype.name" maxlength="20" required>
-            <div ng-messages="form.name.$error" role="alert">
-                <div ng-message="required" class="my-message">Mandatory field</div>
-            </div>
-        </md-input-container>
-        {{icon}}
-        <icon-picker icon="icon"></icon-picker>
+    <div layout="column">
+        <div layout="row">
+            <md-input-container flex-gt-sm="50">
+                <label>Name</label>
+                <input name="name" ng-model="placetype.name" maxlength="20" required>
+                <div ng-messages="form.name.$error" role="alert">
+                    <div ng-message="required" class="my-message">Mandatory field</div>
+                </div>
+            </md-input-container>
+            <md-input-container flex-gt-sm="50">
+                <icon-picker icon="placetype.icon"></icon-picker>
+            </md-input-container>
+        </div>
+        <span flex="10"></span>
+        <div layout="row">
+            <md-input-container flex-gt-sm="45">
+                <label>OSMKey</label>
+                <md-select name="osmKey" ng-model="placetype.osmKey" >
+                    <md-option ng-repeat="osmKey in osmKeys" value="{{osmKey}}">
+                        {{osmKey}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+            <md-input-container flex-gt-sm="45" ng-if="showOSMtype()">
+                <label>OSMType</label>
+                <md-select name="osmType" ng-model="placetype.osmType" unique-osm-type>
+                    <md-option ng-repeat="osmType in osmTypes" value="{{osmType}}">
+                        {{osmType}}
+                    </md-option>
+                </md-select>
+                <div ng-messages="form.osmType.$error" role="alert">
+                    <div ng-message="uniqueOSMtype" class="my-message">This type is already used</div>
+                </div>
+            </md-input-container>
+            <md-button class="md-warn" flex-gt-sm="5"
+                       ng-show="showDeleteOSMtype()"
+                       ng-click="deleteOSMtype()">
+                <i class="material-icons">close</i>
+            </md-button>
+        </div>
     </div>
 </form>

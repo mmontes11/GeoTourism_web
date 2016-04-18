@@ -40,6 +40,24 @@ define([
                         type: '@type'
                     }
                 },
+                createType: {
+                    method: 'POST',
+                    url: Config.API_ROOT_URL + '/admin/tip/type'
+                },
+                updateType: {
+                    method: 'PUT',
+                    url: Config.API_ROOT_URL + '/admin/tip/type/:id',
+                    params: {
+                        id: '@id'
+                    }
+                },
+                deleteType: {
+                    method: 'DELETE',
+                    url: Config.API_ROOT_URL + '/admin/tip/type/:id',
+                    params: {
+                        id: '@id'
+                    }
+                },
                 favourite: {
                     method: 'POST',
                     url: Config.API_ROOT_URL + '/social/tip/:id/favourite?favouriteValue=:favouriteValue',

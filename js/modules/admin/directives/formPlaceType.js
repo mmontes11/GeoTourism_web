@@ -3,7 +3,7 @@
 define([
     '../module'
 ], function (module) {
-    module.directive("formPlaceType", ["Admin",function(Admin){
+    module.directive("formPlaceType", ["Admin", function (Admin) {
         return {
             restrict: 'E',
             replace: true,
@@ -12,12 +12,21 @@ define([
                 placetype: "=",
                 form: "="
             },
-            link: function(scope){
+            link: function (scope) {
                 scope.osmKeys = Admin.getOSMKeys();
-                scope.$watch("placetype.osmKey", function(newValue){
-                    if (angular.isDefined(newValue)){
-                        console.log(newValue)
-                        scope.osmTypes = Admin.getOSMTypeValues({osmKey:newValue});
+                scope.showOSMtype = function(){
+                    return (scope.placetype.osmKey != undefined && scope.osmTypes != undefined && scope.osmTypes.length > 0);
+                };
+                scope.showDeleteOSMtype = function(){
+                    return (scope.placetype.osmKey != undefined || scope.placetype.osmType != undefined);
+                };
+                scope.deleteOSMtype = function(){
+                    scope.placetype.osmKey = undefined;
+                    scope.placetype.osmType = undefined;
+                };
+                scope.$watch("placetype.osmKey", function (osmKey) {
+                    if (angular.isDefined(osmKey)) {
+                        scope.osmTypes = Admin.getOSMTypeValues({osmKey: osmKey});
                     }
                 });
             }
