@@ -28,6 +28,13 @@ define([
                 patch: {
                     method: 'PATCH'
                 },
+                delete: {
+                    method: 'DELETE',
+                    url: Config.API_ROOT_URL + '/admin/tip/:id',
+                    params: {
+                        id: "@id"
+                    }
+                },
                 getTypes: {
                     method: 'GET',
                     url: Config.API_ROOT_URL + '/tip/types',
@@ -92,6 +99,13 @@ define([
                 getNumRoutes: {
                     method: 'GET',
                     url : Config.API_ROOT_URL + '/admin/tip/:id/numroutes'
+                },
+                review: {
+                    method: 'PATCH',
+                    url: Config.API_ROOT_URL + '/admin/tip/:id/reviewed',
+                    params: {
+                        id: "@id"
+                    }
                 }
             }
         );

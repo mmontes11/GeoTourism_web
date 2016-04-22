@@ -36,7 +36,7 @@ define([
                 bouncemarkers: "=",
                 bounce: "="
             },
-            link: function (scope, element, attrs) {
+            link: function (scope, element) {
                 scope.mapid = scope.mapid || 'map';
                 element.attr("id",scope.mapid);
 
@@ -205,6 +205,7 @@ define([
                 });
 
                 scope.$watchCollection('bouncemarkers', function(markers){
+                    scope.permanentlayers.clearLayers();
                     if (angular.isDefined(markers) && markers.length > 0){
                         markers = _.map(markers, function(marker){
                             marker["bounceOptions"] = {

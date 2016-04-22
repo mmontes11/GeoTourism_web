@@ -55,12 +55,45 @@ define([
                 $scope.$broadcast("map.stopbouncing", true);
             };
             $scope.reviewPlaces = function (places) {
-                console.log("REVIEW PLACES");
-                console.log(places);
+                DialogService.showConfirmDialog("Review Places?", "Do you want to review this " + places.length + " places/s?", "Yes", "Cancel")
+                    .then(function () {
+                        var promises = _.map(places, function (place) {
+                            return TIP.review({id: place.id}).$promise;
+                        });
+                        $q.all(promises)
+                            .then(function(){
+                                NotificationService.displayMessage("Places reviewed");
+                                Admin.getUnreviewedTIPs().$promise
+                                    .then(function (tips) {
+                                        $scope.tips = tips;
+                                    });
+                            }, function(){
+                                NotificationService.displayMessage("Error reviewing Places");
+                            });
+                    });
+                resetUnreviewedPlaces();
             };
             $scope.deletePlaces = function (places) {
-                console.log("DELETE PLACES");
-                console.log(places);
+                DialogService.showConfirmDialog("Delete Places?", "Do you want to delete this " + places.length + " places/s?", "Yes", "Cancel")
+                    .then(function () {
+                        var promises = _.map(places, function (place) {
+                            return TIP.delete({id: place.id}).$promise;
+                        });
+                        $q.all(promises)
+                            .then(function(){
+                                NotificationService.displayMessage("Places deleted");
+                                Admin.getUnreviewedTIPs().$promise
+                                    .then(function (tips) {
+                                        $scope.tips = tips;
+                                    });
+                            }, function(){
+                                NotificationService.displayMessage("Error deleting Places");
+                            });
+                    });
+                resetUnreviewedPlaces();
+            };
+            var resetUnreviewedPlaces = function(){
+                $scope.selectedReview = [];
             };
 
 
@@ -72,14 +105,13 @@ define([
                         TIP.createType(payload).$promise
                             .then(function () {
                                 NotificationService.displayMessage("Type Created");
-                                $scope.osmtypes = Admin.getOSMTypes();
+                                $scope.placeTypes = TIP.getTypes();
                             }, function () {
                                 NotificationService.displayMessage("Error creating Type");
                             });
                     });
             };
             $scope.editType = function (osmType) {
-                console.log(osmType);
                 var placeType = {
                     id: osmType.tipType.id,
                     name: osmType.tipType.name,
@@ -98,13 +130,12 @@ define([
                                 NotificationService.displayMessage("Place Type updated");
                                 $scope.osmtypes = Admin.getOSMTypes();
                             }, function () {
-                                NotificationService.displayMessage("Error updating Type");
+                                NotificationService.displayMessage("Error updating Types");
                             });
                     });
                 resetSelectedTypes();
             };
             $scope.deleteTypes = function (types) {
-                console.log(types);
                 DialogService.showConfirmDialog("Delete Place Types?", "Do you want to delete this " + types.length + " type/s?", "Yes", "Cancel")
                     .then(function () {
                         var promises = _.map(types, function (type) {
