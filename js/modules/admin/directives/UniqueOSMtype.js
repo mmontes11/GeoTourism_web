@@ -7,6 +7,7 @@ define([
         return {
             restrict: 'A',
             require: 'ngModel',
+            scope: false,
             link: function(scope, element, attrs, ngModel) {
                 ngModel.$asyncValidators.uniqueOSMtype = function(osmType){
                     if (angular.isDefined(osmType)){

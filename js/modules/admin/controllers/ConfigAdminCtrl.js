@@ -101,7 +101,8 @@ define([
             $scope.addType = function () {
                 DialogService.showPlaceTypeDialog()
                     .then(function (placeType) {
-                        var payload = _.pick(placeType, "name", "icon");
+                        console.log(placeType);
+                        var payload = _.pick(placeType, "name", "icon","osmTypes");
                         TIP.createType(payload).$promise
                             .then(function () {
                                 NotificationService.displayMessage("Type Created");
