@@ -12,32 +12,63 @@
                 <icon-picker icon="placetype.icon"></icon-picker>
             </md-input-container>
         </div>
-        <span flex="10"></span>
         <div layout="row">
             <md-input-container flex-gt-sm="45">
                 <label>OSMKey</label>
-                <md-select name="osmKey" ng-model="placetype.osmKey" >
+                <md-select name="osmKey" ng-model="osmKey">
                     <md-option ng-repeat="osmKey in osmKeys" value="{{osmKey}}">
                         {{osmKey}}
                     </md-option>
                 </md-select>
             </md-input-container>
-            <md-input-container flex-gt-sm="45" ng-if="showOSMtype()">
+            <md-input-container flex-gt-sm="45">
                 <label>OSMType</label>
-                <md-select name="osmType" ng-model="placetype.osmType" unique-osm-type>
-                    <md-option ng-repeat="osmType in osmTypes" value="{{osmType}}">
-                        {{osmType}}
+                <md-select name="osmTypeValue" ng-model="osmTypeValue" unique-osm-type>
+                    <md-option ng-repeat="osmTypeValue in osmTypeValues" value="{{osmTypeValue}}">
+                        {{osmTypeValue}}
                     </md-option>
                 </md-select>
-                <div ng-messages="form.osmType.$error" role="alert">
+                <div ng-messages="form.osmTypeValue.$error" role="alert">
                     <div ng-message="uniqueOSMtype" class="my-message">This type is already used</div>
                 </div>
             </md-input-container>
-            <md-button class="md-warn" flex-gt-sm="5"
-                       ng-show="showDeleteOSMtype()"
-                       ng-click="deleteOSMtype()">
-                <i class="material-icons">close</i>
+            <md-button class="md-primary" flex-gt-sm="5"
+                       ng-disabled="addOSMtypeButtonDisabled(osmKey,osmTypeValue)"
+                       ng-click="addOSMtype(osmKey,osmTypeValue)">
+                <i class="material-icons">add</i>
             </md-button>
         </div>
+        <md-card>
+            <md-card-content>
+                <div class="md-toolbar-tools">
+                    <span class="md-headline">OSMTypes</span>
+                    <div flex></div>
+                    <md-button class="md-warn" ng-click="deleteOSMtypes(selectedOSMtypes)"
+                               ng-show="selectedOSMtypes.length > 0">
+                        <i class="material-icons">delete</i>
+                    </md-button>
+                </div>
+                <md-table-container>
+                    <table md-table md-row-select multiple ng-model="selectedOSMtypes" md-progress="placetype.osmTypes">
+                        <thead md-head md-order="query.order">
+                        <tr md-row>
+                            <th md-column md-order-by="key"><span>OSMKey</span></th>
+                            <th md-column md-order-by="value"><span>OSMValue</span></th>
+                        </tr>
+                        </thead>
+                        <tbody md-body>
+                        <tr md-row md-select="osmType" md-select-id="value" md-auto-select
+                            ng-repeat="osmType in placetype.osmTypes | orderBy: query.order | limitTo: query.limit: (query.page - 1) * query.limit">
+                            <td md-cell>{{osmType.key}}</td>
+                            <td md-cell>{{osmType.value}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </md-table-container>
+                <md-table-pagination md-limit="query.limit" md-limit-options="[5, 10]"
+                                     md-page="query.page" md-total="{{placetype.osmTypes.length}}">
+                </md-table-pagination>
+            </md-card-content>
+        </md-card>
     </div>
 </form>

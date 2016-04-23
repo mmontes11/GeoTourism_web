@@ -14,7 +14,7 @@
         <form-place-type form="form" placetype="placeType"></form-place-type>
     </md-dialog-content>
     <div class="md-actions" layout="row" layout-align="start center">
-        <md-button class="md-primary" ng-disabled="disableForm()" ng-click="save()">
+        <md-button class="md-primary" ng-disabled="placeType.name == undefined" ng-click="save()">
             <i class="material-icons">save</i>
         </md-button>
         <md-button class="md-warn" ng-click="close()">

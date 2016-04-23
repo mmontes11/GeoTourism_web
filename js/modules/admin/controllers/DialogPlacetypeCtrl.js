@@ -11,8 +11,5 @@ define([
         $scope.save = function () {
             $mdDialog.hide($scope.placeType);
         };
-        $scope.disableForm = function(){
-            return $scope.placeType.name == undefined || $scope.placeType.icon == undefined;
-        };
     }]);
 });

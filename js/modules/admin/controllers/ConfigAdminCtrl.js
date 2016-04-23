@@ -101,9 +101,7 @@ define([
             $scope.addType = function () {
                 DialogService.showPlaceTypeDialog()
                     .then(function (placeType) {
-                        console.log(placeType);
-                        var payload = _.pick(placeType, "name", "icon","osmTypes");
-                        TIP.createType(payload).$promise
+                        TIP.createType(placeType).$promise
                             .then(function () {
                                 NotificationService.displayMessage("Type Created");
                                 $scope.placeTypes = TIP.getTypes();
@@ -112,24 +110,18 @@ define([
                             });
                     });
             };
-            $scope.editType = function (osmType) {
-                var placeType = {
-                    id: osmType.tipType.id,
-                    name: osmType.tipType.name,
-                    icon: osmType.tipType.icon,
-                    osmKey: osmType.key,
-                    osmType: osmType.value
-                };
-                DialogService.showPlaceTypeDialog(placeType)
+            $scope.editType = function (placeType) {
+                var placeTypeCopy = angular.copy(placeType);
+                DialogService.showPlaceTypeDialog(placeTypeCopy)
                     .then(function (placeType) {
-                        var params = _.pick(placeType, "name", "icon", "osmType");
-                        params["osmType"] = params["osmType"] != undefined ? params[osmType] : null;
-                        console.log(placeType);
-                        console.log(params);
-                        Admin.updateOSMType({id: placeType.id}, params).$promise
+                        var payload = _.pick(placeType, "name", "icon", "osmTypes");
+                        payload.osmTypes = _.map(payload.osmTypes, function(osmType){
+                            return _.pick(osmType,"key","value");
+                        });
+                        TIP.updateType({id: placeType.id}, payload).$promise
                             .then(function () {
                                 NotificationService.displayMessage("Place Type updated");
-                                $scope.osmtypes = Admin.getOSMTypes();
+                                $scope.placeTypes = TIP.getTypes();
                             }, function () {
                                 NotificationService.displayMessage("Error updating Types");
                             });

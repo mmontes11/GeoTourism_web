@@ -54,8 +54,9 @@ define([
                     },
                     checkOSMType: {
                         method: 'GET',
-                        url: Config.API_ROOT_URL + '/admin/config/osmtype/:osmType?hasTIPtype=false',
+                        url: Config.API_ROOT_URL + '/admin/config/osmtype/:osmType/check',
                         params: {
+                            osmKey: "@osmKey",
                             osmType: "@osmType"
                         }
                     }
