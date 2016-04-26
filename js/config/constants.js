@@ -6,9 +6,10 @@ define([
 ], function (app, privateConfig) {
     app.constant('Config', {
         //Production
+        API_ROOT_URL: 'http://geotourism.eastus.cloudapp.azure.com',
         //API_ROOT_URL: 'https://geotourism-mmontes.rhcloud.com',
         //Development
-        API_ROOT_URL: 'http://localhost:9090',
+        //API_ROOT_URL: 'http://localhost:9090',
 
         TILE_LAYER: 'OpenStreetMap.Mapnik',
 
