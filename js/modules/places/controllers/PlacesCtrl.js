@@ -152,7 +152,7 @@ define([
             $scope.$watchCollection("TIPIDs", function (TIPIDs) {
                 if (angular.isDefined(TIPIDs) && angular.isDefined($scope.heatMapEnabled) && $scope.heatMapEnabled) {
                     if (TIPIDs.length > 0) {
-                        Stats.getStats(getRequestStatsParams()).$promise
+                        Stats.getStats(getRequestStatsParams(),$scope.TIPIDs).$promise
                             .then(function (heatdata) {
                                 $scope.heatdata = heatdata;
                             });
@@ -268,8 +268,7 @@ define([
                         }
                         $scope.heatMapEnabled = true;
                         $scope.statsParams = {
-                            metricID: statsResponse.metricID,
-                            tips: $scope.TIPIDs
+                            metricID: statsResponse.metricID
                         };
                         if (angular.isDefined(statsResponse.fromDate)){
                             $scope.statsParams ['fromDate'] = statsResponse.fromDate;
@@ -277,7 +276,7 @@ define([
                         if (angular.isDefined(statsResponse.toDate)){
                             $scope.statsParams ['toDate'] = statsResponse.toDate;
                         }
-                        return Stats.getStats(getRequestStatsParams()).$promise.finally(disableLoading);
+                        return Stats.getStats(getRequestStatsParams(),$scope.TIPIDs).$promise.finally(disableLoading);
                     })
                     .then(function (heatdata) {
                         $scope.heatdata = heatdata;

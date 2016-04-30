@@ -17,10 +17,12 @@ define([
                     isArray: true
                 },
                 getStats: {
-                    method: 'GET',
-                    url: Config.API_ROOT_URL + '/social/stats/metric/:metricID',
+                    method: 'POST',
+                    url: Config.API_ROOT_URL + '/social/stats/metric/:metricID?fromDate=:fromDate&toDate=:toDate',
                     params: {
-                        id: '@metricID'
+                        metricID: '@metricID',
+                        fromDate: '@fromDate',
+                        toDate: '@toDate'
                     }
                 }
             }

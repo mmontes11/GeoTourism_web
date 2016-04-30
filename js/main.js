@@ -5,7 +5,7 @@ require.config({
     paths: {
         jquery: '../bower_components/jquery/dist/jquery',
         underscore: '../bower_components/underscore/underscore-min',
-        angular: '../bower_components/angular/angular',
+        angular: '../bower_components/angular/angular.min',
         angularResource: '../bower_components/angular-resource/angular-resource.min',
         angularAria: '../bower_components/angular-aria/angular-aria.min',
         angularAnimate: '../bower_components/angular-animate/angular-animate.min',
