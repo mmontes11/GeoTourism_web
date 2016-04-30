@@ -7,6 +7,10 @@ html.md-default-theme, html, body.md-default-theme, body {
   color: rgba(0, 0, 0, 0.87);
 }
 
+md-list-item ._md-list-item-inner ._md-secondary-container, md-list-item ._md-secondary-container {
+  height: auto;
+}
+
 body {
   overflow-y: hidden;
 }

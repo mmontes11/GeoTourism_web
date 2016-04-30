@@ -9,6 +9,10 @@ html.md-default-theme, html, body.md-default-theme, body{
   color: $custom-black;
 }
 
+md-list-item ._md-list-item-inner ._md-secondary-container, md-list-item ._md-secondary-container {
+  height: auto;
+}
+
 body {
   overflow-y: hidden;
   .inner {
