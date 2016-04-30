@@ -5,6 +5,10 @@ html, body {
   font-family: $font;
 }
 
+html.md-default-theme, html, body.md-default-theme, body{
+  color: $custom-black;
+}
+
 body {
   overflow-y: hidden;
   .inner {

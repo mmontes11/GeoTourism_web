@@ -358,12 +358,13 @@ define([
             });
 
             var requestFeatures = function () {
+                console.log("requestFeatures");
                 var cities = _.map($scope.selectedCities, function (city) {
                     return city.id;
                 });
                 var TIPParams = {
                     bounds: $scope.bounds,
-                    cities: cities,
+                    cities: cities
                 };
                 var RouteParams = {
                     bounds: $scope.bounds,
@@ -379,30 +380,30 @@ define([
                         });
                     }
                 }
-
                 var routes = [];
                 Routes.query(RouteParams).$promise
                     .then(function (resultRoutes) {
-                        if (resultRoutes.length == 0){
+                        routes = resultRoutes;
+                        if (!$scope.allowAddRoutes && routes.length == 0){
                             return [];
                         }
-                        routes = resultRoutes;
-                        if (!$scope.allowAddRoutes) {
-                            TIPParams["routes"]= _.map(resultRoutes, function (route) {
+                        if (!$scope.allowAddRoutes){
+                            TIPParams["routes"] = _.map(resultRoutes, function (route) {
                                 return route.id;
                             });
                         }
                         return TIPs.query(TIPParams).$promise;
+
                     }, function (err) {
                         if (err.status >= 400) {
-                            NotificationService.displayMessage("Error retrieving TIPs");
+                            NotificationService.displayMessage("Error retrieving Routes");
                         }
                     })
                     .then(function (tips) {
                         $scope.boundingboxfeatures = _.union(routes, tips);
                     }, function (err) {
                         if (err.status >= 400) {
-                            NotificationService.displayMessage("Error retrieving Routes");
+                            NotificationService.displayMessage("Error retrieving TIPs");
                         }
                     });
 

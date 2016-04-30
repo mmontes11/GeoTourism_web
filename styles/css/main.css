@@ -3,6 +3,10 @@ html, body {
   font-family: "Droid Sans", sans-serif;
 }
 
+html.md-default-theme, html, body.md-default-theme, body {
+  color: rgba(0, 0, 0, 0.87);
+}
+
 body {
   overflow-y: hidden;
 }

@@ -8,13 +8,11 @@
                     <div ng-message="required" class="my-message">Mandatory field</div>
                 </div>
             </md-input-container>
-            <md-input-container layout-align="center center" flex="50">
-                <md-radio-group class="custom-selector" ng-model="route.travelMode">
-                    <md-radio-button class="md-primary" ng-value="travelmode" ng-repeat="travelmode in travelmodes">
-                        <i class="material-icons">{{travelmode | travelModeIcon}}</i>
-                    </md-radio-button>
-                </md-radio-group>
-            </md-input-container>
+            <md-radio-group ng-model="route.travelMode" flex="50">
+                <md-radio-button class="md-primary" ng-value="travelmode" ng-repeat="travelmode in travelmodes">
+                    <i class="material-icons">{{travelmode | travelModeIcon}}</i>
+                </md-radio-button>
+            </md-radio-group>
         </div>
         <div layout="row">
             <md-input-container flex>
@@ -28,10 +26,10 @@
             </h3>
         </div>
         <div layout="row" layout-align="center center">
-            <md-button class="md-primary" layout="row" ng-if="route.id != undefined" ng-click="addPlaces()">
+            <md-button class="md-primary" ng-show="route.id != undefined" ng-click="addPlaces()">
                 <i class="material-icons">add_circle</i>
             </md-button>
-            <md-button class="md-primary" layout="row" ng-show="tipschanged" ng-click="resetPlaces()">
+            <md-button class="md-primary" ng-show="tipschanged" ng-click="resetPlaces()">
                 <i class="material-icons">replay</i>
             </md-button>
         </div>
@@ -39,7 +37,8 @@
             <md-content class="list-dialog-huge">
                 <md-list ng-model="route.tips" as-sortable>
                     <md-list-item class="list-item fade" ng-repeat="tip in route.tips" as-sortable-item>
-                        <div class="md-item-text md-whiteframe-z1" layout="row" layout-padding flex as-sortable-item-handle>
+                        <div class="md-item-text md-whiteframe-z1" layout="row" layout-padding flex
+                             as-sortable-item-handle>
                             <h3 class="md-headline" layout="row" layout-align="center center">
                                 <i class="fa {{tip.icon}}"></i>
                                 <md-button class="md-primary"
