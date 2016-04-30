@@ -44,7 +44,6 @@ define([
                     }
                 });
                 scope.$watch("placetype.id", function(id){
-                    console.log(id);
                     if (angular.isDefined(id)){
                         scope.placetype.osmTypes = Admin.getOSMTypes({id:id});
                     }
