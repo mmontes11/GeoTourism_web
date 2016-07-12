@@ -104,6 +104,14 @@ define([
                 $scope.$broadcast('socialChips.reset', []);
             };
 
+            var activateLoading = function () {
+                $scope.loading = true;
+            };
+
+            var disableLoading = function () {
+                $scope.loading = false;
+            };
+
             var requestFeatures = function () {
                 var types = _.map($scope.selectedTypes, function (type) {
                     return type.id;
@@ -112,7 +120,6 @@ define([
                     return city.id;
                 });
                 var URLparams = {
-                    bounds: $scope.bounds,
                     types: types,
                     cities: cities
                 };
@@ -128,6 +135,7 @@ define([
                     URLparams["friends"] = undefined;
                 }
 
+                activateLoading();
                 TIPs.query(URLparams).$promise
                     .then(function (features) {
                         $scope.markerclusterfeatures = features;
@@ -138,16 +146,11 @@ define([
                         if (response.status == 500) {
                             NotificationService.displayMessage("Error retrieving TIPS");
                         }
+                    }).finally(function(){
+                        disableLoading();
                     });
             };
-
-            $scope.$watch('boundschanged', function (bounds, boundsOld) {
-                if (angular.isDefined(bounds) && angular.isDefined(boundsOld)) {
-                    $scope.bounds = FeatureService.layer2WKT(bounds);
-                    console.log($scope.bounds);
-                    requestFeatures();
-                }
-            });
+            requestFeatures();
 
             $scope.$watchCollection("TIPIDs", function (TIPIDs) {
                 if (angular.isDefined(TIPIDs) && angular.isDefined($scope.heatMapEnabled) && $scope.heatMapEnabled) {
@@ -161,14 +164,6 @@ define([
                     }
                 }
             });
-
-            var activateLoading = function () {
-                $scope.loading = true;
-            };
-
-            var disableLoading = function () {
-                $scope.loading = false;
-            };
 
             var getCreateTIP = function(place){
                 if ($scope.isAuthenticated()){

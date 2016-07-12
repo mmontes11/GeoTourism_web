@@ -1,5 +1,7 @@
-<map locate='true' boundschanged='boundschanged' locationclicked="locationclicked" layerclicked='layerclicked'
-     markercluster="true" markerclusterfeatures="markerclusterfeatures" heatmap="true" heatdata="heatdata">
+<map locate='true' boundschanged='boundschanged'
+     locationclicked="locationclicked" layerclicked='layerclicked'
+     markercluster="true" markerclusterfeatures="markerclusterfeatures"
+     heatmap="true" heatdata="heatdata">
     <md-content class="md-padding map-overlay">
         <div layout="row" layout-align="center center" ng-show="!allowAddTIPs">
             <filters-handler filters-enabled="filtersEnabled"></filters-handler>
@@ -34,7 +36,7 @@
     </md-content>
 </map>
 <div layout="row" layout-align="center center" class="fab-position">
-    <fab class="fade" ng-if="isAuthFB() && !loading">
+    <fab class="fade" ng-if="(isAuthenticated() ||isAuthFB()) && !loading">
         <md-fab-actions>
             <md-button class="md-fab md-raised md-mini" ng-click="addTIP()">
                 <md-tooltip md-direction="left">
