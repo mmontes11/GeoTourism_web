@@ -27,5 +27,10 @@ define([
             $scope.openSideNav = function(){
                 $mdSidenav('sidenav').toggle();
             };
+
+            $scope.$watch('isMobile()',function(newValue){
+                if (angular.isDefined(newValue) && newValue){
+                }
+            });
         }]);
 });

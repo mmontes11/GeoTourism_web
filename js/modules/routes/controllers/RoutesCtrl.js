@@ -148,6 +148,12 @@ define([
                 }
             });
 
+            $scope.$watch('boundschanged', function (bounds, boundsOld) {
+                if (angular.isDefined(bounds) && angular.isDefined(boundsOld)) {
+                    $scope.bounds = FeatureService.layer2WKT(bounds);
+                    requestFeatures();
+                }
+            });
             $scope.$watch('travelModePreference', function (newVal, oldVal) {
                 if (angular.isDefined(newVal) && angular.isDefined(oldVal) && newVal != oldVal) {
                     if (newVal.resetRoute == false) {
@@ -357,9 +363,11 @@ define([
                     return city.id;
                 });
                 var TIPParams = {
+                    bounds: $scope.bounds,
                     cities: cities
                 };
                 var RouteParams = {
+                    bounds: $scope.bounds,
                     cities: cities,
                     travelModes: $scope.selectedTravelModes
                 };
@@ -373,7 +381,9 @@ define([
                     }
                 }
                 var routes = [];
-                activateLoading();
+                if ($scope.allowAddRoutes) {
+                    activateLoading();
+                }
                 Routes.query(RouteParams).$promise
                     .then(function (resultRoutes) {
                         routes = resultRoutes;
@@ -402,8 +412,6 @@ define([
                         disableLoading();
                     });
             };
-            requestFeatures();
         }])
     ;
-})
-;
+});
